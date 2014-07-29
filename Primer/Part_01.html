@@ -179,10 +179,6 @@
                         <em><span class="ING">new way of thinking</span></em><br><br>
                         <h2>ING's <span class="ING">culture</span> is changing fast.<br>Waterfall to Scrum to DevOps in less than <span class="ING">2 years</span></h2>
                     </section>
-                    <section data-transition="none">
-                        <em><span class="ING">new way of thinking</span></em><br><br>
-                        <iframe class="stretch" src="http://www.youtube.com/embed/OcRC0DFH1Bo" frameborder="0" allowfullscreen></iframe>
-                    </section>
                     <section>
                         <em><span class="ING">new way of thinking</span></em><br><br>
                         <p>Aim to approach problems as <span class="ING">green field</span> to understand the essence</p>
@@ -270,16 +266,12 @@ Maven:                      <dependency>
 						<h1><span class="ING">Cassandra Internals</span></h1>
 					</section>
 					<section>
-						<h2><span class="ING">Network Topology Awareness</span></h2>
+						<h2><span class="ING">Tuneable Consistency</span></h2><br>
+						<h4>Configureable Consistency Level (CL)<br>per read and write action</h4>
 						<table>
 							<tr>
-								<td rowspan="2" width=80% style="vertical-align:middle">
-									<img width=100% src="./images/network_topology_awareness.png" alt="Network Topology Awareness" style="background-color:white;"></img>
-								</td>
-							</tr>
-							<tr>
-								<td width=20% style="vertical-align:top">
-									<u>Writes</u><br>
+								<td width=50% style="vertical-align:top">
+									<span class="ING"><u>Writes</u></span><br>
 									<ul>
 										<small><li>Any</li>
 										<li>One</li>
@@ -291,10 +283,10 @@ Maven:                      <dependency>
 										<li>All</li></small>
 									</ul>
 								</td>
-								<td width=20% style="vertical-align:top">
-									<u>Reads</u><br>
+								<td width=50% style="vertical-align:top">
+									<span class="ING"><u>Reads</u></span><br>
 									<ul>
-										<small><li>One</li>
+										<small><br><li>One</li>
 										<li>Two</li>
 										<li>Three</li>
 										<li>Quorum</li>
@@ -302,6 +294,21 @@ Maven:                      <dependency>
 										<li>Each_Quorum</li>
 										<li>All</li></small>
 									</ul>
+								</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+						<h2><span class="ING">Logical Grouping</span></h2>
+						<table>
+							<tr>
+								<td width=50% style="vertical-align:middle">
+									<p><span class="ING">Keyspace:</span> group of tables</p>
+									<p><span class="ING">Table:</span> group of data</p>
+									<p><span class="ING">Replication Factor:</span><br>Number of copies of data</p>
+								</td>
+								<td width=50% style="vertical-align:middle">
+									<img width=100% src="./images/logical_grouping.png" alt="Logical Grouping" style="background-color:white;"></img>
 								</td>
 							</tr>
 						</table>
@@ -318,26 +325,21 @@ Maven:                      <dependency>
 								</td>
 								<td width=40% style="vertical-align:middle">
 									<img width=100% src="./images/cassandra_replication_strategy.png" alt="Cassandra Replication Strategy" style="background-color:white;"></img>
-									<small>RF = 3</small>
+									<small>Replication Factor (RF) = 3</small>
 								</td>
 							</tr>
 						</table>
 					</section>
 					<section>
-						<h2><span class="ING">No Single Point of Failure</span></h2>
-						<table>
-							<tr>
-								<td width=50% style="vertical-align:middle">
-									<ul>
-										<li>Client Load Balances</li>
-										<li>Do not use a hardware LB</li>
-									</ul>
-								</td>
-								<td width=50% style="vertical-align:middle">
-									<img width=100% src="./images/no_spof.png" alt="No SPOF" style="background-color:white;"></img>
-								</td>
-							</tr>
-						</table>
+						<h2><span class="ING">Network Topology Awareness</span></h2>
+						<img width=100% src="./images/network_topology_awareness.png" alt="Network Topology Awareness" style="background-color:white;"></img>
+					</section>
+					<section>
+						<h2><span class="ING">Replication Factor and Data Consistency In a Distributed System</span></h2>
+						<p>CAP – Consistency, Availability, Partition Tolerance</p>
+						<p>Consistency is achieved with W + R > RF</p>
+						<p>Quorum = (Integer) RF / 2 + 1</p>
+						<img width=90% src="./images/quorum.png" style="background-color:white;"></img>
 					</section>
 					<section>
 						<h2><span class="ING">Write Path</span></h2>
@@ -347,24 +349,13 @@ Maven:                      <dependency>
 						<h2><span class="ING">Read Path</span></h2>
 						<img width=100% src="./images/read_path.png" alt="Read Path" style="background-color:white;"></img>
 					</section>
-					<section>
-						<h2><span class="ING">Logical Grouping</span></h2>
-						<img width=70% src="./images/logical_grouping.png" alt="Logical Grouping" style="background-color:white;"></img>
-					</section>
-					<section>
-						<h2><span class="ING">Replication Factor and Data Consistency In a Distributed System</span></h2>
-						<p>CAP – Consistency, Availability, Partition Tolerance</p>
-						<p>Consistency is achieved with W + R > RF</p>
-						<p>Quorum = (Integer) RF / 2 + 1</p>
-						<img width=90% src="./images/quorum.png" style="background-color:white;"></img>
-					</section>
 				</section>			
 				<section>
 					<section>
 						<h1><span class="ING">CQL3</span></h1>	
 					</section>
 					<section>
-						<h2><span class="ING">Why CQL3?</span></h2>
+						<h2><span class="ING">Why CQL3?</span></h2><br>
 						<p>Excellent language for modeling data structures</p>
 						<p>Usability</p>
 						<p>Readability</p>
@@ -411,7 +402,8 @@ client.batch_mutate(records, consistencyLevel);
 						<h2><span class="ING">CQL3</span></h2>
 						<br>
 						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-INSERT INTO products (product_id, product) VALUES (“id12321”, “phone”);
+INSERT INTO products (product_id, product) 
+     VALUES (“id12321”, “phone”);
 						</code></pre>
 						<img width=60% src="./images/easy.png" style="background-color:white;"></img>
 					</section>
@@ -478,7 +470,8 @@ CREATE TABLE cities (
   latitude float,
   longitude float
   population float,
-  PRIMARY KEY ((city_name,state))
+  PRIMARY KEY 
+     ( (city_name,state) )
 );
 									</code></pre>
                                  </td>
@@ -515,7 +508,8 @@ CREATE TABLE sporty_league (
                          <h2><span class="ING">Simple Select</span></h2>
 						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
 
- SELECT * FROM sporty_league;
+SELECT * 
+  FROM sporty_league;
 						</code></pre>
                          <table width=100%>
                              <tr>
@@ -534,12 +528,16 @@ CREATE TABLE sporty_league (
                     <section>
                         <h2><span class="ING">Simple Select on Partition Key and Cluster Columns</span></h2>
 						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
- SELECT * FROM sporty_league WHERE team_name = 'Mighty Mutts';						
+SELECT * 
+  FROM sporty_league 
+ WHERE team_name = 'Mighty Mutts';						
 						</code></pre>
                         <img width=60% src="./images/simple_select_cc1.png" style="background-color:white;"></img>
 						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
- SELECT * FROM sporty_league WHERE team_name = 'Mighty Mutts'
- and player_name = 'Lucky';
+SELECT * 
+  FROM sporty_league 
+ WHERE team_name = 'Mighty Mutts'
+   AND player_name = 'Lucky';
 						</code></pre>
                         <img width=60% src="./images/simple_select_cc2.png" style="background-color:white;"></img>
                     </section>
@@ -550,8 +548,10 @@ INSERT INTO sporty_league (team_name, player_name, jersey)
 VALUES ('Mighty Mutts','Felix',90);
 						</code></pre>
 						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-UPDATE sporty_league SET jersey = 100
-WHERE team_name = 'Mighty Mutts' AND player_name = 'Felix';
+UPDATE sporty_league 
+   SET jersey = 100
+ WHERE team_name = 'Mighty Mutts' 
+   AND player_name = 'Felix';
 						</code></pre>
                     </section>
                     <section>
@@ -607,12 +607,14 @@ CREATE TABLE collections_example (
                          <br>
                          <table>
                              <tr>
-                                 <td width=40% style="vertical-align:top">
+                                 <td width=45% style="vertical-align:top">
 									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-SELECT * FROM sporty_league
-WHERE team_name = 'Mighty Mutts'
-ORDER BY player_name DESC;
-
+SELECT * 
+  FROM sporty_league
+ WHERE team_name = 'Mighty Mutts'
+ ORDER BY player_name DESC;
+									</code></pre>
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
 CREATE TABLE sporty_league (
    team_name   varchar,
    player_name varchar,
@@ -623,7 +625,7 @@ CREATE TABLE sporty_league (
         (player_name DESC);
 									</code></pre>
                                  </td>
-                                 <td width=60% style="vertical-align:top">
+                                 <td width=55% style="vertical-align:top">
                                      <p>Partition keys are not ordered!</p>
                                      <p>You can only order by a clustering column</p>
                                      <p>Data will ordered ASCending by default</p>
@@ -656,10 +658,11 @@ CREATE INDEX user_street ON
 CREATE INDEX user_town ON 
     users (town);
 
-SELECT * FROM users WHERE
-	town = 'Stockholm' AND
-	street_address = 'Sankt Eriksgatan'
-	ALLOW FILTERING;
+SELECT * 
+  FROM users 
+ WHERE town = 'Stockholm' 
+   AND street_address = 'Sankt Eriksgatan'
+ ALLOW FILTERING;
 									</code></pre>
                                  </td>
                                  <td width=45% style="vertical-align:top">
@@ -671,6 +674,7 @@ CREATE TABLE users (
 	street_address text,
 	town text,
 );
+
 
 
 
@@ -695,7 +699,7 @@ CREATE TABLE user_street (
 
 INSERT INTO users (id, first, last)
 VALUES ('abc123', 'abe', 'lincoln')
-USING TTL 3600; // Expires data in one hour
+ USING TTL 3600; // Expires data in one hour
 						</code></pre>
                      </section>
                      <section>
@@ -717,32 +721,31 @@ WITH CLUSTERING ORDER BY (time DESC);
                                  <td width=50% style="vertical-align:top">
 									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
 INSERT INTO sensor_data
-(sensor_id, date, time, value)
-VALUES (
-  1, '20130908',
-  1883-11e3-8ffd-0800200c9a66,
-  432)
-USING TTL 604800;
+       (sensor_id, date, time, value)
+VALUES (1, '20130908',
+       1883-11e3-8ffd-0800200c9a66,432)
+ USING TTL 604800;
 									</code></pre>
                                  </td>
                              </tr>
                              <tr>
                                  <td colspan="2" style="vertical-align:top; margin-left:auto; margin-right:auto">
 									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-SELECT time, value, TTL (value) FROM sensor_data
-  WHERE sensor_id = 1 AND date = '20130908'
-  AND time > maxTimeuuid('2013-09-08 10:05+0000')
-  AND time < minTimeuuid('2013-09-08 15:00+0000');
+SELECT time, value, TTL (value) 
+  FROM sensor_data
+ WHERE sensor_id = 1 AND date = '20130908'
+   AND time > maxTimeuuid('2013-09-08 10:05+0000')
+   AND time < minTimeuuid('2013-09-08 15:00+0000');
 									</code></pre>
                                  </td>
                              </tr>
                              <tr>
                                  <td colspan="2" style="vertical-align:top; margin-left:auto; margin-right:auto">
 									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
- time                        | value | ttl(value)
------------------------------+-------+------------
- 1883-11e3-8ffd-0800200c9a66 |   432 |     604257
- 1887-11e3-8ffd-0800200c9a66 |   433 |     604452
+time                        | value | ttl(value)
+----------------------------+-------+------------
+1883-11e3-8ffd-0800200c9a66 |   432 |     604257
+1887-11e3-8ffd-0800200c9a66 |   433 |     604452
 									</code></pre>
                                  </td>
                              </tr>
@@ -755,10 +758,11 @@ SELECT time, value, TTL (value) FROM sensor_data
 						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
 INSERT INTO customer_account (customerID, customer_email)
 VALUES ('LauraS', 'lauras@gmail.com')
-IF NOT EXISTS;
+    IF NOT EXISTS;
 
-UPDATE customer_account SET customer_email='laurass@gmail.com'
-IF customer_email='lauras@gmail.com';
+UPDATE customer_account 
+   SET customer_email='laurass@gmail.com'
+    IF customer_email='lauras@gmail.com';
 						</code></pre>
                          <p>Great for 1% of your application – but not recommended to be used too much!</p>
                      </section>
