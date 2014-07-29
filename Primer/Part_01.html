@@ -527,7 +527,7 @@ CREATE TABLE sporty_league (
                              </tr>
                          </table>
                          <br><br>
-                         <p>More than a few rows can be slow. (Limited to 10,000 rows by default)</p>
+                         <p>"Table scan" - slow! (Limited to 10,000 rows by default)</p>
                          <p>Use LIMIT keyword to choose fewer or more rows</p>
                     </section>
                     <section>
@@ -579,7 +579,9 @@ Set, List and Map                           id int PRIMARY KEY,
                          <p>The best queries are in a single partition.</p>
                          <small>i.e. WHERE partition key = &lt;something&gt;</small>
                          <p>Queries that span multiple partitions are <span style="color:red">s-l-o-w</span></p>
+                         <small>i.e. WHERE partition key IN ( &lt;something&gt , &lt;something&gt , ... );</small>
                          <p>Queries that span multiple cluster columns are <span style="color:green">fast</span></p>
+                        <small>i.e. WHERE partition key = &lt;something&gt and clustering key = &lt;something&gt;</small>
                     </section>
                      <section>
                          <h2><span class="ING">(Clustering) Order By</span></h2>
