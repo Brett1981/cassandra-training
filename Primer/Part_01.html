@@ -348,6 +348,19 @@ Maven:                      <dependency>
 					<section>
 						<h2><span class="ING">Read Path</span></h2>
 						<img width=100% src="./images/read_path.png" alt="Read Path" style="background-color:white;"></img>
+						<aside class="notes">
+							Cassandra performs random reads from SSD in parallel with extremely low latency, unlike most databases. Rotational disks are not recommended. Cassandra reads, as well as writes, data by partition key, eliminating complex queries required by a relational database.
+							First, Cassandra checks the Bloom filter. Each SSTable has a Bloom filter associated with it that checks the probability of having any data for the requested partition key in the SSTable before doing any disk I/O.
+							If the probability is good, Cassandra checks the partition key cache and takes one of these courses of action:
+							•	If an index entry is found in the cache:
+							•	Cassandra goes to the compression offset map to find the compressed block having the data.
+							•	Fetches the compressed data on disk and returns the result set.
+							•	If an index entry is not found in the cache:
+							•	Cassandra searches the partition summary to determine the approximate location on disk of the index entry.
+							•	Next, to fetch the index entry, Cassandra hits the disk for the first time, performing a single seek and a sequential read of columns (a range read) in the SSTable if the columns are contiguous.
+							•	Cassandra goes to the compression offset map to find the compressed block having the data.
+							•	Fetches the compressed data on disk and returns the result set.
+						</aside>
 					</section>
 				</section>			
 				<section>
