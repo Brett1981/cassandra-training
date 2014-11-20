@@ -219,7 +219,7 @@
 						connected = true;
 
 						setupIframes( data );
-						setupKeyboard();
+						/*setupKeyboard();*/
 						setupNotes();
 						setupTimer();
 					}
@@ -265,7 +265,6 @@
 				 * isn't set on the current slide iframe.
 				 */
 				function setupKeyboard() {
-
 					document.addEventListener( 'keydown', function( event ) {
 						currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'triggerKey', args: [ event.keyCode ] }), '*' );
 					} );
@@ -286,21 +285,22 @@
 					].join( '&' );
 
 					var hash = '#/' + data.state.indexh + '/' + data.state.indexv;
-					var currentURL = data.url + '?' + params + '&postMessageEvents=true' + hash;
+					var currentURL = data.url + '?' + params + '&postMessageEvents=true' + '&controls=false' + hash;
 					var upcomingURL = data.url + '?' + params + '&controls=false' + hash;
 
 					currentSlide = document.createElement( 'iframe' );
 					currentSlide.setAttribute( 'width', 1280 );
 					currentSlide.setAttribute( 'height', 1024 );
 					currentSlide.setAttribute( 'src', currentURL );
+					/*currentSlide.removeEventListener('keydown', listener, false);*/
 					document.querySelector( '#current-slide' ).appendChild( currentSlide );
-
+					
 					upcomingSlide = document.createElement( 'iframe' );
 					upcomingSlide.setAttribute( 'width', 640 );
 					upcomingSlide.setAttribute( 'height', 512 );
 					upcomingSlide.setAttribute( 'src', upcomingURL );
+					/*upcomingSlide.removeEventListener('keydown', listener, false);*/
 					document.querySelector( '#upcoming-slide' ).appendChild( upcomingSlide );
-
 				}
 
 				/**

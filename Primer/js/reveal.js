@@ -3044,8 +3044,7 @@
 	 * fragments visibility as part of this call
 	 */
 	function navigateFragment( index, offset ) {
-
-		if( currentSlide && config.fragments ) {
+		if( currentSlide && config.fragments && offset != null ) {
 
 			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
 			if( fragments.length ) {
@@ -3257,7 +3256,6 @@
 	}
 
 	function navigateRight() {
-
 		// Reverse for RTL
 		if( config.rtl ) {
 			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
