@@ -22,11 +22,13 @@
 
 		<!-- Include the appropriate print stylesheet -->
 		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
 		</script>
 
 		<!--[if lt IE 9]>
@@ -128,7 +130,7 @@
 				margin: 5px auto;
 				padding: 5px;
 				font-style: normal;
-				background: rgba(0, 0, 0, 0.7);
+				background: rgba(0, 0, 0, 0.85);
 				box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
 				z-index:-1;
 			}
@@ -279,98 +281,213 @@
 				</section>
 
                 <section>
-                    <section data-background="./images/large-zen-curved-rocks.jpg">
+                    <section data-background="./images/zen_hans.jpg">
                     	<blockquote>
                         	<h1>3 Challenges</h1>
                     	</blockquote>
                     </section>
-                    <section data-background="./images/large-zen-curved-rocks.jpg">
+                    <section data-background="./images/zen_hans.jpg">
                         <blockquote>
 	                    	<table width="97%" height="95%">
-	                    		<tr>
-	                    			<td height="10%" style="text-align:center;vertical-align:middle"><em>challenge 1</em></td>
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>challenge 1</em></td>
 	                    		</tr>
-	                    		<tr>
-	                    			<td height="90%" style="text-align:center;vertical-align:middle">
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
 	                    				<h1>Improve <span class="ING">availability</span><br>without trading <span class="ING">consistency</span></h1>
 	                    			</td>
 	                    		</tr>
 	                    	</table>
                     	</blockquote>
                     </section>
-                    <section>
-                        <h3><i><span class="ING">availability & consistency</span></i></h3>
-                        <h1>Consequences of not being <span class="ING">available</span></h1>
-                        <img src="./images/challenge1_ING_outage.jpg" alt="ING outage">
-                        <img src="./images/challenge1_ING_outage_1.jpg" alt="ING outage">
-                        <br><img src="./images/challenge1_ING_outage_2.jpg" alt="ING outage">
-                        <br><medium>source: <a href="http://www.nu.nl" target="_blank"><span class="ING">nu.nl</span></a></medium>
-                    </section>
-                    <section>
-                        <h3><i><span class="ING">availability & consistency</span></i></h3>
-                        <h1>Consequences of not being <span class="ING">consistent</span></h1>
-                        <img src="./images/InsufficientFunds.jpg" alt="Insuffiecient funds">
-                    </section>
-                    <section>
-                        <h3><i><span class="ING">challenge 2</span></i></h3><h1>Aim to be <span class="ING">easier</span> scalable<br>Changes are happening at an <span class="ING">increasing</span> pace</h1>
-                    </section>
-                    <section>
-                        <h3><i><span class="ING">easier scalable</span></i></h3>
-                        <h1>Stop focusing on the<br><span class="ING">expected</span> load</h1>
-                        <img width=35% src="./images/web-yester.png" alt="Web yesterday">
-                        <br><medium>yesterday</medium>
-                        <br><br><medium>source: <a href="http://bradfrostweb.com/blog/web/responsive-web-design-missing-the-point/" target="_blank"><span class="ING">bradfrostweb.com</span></a></medium>
-                    </section>
-                    <section>
-                        <h3><i><span class="ING">easier scalable</span></i></h3>
-                        <h1>Start focusing on the<br><span class="ING">unexpected</span> load</h1>
-                        <table class="stretch">
-                        	<tr>
-                        		<td width=15%>&nbsp</td>
-	                            <td width=35% style="text-align: center;"><img width=100% src="./images/web-now.png" alt="Web now"></td>
-	                            <td width=35% style="text-align: center;"><img width=100% src="./images/web-tomorrow.png" alt="Web tomorrow"></td>
-	                            <td width=15%>&nbsp</td>
-	                        </tr>
-	                        <tr>
-	                        	<td width=15%>&nbsp</td>
-	                            <td height=10% width=35% style="text-align: center;"><medium>today</medium></td>
-	                            <td height=10% width=35% style="text-align: center;"><medium>tomorrow</medium></td>
-	                            <td width=15%>&nbsp</td>
-	                        </tr>
-	                        <tr>
-	                            <td colspan=4 style="text-align: center;"><medium>source: <a href="http://bradfrostweb.com/blog/web/responsive-web-design-missing-the-point/" target="_blank"><span class="ING">bradfrostweb.com</span></a></medium></td>
-	                        </tr>
-	                    </table>
-                    </section>
-                    <section>
-                        <h3><span class="ING">challenge 3</span></h3><h1>Adopt <span class="ING">new</span> ways of thinking<br>Become the top <span class="ING">engineering</span> company</h1>
-                    </section>
-                    <section>
-                        <h3><i>new way of thinking</i></h3>
-                        <h1>ING's <span class="ING">culture</span> is changing fast.<br>Waterfall to Scrum to DevOps in less than <span class="ING">2 years</span></h1>
-                    </section>
-                    <section>
-                        <!-- <h3><i><span class="ING">new way of thinking</span></i></h3><br> -->
+                    <section data-background="./images/zen_hans.jpg">
                         <blockquote>
 	                    	<table width="97%" height="95%">
-	                    		<tr>
-	                    			<td height="15%" style="text-align:center;vertical-align:middle"><h3><i>new way of thinking</i></h3></td>
+	                    		<tr height="5%" >
+	                    			<td style="text-align:center;vertical-align:middle"><em>availability & consistency</em></td>
 	                    		</tr>
-	                    		<tr>
-	                    			<td height="85%" style="text-align:center;vertical-align:middle">
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
 	                    				<table width="100%">
 			                            	<tr>
-			                            		<!-- <td width="5%"></td> -->
-			                            		<td width="90%"><!-- <h2><span class="ING">We need to:</span></h2><br> --></td>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Consequences of not being <span class="ING">available</span></h1>
+							                        <img src="./images/challenge1_ING_outage.jpg" alt="ING outage">
+							                        <img src="./images/challenge1_ING_outage_1.jpg" alt="ING outage">
+							                        <br><img src="./images/challenge1_ING_outage_2.jpg" alt="ING outage">
+							                        <br><br><small>source: <a href="http://www.nu.nl" target="_blank"><span class="ING">nu.nl</span></a></small>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>availability & consistency</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Consequences of not being <span class="ING">consistent</span></h1>
+                        							<img src="./images/InsufficientFunds.jpg" alt="Insuffiecient funds">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>challenge 2</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Aim to be <span class="ING">easier</span> scalable<br>Changes are happening at an <span class="ING">increasing</span> pace</h1>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>easier scalable</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Stop focusing on the<br><span class="ING">expected</span> load</h1>
+							                        <img width=30% src="./images/web-yester.png" alt="Web yesterday">
+							                        <br><medium>yesterday</medium>
+							                        <br><br><small>source: <a href="http://bradfrostweb.com/blog/web/responsive-web-design-missing-the-point/" target="_blank"><span class="ING">bradfrostweb.com</span></a></small>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>easier scalable</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Start focusing on the<br><span class="ING">unexpected</span> load</h1>
+							                        <table class="stretch">
+							                        	<tr>
+							                        		<td width=15%>&nbsp</td>
+								                            <td width=35% style="text-align: center;"><img width=100% src="./images/web-now.png" alt="Web now"></td>
+								                            <td width=35% style="text-align: center;"><img width=100% src="./images/web-tomorrow.png" alt="Web tomorrow"></td>
+								                            <td width=15%>&nbsp</td>
+								                        </tr>
+								                        <tr>
+								                        	<td width=15%>&nbsp</td>
+								                            <td height=10% width=35% style="text-align: center;"><medium>today</medium></td>
+								                            <td height=10% width=35% style="text-align: center;"><medium>tomorrow</medium></td>
+								                            <td width=15%>&nbsp</td>
+								                        </tr>
+								                        <tr>
+								                            <td colspan=4 style="text-align: center;"><small>source: <a href="http://bradfrostweb.com/blog/web/responsive-web-design-missing-the-point/" target="_blank"><span class="ING">bradfrostweb.com</span></a></small></td>
+								                        </tr>
+								                    </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>challenge 3</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Adopt <span class="ING">new</span> ways of thinking<br>Become the top <span class="ING">engineering</span> company</h1>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+	                    </blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>new way of thinking</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+													<h1>ING's <span class="ING">culture</span> is changing fast.<br>Waterfall to Scrum to DevOps in less than <span class="ING">2 years</span></h1>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>new way of thinking</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td width="10%"></td>
+			                            		<td width="80%"></td>
+			                            		<td width="10%"></td>
 			                            	</tr>
 			                            	<tr>
-			                            		<!-- <td></td> -->
+			                            		<td></td>
 			                            		<td>
 			                            			<h2>Aim to approach problems as <span class="ING">green field</span></h2><br>
 						                            <h2><span class="ING">"Un-learn"</span> principles that don't scale</h2><br>
 						                            <h2><span>Use <span class="ING">cache</span> correctly!</h2><br>
 						                            <h2>Reduce <span class="ING">locking</span> (transaction)</h2><br>
 			                            		</td>
+			                            		<td></td>
 			                            	</tr>
 			                            </table>
 	                    			</td>
@@ -381,40 +498,97 @@
                 </section>
 
 				<section>
-					<section data-background="./images/zen-widescreen.jpg">
+					<section data-background="./images/zen_whitestone_2.jpg">
                     	<blockquote>
                         	<h1>Cassandra Internals</h1>
                     	</blockquote>
                     </section>
-	                <section>
-	                    <h2><span class="ING">DataStax and Cassandra</span></h2>
-	                    <img width=25% src="./images/cassandra.png" alt="Cassandra" style="background-color:white;">
-	                    <p>Founded in 2010 by Jonathan Ellis and Matt Pfeil</p>
-	                    <p>80% Apache Cassandra code contribution</p>
-	                    <p>Offer commercial support for DataStax Enterprise version of Cassandra</p>
-	                    <p>DataStax Enterprise integrates Search and Analytics</p>
-	                    <p>Head Quarter in San Francisco Bay area</p>
-	                    <p>EMEA office opened in March 2013</p>
+	                <section data-background="./images/zen_whitestone_2.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<h1><span class="ING">DataStax and Cassandra</span></h1><br>
+				                    				<table width="100%" height="100%">
+						                            	<tr>
+						                            		<td width="70%" style="text-align:left; vertical-align:middle">
+									                            <h3>Founded in 2010 by Jonathan Ellis and Matt Pfeil</h3>
+											                    <h3>80% Apache Cassandra code contribution</h3>
+											                    <h3>Offer commercial support for DataStax Enterprise version of Cassandra</h3>
+											                    <h3>DataStax Enterprise integrates Search and Analytics</h3>
+											                    <h3>Head Quarter in San Francisco Bay area</h3>
+											                    <h3>EMEA office opened in March 2013</h3>
+						                            		</td>
+						                            		<td width="30%" style="text-align:center; vertical-align:middle;background-color:white">
+						                            			<img width=100% src="./images/datastax_logo.jpg" alt="Cassandra" style="background-color:white;">
+						                            			<img width=100% src="./images/cassandra.png" alt="Cassandra" style="background-color:white;">
+															</td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 	                </section>
-	                <section>
-	                    <h2><span class="ING">Native Protocol / DataStax Drivers</span></h2>
-	                    <br>
-	                    <p>CQL3 Only</p>
-	                    <p>Fully asynchronous protocol, using Netty</p>
-	                    <p>Server notifications</p>
-	                    <br>
-	                    <p>Java, C#, Python, node.js and Ruby so far, more will be added</p>
-	                    <p>Many policies, including TokenAwarePolicy, DowngradeConsistencyRetryPolicy, etc...</p>
-	                    <p>Metrics (<a href="http://metrics.codahale.com/"><span class="ING">metrics.codahale.com</span></a>) included</p><br>
-	                        <pre><code data-trim contenteditable style="font-size: 18px;">
-	Maven:                      <dependency>
-	                            <groupId>com.datastax.cassandra</groupId>
-	                            <artifactId>cassandra-driver-core</artifactId>
-	                            <version>2.0.2</version>
-	                        </dependency>
-	                        </code></pre>
+	                <section data-background="./images/zen_whitestone_2.jpg">
+                        <blockquote>
+	                    	<table width="100%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+				                    				<table width="100%">
+						                            	<tr>
+						                            		<td height="90%" style="text-align:center;vertical-align:middle">
+																<h1><span class="ING">Native Protocol / DataStax Drivers</span></h1><br>
+							                    				<table width="100%" height="100%">
+									                            	<tr>
+									                            		<td width="54%" style="text-align:left; vertical-align:middle">
+														                    <h3>CQL3 Only</h3>
+														                    <h3>Fully asynchronous protocol, using Netty</h3>
+														                    <h3>Server notifications</h3>
+														                    <br>
+														                    <h3>Java, C#, Python, node.js and Ruby, ...</h3>
+														                    <h3>Many policies, including:</h3>
+														                    <p style="padding-left:0.5em">TokenAwarePolicy, DowngradeConsistencyRetryPolicy, etc...</p><br>
+														                    <h3>Metrics (<a href="http://metrics.codahale.com/"><span class="ING">codahale</span></a>) included</h3>
+									                            		</td>
+									                            		<td width="46%" style="text-align:center; vertical-align:middle">
+	                        												<pre><code class="xml" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+<dependency>
+    <groupId>com.datastax.cassandra</groupId>
+    <artifactId>cassandra-driver-core</artifactId>
+    <version>2.0.8</version>
+</dependency>
+	                        												</code></pre>
+																		</td>
+									                            	</tr>
+									                            </table>
+						                            		</td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 	                </section>
-					<section>
+					<section data-background="./images/zen_whitestone_2.jpg">
 						<h2><span class="ING">Apache Cassandra</span></h2>
 						<br>
 						<p>Created by Avinash Lakshman and Prashant Malik at Facebook</p>
@@ -452,7 +626,7 @@
 							</tr>
 						</table>
 					</section>
-					<section>
+					<section data-background="./images/zen_whitestone_2.jpg">
 						<h2><span class="ING">Tuneable Consistency</span></h2><br>
 						<h4>Configureable Consistency Level (CL)<br>per read and write action</h4>
 						<table>
@@ -485,7 +659,7 @@
 							</tr>
 						</table>
 					</section>
-					<section>
+					<section data-background="./images/zen_whitestone_2.jpg">
 						<h2><span class="ING">Logical Grouping</span></h2>
 						<table>
 							<tr>
@@ -500,7 +674,7 @@
 							</tr>
 						</table>
 					</section>
-					<section>
+					<section data-background="./images/zen_whitestone_2.jpg">
 						<h2><span class="ING">Cassandra Replication Strategy</span></h2>
 						<table>
 							<tr>
@@ -517,22 +691,22 @@
 							</tr>
 						</table>
 					</section>
-					<section>
+					<section data-background="./images/zen_whitestone_2.jpg">
 						<h2><span class="ING">Network Topology Awareness</span></h2>
 						<img width=100% src="./images/network_topology_awareness.png" alt="Network Topology Awareness" style="background-color:white;"></img>
 					</section>
-					<section>
+					<section data-background="./images/zen_whitestone_2.jpg">
 						<h2><span class="ING">Replication Factor and Data Consistency In a Distributed System</span></h2>
 						<p>CAP – Consistency, Availability, Partition Tolerance</p>
 						<p>Consistency is achieved with W + R > RF</p>
 						<p>Quorum = (Integer) RF / 2 + 1</p>
 						<img width=90% src="./images/quorum.png" style="background-color:white;"></img>
 					</section>
-					<section>
+					<section data-background="./images/zen_whitestone_2.jpg">
 						<h2><span class="ING">Write Path</span></h2>
 						<img width=100% src="./images/write_path.png" alt="Write Path" style="background-color:white;"></img>
 					</section>
-					<section>
+					<section data-background="./images/zen_whitestone_2.jpg">
 						<h2><span class="ING">Read Path</span></h2>
 						<img width=100% src="./images/read_path.png" alt="Read Path" style="background-color:white;"></img>
 						<aside class="notes">
@@ -1194,10 +1368,11 @@ UPDATE customer_account
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
 		<script>
+
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: false,
+				controls: true,
 				progress: true,
 				history: true,
 				center: true,
@@ -1207,7 +1382,7 @@ UPDATE customer_account
     			height: 900,
 
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: Reveal.getQueryHash().transition || 'default', // none/fade/slide/convex/concave/zoom
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
 				// Parallax scrolling
 				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
@@ -1218,11 +1393,12 @@ UPDATE customer_account
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
 					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
 				]
 			});
+
 		</script>
 	</body>
 </html>
