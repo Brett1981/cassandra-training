@@ -36,7 +36,7 @@ html {
 .reveal .progress,
 .reveal .slide-number,
 .reveal .playback,
-.reveal .overview,
+.reveal.overview,
 .fork-reveal,
 .share-reveal,
 .state-background {
