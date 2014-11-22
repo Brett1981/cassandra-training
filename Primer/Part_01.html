@@ -22,11 +22,13 @@
 
 		<!-- Include the appropriate print stylesheet -->
 		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
 		</script>
 
 		<!--[if lt IE 9]>
@@ -128,7 +130,7 @@
 				margin: 5px auto;
 				padding: 5px;
 				font-style: normal;
-				background: rgba(0, 0, 0, 0.7);
+				background: rgba(0, 0, 0, 0.85);
 				box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
 				z-index:-1;
 			}
@@ -215,7 +217,7 @@
 	                    	<br>
 							<h1><scan class="WHITE">C* Primer</scan></h1>
 	                        <br>
-							<h2><scan class="ING">Part 01: Cassandra and Modeling Basics</scan></h2>
+							<h2><scan class="ING">Part 01: Cassandra and Modelling Basics</scan></h2>
 	                        <br>
 							<pre>
 								<code data-trim style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important">cqlsh> SELECT * FROM presenters WHERE eventname='CassandraPrimer' AND company='ING';
@@ -279,98 +281,213 @@
 				</section>
 
                 <section>
-                    <section data-background="./images/large-zen-curved-rocks.jpg">
+                    <section data-background="./images/zen_hans.jpg">
                     	<blockquote>
                         	<h1>3 Challenges</h1>
                     	</blockquote>
                     </section>
-                    <section data-background="./images/large-zen-curved-rocks.jpg">
+                    <section data-background="./images/zen_hans.jpg">
                         <blockquote>
 	                    	<table width="97%" height="95%">
-	                    		<tr>
-	                    			<td height="10%" style="text-align:center;vertical-align:middle"><em>challenge 1</em></td>
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>challenge 1</em></td>
 	                    		</tr>
-	                    		<tr>
-	                    			<td height="90%" style="text-align:center;vertical-align:middle">
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
 	                    				<h1>Improve <span class="ING">availability</span><br>without trading <span class="ING">consistency</span></h1>
 	                    			</td>
 	                    		</tr>
 	                    	</table>
                     	</blockquote>
                     </section>
-                    <section>
-                        <h3><i><span class="ING">availability & consistency</span></i></h3>
-                        <h1>Consequences of not being <span class="ING">available</span></h1>
-                        <img src="./images/challenge1_ING_outage.jpg" alt="ING outage">
-                        <img src="./images/challenge1_ING_outage_1.jpg" alt="ING outage">
-                        <br><img src="./images/challenge1_ING_outage_2.jpg" alt="ING outage">
-                        <br><medium>source: <a href="http://www.nu.nl" target="_blank"><span class="ING">nu.nl</span></a></medium>
-                    </section>
-                    <section>
-                        <h3><i><span class="ING">availability & consistency</span></i></h3>
-                        <h1>Consequences of not being <span class="ING">consistent</span></h1>
-                        <img src="./images/InsufficientFunds.jpg" alt="Insuffiecient funds">
-                    </section>
-                    <section>
-                        <h3><i><span class="ING">challenge 2</span></i></h3><h1>Aim to be <span class="ING">easier</span> scalable<br>Changes are happening at an <span class="ING">increasing</span> pace</h1>
-                    </section>
-                    <section>
-                        <h3><i><span class="ING">easier scalable</span></i></h3>
-                        <h1>Stop focusing on the<br><span class="ING">expected</span> load</h1>
-                        <img width=35% src="./images/web-yester.png" alt="Web yesterday">
-                        <br><medium>yesterday</medium>
-                        <br><br><medium>source: <a href="http://bradfrostweb.com/blog/web/responsive-web-design-missing-the-point/" target="_blank"><span class="ING">bradfrostweb.com</span></a></medium>
-                    </section>
-                    <section>
-                        <h3><i><span class="ING">easier scalable</span></i></h3>
-                        <h1>Start focusing on the<br><span class="ING">unexpected</span> load</h1>
-                        <table class="stretch">
-                        	<tr>
-                        		<td width=15%>&nbsp</td>
-	                            <td width=35% style="text-align: center;"><img width=100% src="./images/web-now.png" alt="Web now"></td>
-	                            <td width=35% style="text-align: center;"><img width=100% src="./images/web-tomorrow.png" alt="Web tomorrow"></td>
-	                            <td width=15%>&nbsp</td>
-	                        </tr>
-	                        <tr>
-	                        	<td width=15%>&nbsp</td>
-	                            <td height=10% width=35% style="text-align: center;"><medium>today</medium></td>
-	                            <td height=10% width=35% style="text-align: center;"><medium>tomorrow</medium></td>
-	                            <td width=15%>&nbsp</td>
-	                        </tr>
-	                        <tr>
-	                            <td colspan=4 style="text-align: center;"><medium>source: <a href="http://bradfrostweb.com/blog/web/responsive-web-design-missing-the-point/" target="_blank"><span class="ING">bradfrostweb.com</span></a></medium></td>
-	                        </tr>
-	                    </table>
-                    </section>
-                    <section>
-                        <h3><span class="ING">challenge 3</span></h3><h1>Adopt <span class="ING">new</span> ways of thinking<br>Become the top <span class="ING">engineering</span> company</h1>
-                    </section>
-                    <section>
-                        <h3><i>new way of thinking</i></h3>
-                        <h1>ING's <span class="ING">culture</span> is changing fast.<br>Waterfall to Scrum to DevOps in less than <span class="ING">2 years</span></h1>
-                    </section>
-                    <section>
-                        <!-- <h3><i><span class="ING">new way of thinking</span></i></h3><br> -->
+                    <section data-background="./images/zen_hans.jpg">
                         <blockquote>
 	                    	<table width="97%" height="95%">
-	                    		<tr>
-	                    			<td height="15%" style="text-align:center;vertical-align:middle"><h3><i>new way of thinking</i></h3></td>
+	                    		<tr height="5%" >
+	                    			<td style="text-align:center;vertical-align:middle"><em>availability & consistency</em></td>
 	                    		</tr>
-	                    		<tr>
-	                    			<td height="85%" style="text-align:center;vertical-align:middle">
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
 	                    				<table width="100%">
 			                            	<tr>
-			                            		<!-- <td width="5%"></td> -->
-			                            		<td width="90%"><!-- <h2><span class="ING">We need to:</span></h2><br> --></td>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Consequences of not being <span class="ING">available</span></h1>
+							                        <img src="./images/challenge1_ING_outage.jpg" alt="ING outage">
+							                        <img src="./images/challenge1_ING_outage_1.jpg" alt="ING outage">
+							                        <br><img src="./images/challenge1_ING_outage_2.jpg" alt="ING outage">
+							                        <br><br><small>source: <a href="http://www.nu.nl" target="_blank"><span class="ING">nu.nl</span></a></small>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>availability & consistency</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Consequences of not being <span class="ING">consistent</span></h1>
+                        							<img src="./images/InsufficientFunds.jpg" alt="Insuffiecient funds">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>challenge 2</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Aim to be <span class="ING">easier</span> scalable<br>Changes are happening at an <span class="ING">increasing</span> pace</h1>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>easier scalable</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Stop focusing on the<br><span class="ING">expected</span> load</h1>
+							                        <img width=30% src="./images/web-yester.png" alt="Web yesterday">
+							                        <br><medium>yesterday</medium>
+							                        <br><br><small>source: <a href="http://bradfrostweb.com/blog/web/responsive-web-design-missing-the-point/" target="_blank"><span class="ING">bradfrostweb.com</span></a></small>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>easier scalable</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Start focusing on the<br><span class="ING">unexpected</span> load</h1>
+							                        <table class="stretch">
+							                        	<tr>
+							                        		<td width=15%>&nbsp</td>
+								                            <td width=35% style="text-align: center;"><img width=100% src="./images/web-now.png" alt="Web now"></td>
+								                            <td width=35% style="text-align: center;"><img width=100% src="./images/web-tomorrow.png" alt="Web tomorrow"></td>
+								                            <td width=15%>&nbsp</td>
+								                        </tr>
+								                        <tr>
+								                        	<td width=15%>&nbsp</td>
+								                            <td height=10% width=35% style="text-align: center;"><medium>today</medium></td>
+								                            <td height=10% width=35% style="text-align: center;"><medium>tomorrow</medium></td>
+								                            <td width=15%>&nbsp</td>
+								                        </tr>
+								                        <tr>
+								                            <td colspan=4 style="text-align: center;"><small>source: <a href="http://bradfrostweb.com/blog/web/responsive-web-design-missing-the-point/" target="_blank"><span class="ING">bradfrostweb.com</span></a></small></td>
+								                        </tr>
+								                    </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>challenge 3</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Adopt <span class="ING">new</span> ways of thinking<br>Become the top <span class="ING">engineering</span> company</h1>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+	                    </blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>new way of thinking</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+													<h1>ING's <span class="ING">culture</span> is changing fast.<br>Waterfall to Scrum to DevOps in less than <span class="ING">2 years</span></h1>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/zen_hans.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>new way of thinking</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td width="10%"></td>
+			                            		<td width="80%"></td>
+			                            		<td width="10%"></td>
 			                            	</tr>
 			                            	<tr>
-			                            		<!-- <td></td> -->
+			                            		<td></td>
 			                            		<td>
 			                            			<h2>Aim to approach problems as <span class="ING">green field</span></h2><br>
 						                            <h2><span class="ING">"Un-learn"</span> principles that don't scale</h2><br>
 						                            <h2><span>Use <span class="ING">cache</span> correctly!</h2><br>
 						                            <h2>Reduce <span class="ING">locking</span> (transaction)</h2><br>
 			                            		</td>
+			                            		<td></td>
 			                            	</tr>
 			                            </table>
 	                    			</td>
@@ -381,160 +498,354 @@
                 </section>
 
 				<section>
-					<section data-background="./images/zen-widescreen.jpg">
+					<section data-background="./images/zen_whitestone_2.jpg">
                     	<blockquote>
                         	<h1>Cassandra Internals</h1>
                     	</blockquote>
                     </section>
-	                <section>
-	                    <h2><span class="ING">DataStax and Cassandra</span></h2>
-	                    <img width=25% src="./images/cassandra.png" alt="Cassandra" style="background-color:white;">
-	                    <p>Founded in 2010 by Jonathan Ellis and Matt Pfeil</p>
-	                    <p>80% Apache Cassandra code contribution</p>
-	                    <p>Offer commercial support for DataStax Enterprise version of Cassandra</p>
-	                    <p>DataStax Enterprise integrates Search and Analytics</p>
-	                    <p>Head Quarter in San Francisco Bay area</p>
-	                    <p>EMEA office opened in March 2013</p>
+	                <section data-background="./images/zen_whitestone_2.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">DataStax and Cassandra</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+				                    				<table width="100%" height="100%">
+						                            	<tr>
+						                            		<td width="70%" style="text-align:left; vertical-align:middle">
+									                            <h3>Founded in 2010 by Jonathan Ellis and Matt Pfeil</h3>
+											                    <h3>80% Apache Cassandra code contribution</h3>
+											                    <h3>Offer commercial support for DataStax Enterprise version of Cassandra</h3>
+											                    <h3>DataStax Enterprise integrates Search and Analytics</h3>
+											                    <h3>Head Quarter in San Francisco Bay area</h3>
+											                    <h3>EMEA office opened in March 2013</h3>
+						                            		</td>
+						                            		<td width="30%" style="text-align:center; vertical-align:middle;background-color:white">
+						                            			<img width=100% src="./images/datastax_logo.jpg" alt="Cassandra" style="background-color:white;">
+						                            			<img width=100% src="./images/cassandra.png" alt="Cassandra" style="background-color:white;">
+															</td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 	                </section>
-	                <section>
-	                    <h2><span class="ING">Native Protocol / DataStax Drivers</span></h2>
-	                    <br>
-	                    <p>CQL3 Only</p>
-	                    <p>Fully asynchronous protocol, using Netty</p>
-	                    <p>Server notifications</p>
-	                    <br>
-	                    <p>Java, C#, Python, node.js and Ruby so far, more will be added</p>
-	                    <p>Many policies, including TokenAwarePolicy, DowngradeConsistencyRetryPolicy, etc...</p>
-	                    <p>Metrics (<a href="http://metrics.codahale.com/"><span class="ING">metrics.codahale.com</span></a>) included</p><br>
-	                        <pre><code data-trim contenteditable style="font-size: 18px;">
-	Maven:                      <dependency>
-	                            <groupId>com.datastax.cassandra</groupId>
-	                            <artifactId>cassandra-driver-core</artifactId>
-	                            <version>2.0.2</version>
-	                        </dependency>
-	                        </code></pre>
+	                <section data-background="./images/zen_whitestone_2.jpg">
+                        <blockquote>
+	                    	<table width="100%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Native Protocol / DataStax Drivers</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+				                    				<table width="100%">
+						                            	<tr>
+						                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                    				<table width="100%" height="100%">
+									                            	<tr>
+									                            		<td width="54%" style="text-align:left; vertical-align:middle">
+														                    <h3>CQL3 Only</h3>
+														                    <h3>Fully asynchronous protocol, using Netty</h3>
+														                    <h3>Server notifications</h3>
+														                    <br>
+														                    <h3>Java, C#, Python, node.js and Ruby, ...</h3>
+														                    <h3>Many policies, including:</h3>
+														                    <p style="padding-left:0.5em">TokenAwarePolicy, DowngradeConsistencyRetryPolicy, etc...</p><br>
+														                    <h3>Metrics (<a href="http://metrics.codahale.com/"><span class="ING">codahale</span></a>) included</h3>
+									                            		</td>
+									                            		<td width="46%" style="text-align:center; vertical-align:middle">
+	                        												<pre><code class="xml" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+<dependency>
+    <groupId>com.datastax.cassandra</groupId>
+    <artifactId>cassandra-driver-core</artifactId>
+    <version>2.0.8</version>
+</dependency>
+	                        												</code></pre>
+																		</td>
+									                            	</tr>
+									                            </table>
+						                            		</td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 	                </section>
-					<section>
-						<h2><span class="ING">Apache Cassandra</span></h2>
-						<br>
-						<p>Created by Avinash Lakshman and Prashant Malik at Facebook</p>
-						<br>
-						<table width=100%>
-							<tr>
-								<th class="ING" width=45%>Cassandra is</th>
-								<th class="ING" width=10%></th>
-								<th class="ING" width=45%>Cassandra is not</th>
-							</tr>
-							<tr>
-								<td width=50% style="vertical-align:top">
-									<ul>
-										<li>A distributed database</li>
-										<li>Highly scalable</li>
-										<li>Fault tolerant</li>
-										<li>Consistency is tunable</li>
-										<li>High throughput</li>
-										<li>Network topology aware</li>
-										<li>Multi-DC Active-Active</li>
-										<li>Written in Java</li>
-										<li>A column family</li>
-										<li>CQL3</li>
-									</ul>
-								</td>
-								<td width=10%>&nbsp;</td>
-								<td width=50% style="vertical-align:top">
-									<ul>
-										<li>ACID compliant database</li>
-										<li>A relational database</li>
-										<li>ANSI SQL compliant</li>
-										<li>A document database</li>
-									</ul>
-								</td>
-							</tr>
-						</table>
+					<section data-background="./images/zen_whitestone_2.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Apache Cassandra</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<p>Created by Avinash Lakshman and Prashant Malik at Facebook</p>
+													<br>
+													<table width=100%>
+														<tr>
+															<th style="text-align:center;vertical-align:top" class="ING" width=50%><h3><span class="ING">Cassandra is</span></h3></th>
+															<th style="text-align:center;vertical-align:top" class="ING" width=50%><h3><span class="ING">Cassandra is not</span></h3></th>
+														</tr>
+														<tr>
+															<td width=50% style="text-align:center;vertical-align:top">
+																<ul><h3>
+																	<li>A distributed database</li>
+																	<li>Highly scalable</li>
+																	<li>Fault tolerant</li>
+																	<li>Consistency is tunable</li>
+																	<li>High throughput</li>
+																	<li>Network topology aware</li>
+																	<li>Multi-DC Active-Active</li>
+																	<li>Written in Java</li>
+																	<li>A column family</li>
+																	<li>CQL3</li>
+																</h3></ul>
+															</td>
+															<td width=50% style="text-align:center;vertical-align:top">
+																<ul><h3>
+																	<li>ACID compliant database</li>
+																	<li>A relational database</li>
+																	<li>ANSI SQL compliant</li>
+																	<li>A document database</li>
+																</h3></ul>
+															</td>
+														</tr>
+													</table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 					</section>
-					<section>
-						<h2><span class="ING">Tuneable Consistency</span></h2><br>
-						<h4>Configureable Consistency Level (CL)<br>per read and write action</h4>
-						<table>
-							<tr>
-								<td width=50% style="vertical-align:top">
-									<span class="ING"><u>Writes</u></span><br>
-									<ul>
-										<small><li>Any</li>
-										<li>One</li>
-										<li>Two</li>
-										<li>Three</li>
-										<li>Quorum</li>
-										<li>Local_Quorum</li>
-										<li>Each_Quorum</li>
-										<li>All</li></small>
-									</ul>
-								</td>
-								<td width=50% style="vertical-align:top">
-									<span class="ING"><u>Reads</u></span><br>
-									<ul>
-										<small><br><li>One</li>
-										<li>Two</li>
-										<li>Three</li>
-										<li>Quorum</li>
-										<li>Local_Quorum</li>
-										<li>Each_Quorum</li>
-										<li>All</li></small>
-									</ul>
-								</td>
-							</tr>
-						</table>
+					<section data-background="./images/zen_whitestone_2.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Tuneable Consistency</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<h3>Configureable Consistency Level (CL)<br>per read and write action</h3><br>
+													<table width=100%>
+														<tr>
+															<td width=50% style="text-align:center;vertical-align:top">
+																<h3><span class="ING"><u>Writes</u></h3></span></h3>
+																<ul><h3>
+																	<li>Any</li>
+																	<li>One</li>
+																	<li>Two</li>
+																	<li>Three</li>
+																	<li>Local_Quorum</li>
+																	<li>Quorum</li>
+																	<li>Each_Quorum</li>
+																	<li>All</li>
+																</h3></ul>
+															</td>
+															<td width=50% style="text-align:center;vertical-align:top">
+																<h3><span class="ING"><u>Reads</u></span></h3>
+																<ul><h3>
+																	<br><li>One</li>
+																	<li>Two</li>
+																	<li>Three</li>
+																	<li>Local_Quorum</li>
+																	<li>Quorum</li>
+																	<li>Each_Quorum</li>
+																	<li>All</li>
+																</h3></ul>
+															</td>
+														</tr>
+													</table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 					</section>
-					<section>
-						<h2><span class="ING">Logical Grouping</span></h2>
-						<table>
-							<tr>
-								<td width=50% style="vertical-align:middle">
-									<p><span class="ING">Keyspace:</span> group of tables</p>
-									<p><span class="ING">Table:</span> group of data</p>
-									<p><span class="ING">Replication Factor:</span><br>Number of copies of data</p>
-								</td>
-								<td width=50% style="vertical-align:middle">
-									<img width=100% src="./images/logical_grouping.png" alt="Logical Grouping" style="background-color:white;"></img>
-								</td>
-							</tr>
-						</table>
+					<section data-background="./images/zen_whitestone_2.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Logical Grouping</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<table>
+														<tr>
+															<td width=50% style="vertical-align:middle">
+																<h3><span class="ING">Keyspace:</span> group of tables</h3><br>
+																<h3><span class="ING">Table:</span> group of data</h3><br>
+																<h3><span class="ING">Replication Factor:</span><br>Number of copies of data</h3>
+															</td>
+															<td width=50% style="vertical-align:middle">
+																<img width=90% src="./images/logical_grouping.png" alt="Logical Grouping" style="background-color:white;"></img>
+															</td>
+														</tr>
+													</table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 					</section>
-					<section>
-						<h2><span class="ING">Cassandra Replication Strategy</span></h2>
-						<table>
-							<tr>
-								<td width=60% style="vertical-align:middle">
-									<p>Token Range 0 -> 2<small>127</small>-1 in Ring Formation</p>
-									<p>Consistent Hashing Algorithm</p>
-									<p>Replica nodes in clockwise</p>
-									<p>Gossip protocol between nodes</p>
-								</td>
-								<td width=40% style="vertical-align:middle">
-									<img width=100% src="./images/cassandra_replication_strategy.png" alt="Cassandra Replication Strategy" style="background-color:white;"></img>
-									<small>Replication Factor (RF) = 3</small>
-								</td>
-							</tr>
-						</table>
+					<section data-background="./images/zen_whitestone_2.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Cassandra Replication Strategy</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<table>
+														<tr>
+															<td width=60% style="vertical-align:middle">
+																<h3>Token Range 0 -> 2<small>127</small>-1 in Ring Formation</h3><br>
+																<h3>Consistent Hashing Algorithm</h3><br>
+																<h3>Replica nodes in clockwise</h3><br>
+																<h3>Gossip protocol between nodes</h3>
+															</td>
+															<td width=40% style="vertical-align:middle">
+																<img width=100% src="./images/cassandra_replication_strategy.png" alt="Cassandra Replication Strategy" style="background-color:white;"></img>
+																<small>Replication Factor (RF) = 3</small>
+															</td>
+														</tr>
+													</table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 					</section>
-					<section>
-						<h2><span class="ING">Network Topology Awareness</span></h2>
-						<img width=100% src="./images/network_topology_awareness.png" alt="Network Topology Awareness" style="background-color:white;"></img>
+					<section data-background="./images/zen_whitestone_2.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Network Topology Awareness</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<img width=50% src="./images/network_topology_awareness.png" alt="Network Topology Awareness" style="background-color:white;"></img>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 					</section>
-					<section>
-						<h2><span class="ING">Replication Factor and Data Consistency In a Distributed System</span></h2>
-						<p>CAP – Consistency, Availability, Partition Tolerance</p>
-						<p>Consistency is achieved with W + R > RF</p>
-						<p>Quorum = (Integer) RF / 2 + 1</p>
-						<img width=90% src="./images/quorum.png" style="background-color:white;"></img>
+					<section data-background="./images/zen_whitestone_2.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Strong Consistency</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<img width=75% src="./images/quorum.png" style="background-color:white;"></img>
+
+				                    				<table width="100%">
+						                            	<tr>
+						                            		<td width="15%"></td>
+						                            		<td width="80%"></td>
+						                            		<td width="5%"></td>
+						                            	</tr>
+						                            	<tr>
+						                            		<td></td>
+						                            		<td>
+																<h3>CAP – Consistency, Availability, Partition Tolerance</h3>
+																<h3>Consistency is achieved with W + R > RF</h3>
+																<h3>Quorum = (Integer) RF / 2 + 1</h3>
+						                            		</td>
+						                            		<td></td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 					</section>
-					<section>
-						<h2><span class="ING">Write Path</span></h2>
-						<img width=100% src="./images/write_path.png" alt="Write Path" style="background-color:white;"></img>
+					<section data-background="./images/zen_whitestone_2.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Write Path</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<img width=80% src="./images/write_path.png" alt="Write Path" style="background-color:white;"></img>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 					</section>
-					<section>
-						<h2><span class="ING">Read Path</span></h2>
-						<img width=100% src="./images/read_path.png" alt="Read Path" style="background-color:white;"></img>
+					<section data-background="./images/zen_whitestone_2.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Read Path</span></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<img width=60% src="./images/read_path.png" alt="Read Path" style="background-color:white;"></img>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 						<aside class="notes">
 							Cassandra performs random reads from SSD in parallel with extremely low latency, unlike most databases. Rotational disks are not recommended. Cassandra reads, as well as writes, data by partition key, eliminating complex queries required by a relational database.
 							First, Cassandra checks the Bloom filter. Each SSTable has a Bloom filter associated with it that checks the probability of having any data for the requested partition key in the SSTable before doing any disk I/O.
@@ -557,21 +868,58 @@
                         	<h1>CQL3</h1>
                     	</blockquote>
                     </section>
-					<section>
-						<h2><span class="ING">Why CQL3?</span></h2><br>
-						<p>Excellent language for modeling data structures</p>
-						<p>Usability</p>
-						<p>Readability</p>
-						<p>Familiarity</p>
-						<p>Programming language agnostic</p>
+					<section data-background="./images/black-zen-stones.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Why CQL3?</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+				                    				<table width="100%">
+						                            	<tr>
+						                            		<td width="15%"></td>
+						                            		<td width="80%"></td>
+						                            		<td width="5%"></td>
+						                            	</tr>
+						                            	<tr>
+						                            		<td></td>
+						                            		<td>
+																<h2>Usability</h2><br>
+																<h2>Readability</h2><br>
+																<h2>Familiarity</h2><br>
+																<h2>Excellent for modelling data</h2><br>
+																<h2>Programming language agnostic</h2>
+						                            		</td>
+						                            		<td></td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 					</section>
-					<section>
-						<h2><span class="ING">Apache Thrift, Hector, Astyanax days</span></h2>
-						<table height=100%>
-							<tr>
-								<td width=60% style="vertical-align:middle">
-									<pre style="background-color:#625D5D">
-Column col = 
+					<section data-background="./images/black-zen-stones.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Apache Thrift, Hector, Astyanax</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="100%" style="text-align:center;vertical-align:middle">
+												<table width=100% height=100%>
+													<tr height=100%>
+														<td width=60% style="vertical-align:middle">
+															<pre><code class="java" style="font-size: 26px; overflow-y: hidden !important; overflow-x: hidden !important">Column col = 
     new Column(ByteBuffer.wrap("product".getBytes())));
 col.setValue(ByteBuffer.wrap("phone".getBytes());
 col.setTimestamp(System.currentTimeMillis());
@@ -582,33 +930,52 @@ c.setColumn(col);
 Mutation m = new Mutation();
 m.setColumn_or_supercolumn(c);
 
-List<Mutations> ms = new ArrayList<Mutation>();
+List&lt;Mutations> ms = new ArrayList&lt;Mutation>();
 ms.add(m);
-
-Map<String, List<Mutations>> cf = 
-    new HashMap<String, List<Mutations>>();
+Map&lt;String, List&lt;Mutations>> cf = 
+    new HashMap&lt;String, List&lt;Mutations>>();
 cf.put("products", m);
-
-Map<ByteBuffer, Map<String, List<Mutation>>> records = 
-    new HashMap<ByteBuffer, Map<String, List<Mutation>>>();
+Map&lt;ByteBuffer, Map&lt;String, List&lt;Mutation>>> records = 
+    new HashMap&lt;ByteBuffer, Map&lt;String, List&lt;Mutation>>>();
 records.put(ByteBuffer.wrap("key".getBytes()), cf);
 client.batch_mutate(records, consistencyLevel);
-									</pre>
-								</td>
-								<td width=40% style="vertical-align:middle">
-									<img width=100% src="./images/stress.png" style="background-color:white;"></img>
-								</td>
-							</tr>
-						</table>
+																</code></pre>
+															</td>
+															<td width=40% style="vertical-align:middle">
+																<img height=100% src="./images/stress.png" style="background-color:white;"></img>
+															</td>
+														</tr>
+													</table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 					</section>
-					<section>
-						<h2><span class="ING">CQL3</span></h2>
-						<br>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-INSERT INTO products (product_id, product) 
+					<section data-background="./images/black-zen-stones.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">CQL3</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO products (product_id, product) 
      VALUES (“id12321”, “phone”);
-						</code></pre>
-						<img width=60% src="./images/easy.png" style="background-color:white;"></img>
+													</code></pre>
+													<img width=50% src="./images/easy.png" style="background-color:white;"></img>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 					</section>
                  </section>
 
@@ -618,31 +985,65 @@ INSERT INTO products (product_id, product)
                         	<h1>Data Modelling</h1>
                     	</blockquote>
                     </section>
-                     <section>
-                         <h2><span class="ING">Primary Key</span></h2>
-                         <br>
-                         <div style="color:#ffffff">
-                             <div align="left"><p><span style="color:#ff1493">The Primary Key</span></p></div>
-                             <ul>
-                                 <li>The key that uniquely identifies a row</li>
-                                 <li>A primary key consists of:</li>
-                                 <ul>
-                                     <li>A (composite) <span style="color:#7cfc00">partition key</span></li>
-                                     <li>One or more <span style="color:#E4F173">clustering columns</span><br>
-                                         e.g. <span style="color:#ff1493">PRIMARY KEY</span> (<span style="color:#7cfc00">partition key</span>, <span style="color:#E4F173">cluster columns</span>, ...)</li>
-                                 </ul>
-                                 <li>The <span style="color:#7cfc00">partition key</span> determines on which node the partition resides</li>
-                                 <li>Data is ordered in <span style="color:#E4F173">cluster column</span> order within the partition</li>
-                             </ul>
-                         </div>
-                     </section>
-                     <section>
-                         <h2><span class="ING">Creating a table</span></h2>
-                         <br>
-                         <table>
-                             <tr>
-                                 <td width=35% style="vertical-align:top">
-									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Primary Key</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table height="100%" width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+				                    				<table width="100%">
+						                            	<tr>
+						                            		<td width="15%"></td>
+						                            		<td width="80%"></td>
+						                            		<td width="5%"></td>
+						                            	</tr>
+						                            	<tr>
+						                            		<td></td>
+						                            		<td>
+									                            <h3><span style="color:#ff1493">The Primary Key</span></h3>
+									                            <ul><h3>
+									                                <li>The key that uniquely identifies a row</li>
+									                                <li>A primary key consists of:</li>
+									                                <ul>
+									                                    <li>A (composite) <span style="color:#7cfc00">partition key</span></li>
+									                                    <li>One or more <span style="color:#E4F173">clustering columns</span><br>
+									                                         e.g. <span style="color:#ff1493">PRIMARY KEY</span> (<span style="color:#7cfc00">partition key</span>, <span style="color:#E4F173">cluster columns</span>, ...)</li>
+									                                </ul>
+									                                <li>The <span style="color:#7cfc00">partition key</span> determines on which node the partition resides</li>
+									                                <li>Data is ordered in <span style="color:#E4F173">cluster column</span> order within the partition</li>
+									                            </h3></ul>
+						                            		</td>
+						                            		<td></td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Creating a table</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table>
+							                            <tr>
+							                                <td width=35% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
 CREATE TABLE cities (
     city_name   varchar,
     elevation   int,
@@ -651,17 +1052,41 @@ CREATE TABLE cities (
     longitude   float,
     PRIMARY KEY (city_name)
 );
-									</code></pre>
-                                 </td>
-                                 <td width=65% style="vertical-align:top">
-                                     <p>We can visualize it this way:</p>
-                                     <img width=100% src="./images/simple_table.png" style="background-color:white;"></img>
-                                     <p>In this example:<br>partition key = primary key</p>
-                                 </td>
-                             </tr>
-                         </table>
-                     </section>
-                     <section>
+																</code></pre>
+							                                </td>
+							                                <td width=65% style="vertical-align:top">
+							                                    <h3>We can visualize it this way:</h3>
+							                                    <img width=100% src="./images/simple_table.png" style="background-color:white;"></img>
+							                                    <h3>In this example:<br>partition key = primary key</h3>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                          <h2><span class="ING">Composite partition key</span></h2>
                          <br>
                          <table>
@@ -686,8 +1111,25 @@ CREATE TABLE cities (
                                  </td>
                              </tr>
                          </table>
-                     </section>
-					<section>
+                    </section>
+					<section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
 						<h2><span class="ING">Clustering columns</span></h2>
 						<br>
 						<table>
@@ -709,7 +1151,24 @@ CREATE TABLE sporty_league (
 							</tr>
 						</table>
 				    </section>
-                    <section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                          <h2><span class="ING">Simple Select</span></h2>
 						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
 
@@ -730,7 +1189,24 @@ SELECT *
                          <p>"Table scan" - slow! (Limited to 10,000 rows by default)</p>
                          <p>Use LIMIT keyword to choose fewer or more rows</p>
                     </section>
-                    <section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                         <h2><span class="ING">Simple Select on Partition Key and Cluster Columns</span></h2>
 						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
 SELECT * 
@@ -746,7 +1222,24 @@ SELECT *
 						</code></pre>
                         <img width=60% src="./images/simple_select_cc2.png" style="background-color:white;"></img>
                     </section>
-                    <section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                         <h2><span class="ING">Insert/Update</span></h2>
 						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
 INSERT INTO sporty_league (team_name, player_name, jersey)
@@ -759,7 +1252,24 @@ UPDATE sporty_league
    AND player_name = 'Felix';
 						</code></pre>
                     </section>
-                    <section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                         <h2><span class="ING">Counters</span></h2>
 						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
 CREATE TABLE sporty_league (
@@ -778,11 +1288,45 @@ UPDATE sporty_league
    AND jersey = '32';
 						</code></pre>
                     </section>
-                    <section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                         <h2><span class="ING">Data Types</span></h2>
                         <img width=50% src="./images/data_types.png" style="background-color:white;"></img>
                     </section>
-                    <section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                         <h2><span class="ING">Collections</span></h2>
                         <br>
                         <div align="left"><p>CQL supports having columns that contain collections of data</p>
@@ -816,7 +1360,24 @@ CREATE TABLE collections_example (
                             <li>Favour sets over list – lists not very performant</li>
                          </ul>
                     </section>
-                    <section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                          <h2><span class="ING">Performance<br>considerations</span></h2>
                          <br>
                          <p>The best queries are in a single partition.</p>
@@ -826,7 +1387,24 @@ CREATE TABLE collections_example (
                          <p>Queries that span multiple cluster columns are <span style="color:green">fast</span></p>
                         <small>i.e. WHERE partition key = <something> and clustering key = <something></small>
                     </section>
-                     <section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                          <h2><span class="ING">(Clustering) Order By</span></h2>
                          <br>
                          <table>
@@ -858,7 +1436,24 @@ CREATE TABLE sporty_league (
                              </tr>
                          </table>
                      </section>
-                     <section>
+                     <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                          <h2><span class="ING">De-normalize</span></h2>
                          <br>
                          <table width=100%>
@@ -914,10 +1509,24 @@ CREATE TABLE user_street (
                              </tr>
                          </table>
                      </section>
-
-
-
-                     <section>
+                     <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                          <h2><span class="ING">Time to Live (TTL)</span></h2>
 						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
 
@@ -926,7 +1535,24 @@ VALUES ('abc123', 'abe', 'lincoln')
  USING TTL 3600; // Expires data in one hour
 						</code></pre>
                      </section>
-                     <section>
+                     <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                          <h2><span class="ING">Time Series</span></h2>
                          <br>
                          <table width=100%>
@@ -975,7 +1601,24 @@ time                        | value | ttl(value)
                              </tr>
                          </table>
                      </section>
-                     <section>
+                     <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                          <h2><span class="ING">Lightweight Transactions</span></h2>
                          <p>Introduced in Cassandra 2.0</p>
                          <p>Example:</p>
@@ -990,8 +1633,24 @@ UPDATE customer_account
 						</code></pre>
                          <p>Great for 1% of your application – but not recommended to be used too much!</p>
                      </section>
-
-                     <section>
+                     <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
                          <h2><span class="ING">Tracing</span></h2>
                          <br>
                          <p>You can turn on tracing on or off for queries with the TRACING ON | OFF command</p>
@@ -999,7 +1658,6 @@ UPDATE customer_account
                          <img width=100% src="./images/tracing.png" style="background-color:white;"></img>
                          <p><a href="http://www.datastax.com/dev/blog/tracing-in-cassandra-1-2">http://www.datastax.com/dev/blog/tracing-in-cassandra-1-2</a></p>
                      </section>
-
 				</section>
 
                 <section>
@@ -1194,10 +1852,11 @@ UPDATE customer_account
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
 		<script>
+
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: false,
+				controls: true,
 				progress: true,
 				history: true,
 				center: true,
@@ -1207,7 +1866,7 @@ UPDATE customer_account
     			height: 900,
 
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: Reveal.getQueryHash().transition || 'default', // none/fade/slide/convex/concave/zoom
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
 				// Parallax scrolling
 				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
@@ -1218,11 +1877,12 @@ UPDATE customer_account
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
 					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
 					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
 				]
 			});
+
 		</script>
 	</body>
 </html>
