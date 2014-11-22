@@ -436,6 +436,26 @@ INSERT INTO products (product_id, product)
                      <section>
                          <h1><span class="ING">Data Modelling</span></h1>
                      </section>
+					 <section>
+                         <h2><span class="ING">Objectives</span></h2>
+                         <br>
+                         <br>Learn basic modelling techniques
+                         <br>Learn how to use Cassandra DDL (Data Definition Language)
+                         <br>Learn how to use Cassandra DML (Data Manipulation Language)
+                     </section>
+                     <section>
+                         <h2><span class="ING">Keyspace</span></h2>
+                         <br>
+						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">                         
+CREATE KEYSPACE "primer" 
+  WITH REPLICATION = {'class'         : 'NetworkTopologyStrategy', 
+                      'datacenter1'   : 3
+                     };
+
+
+USE primer;
+				   		</code></pre>
+                     </section>
                      <section>
                          <h2><span class="ING">Primary Key</span></h2>
                          <br>
@@ -443,7 +463,7 @@ INSERT INTO products (product_id, product)
                              <div align="left"><p><span style="color:#ff1493">The Primary Key</span></p></div>
                              <ul>
                                  <li>The key that uniquely identifies a row</li>
-                                 <li>A primary key consists of:</li>
+                                 <li>A <span style="color:#ff1493">primary key</span> consists of:</li>
                                  <ul>
                                      <li>A (composite) <span style="color:#7cfc00">partition key</span></li>
                                      <li>One or more <span style="color:#E4F173">clustering columns</span><br>
@@ -454,197 +474,207 @@ INSERT INTO products (product_id, product)
                              </ul>
                          </div>
                      </section>
-
                      <section>
-                         <h2><span class="ING">Creating a table</span></h2>
+                         <h2><span class="ING">Simple Table</span></h2>
                          <br>
-                         <table>
-                             <tr>
-                                 <td width=35% style="vertical-align:top">
-									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-CREATE TABLE cities (
-    city_name   varchar,
-    elevation   int,
-    population  int,
-    latitude    float,
-    longitude   float,
-    PRIMARY KEY (city_name)
-);
-									</code></pre>
-                                 </td>
-                                 <td width=65% style="vertical-align:top">
-                                     <p>We can visualize it this way:</p>
-                                     <img width=100% src="./images/simple_table.png" style="background-color:white;"></img>
-                                     <p>In this example:<br>partition key = primary key</p>
-                                 </td>
-                             </tr>
-                         </table>
-                     </section>
-                     <section>
-                         <h2><span class="ING">Composite partition key</span></h2>
-                         <br>
-                         <table>
-                             <tr>
-                                 <td width=40% style="vertical-align:top">
-									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-CREATE TABLE cities (
-  city_name   varchar,
-  state varchar,
-  elevation float,
-  latitude float,
-  longitude float
-  population float,
-  PRIMARY KEY 
-     ( (city_name,state) )
-);
-									</code></pre>
-                                 </td>
-                                 <td width=60% style="vertical-align:top">
-                                     <img width=100% src="./images/composite_partition_key.png" style="background-color:white;"></img>
-                                     <p>Each city gets it own partition!</p>
-                                 </td>
-                             </tr>
-                         </table>
-                     </section>
-					<section>
-						<h2><span class="ING">Clustering columns</span></h2>
-						<br>
-						<table>
-							<tr>
-								<td width=45% style="vertical-align:top">
-									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-CREATE TABLE sporty_league (
-   team_name   varchar,
-   player_name varchar,
-   jersey      int,
-   PRIMARY KEY (team_name,
-                player_name)
-);
-									</code></pre>
-								</td>
-								<td width=55% style="vertical-align:top">
-									<img width=100% src="./images/composite_table.png" style="background-color:white;"></img>
-								</td>
-							</tr>
-						</table>
-				    </section>
-                    <section>
-                         <h2><span class="ING">Simple Select</span></h2>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-
-SELECT * 
-  FROM sporty_league;
-						</code></pre>
                          <table width=100%>
                              <tr>
-                                 <td width=50% style="vertical-align:middle">
-                                     <img width=100% src="./images/simple_select.png" style="background-color:white;"></img>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY (id)  
+);
+									</code></pre>
                                  </td>
-                                 <td width=50% style="vertical-align:middle">
-                                     <img width=100% src="./images/composite_table.png" style="background-color:white;"></img>
+                             </tr>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+									</code></pre>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+SELECT * 
+  FROM party_account 
+ WHERE id ='11111';
+
+
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB1111111111 | Chris | Payment
+							</code></pre>
                                  </td>
                              </tr>
                          </table>
-                         <br><br>
-                         <p>"Table scan" - slow! (Limited to 10,000 rows by default)</p>
-                         <p>Use LIMIT keyword to choose fewer or more rows</p>
-                    </section>
-                    <section>
-                        <h2><span class="ING">Simple Select on Partition Key and Cluster Columns</span></h2>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-SELECT * 
-  FROM sporty_league 
- WHERE team_name = 'Mighty Mutts';						
-						</code></pre>
-                        <img width=60% src="./images/simple_select_cc1.png" style="background-color:white;"></img>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-SELECT * 
-  FROM sporty_league 
- WHERE team_name = 'Mighty Mutts'
-   AND player_name = 'Lucky';
-						</code></pre>
-                        <img width=60% src="./images/simple_select_cc2.png" style="background-color:white;"></img>
-                    </section>
-                    <section>
-                        <h2><span class="ING">Insert/Update</span></h2>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-INSERT INTO sporty_league (team_name, player_name, jersey)
-VALUES ('Mighty Mutts','Felix',90);
-						</code></pre>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-UPDATE sporty_league 
-   SET jersey = 100
- WHERE team_name = 'Mighty Mutts' 
-   AND player_name = 'Felix';
-						</code></pre>
-                    </section>
-                    <section>
-                        <h2><span class="ING">Counters</span></h2>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-CREATE TABLE sporty_league (
-   team_name   varchar,
-   player_name varchar,
-   jersey      int,
-   scores      counter,
-   PRIMARY KEY (team_name, player_name, jersey)
-);
-						</code></pre>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-UPDATE sporty_league 
-   SET scores = scores + 1
- WHERE team_name = 'Mighty Mutts' 
-   AND player_name = 'Buddy'
-   AND jersey = '32';
-						</code></pre>
-                    </section>
-                    <section>
-                        <h2><span class="ING">Data Types</span></h2>
-                        <img width=50% src="./images/data_types.png" style="background-color:white;"></img>
-                    </section>
-                    <section>
-                        <h2><span class="ING">Collections</span></h2>
-                        <br>
-                        <div align="left"><p>CQL supports having columns that contain collections of data</p>
-                        	<table width=100%>
-                        		<tr>
-                        			<td width=40%>
-                        				<pre>
-The collection types include:
-Set, List and Map
+                     </section>
+                     <section>
+                         <h2><span class="ING">Simple Table - Question</span></h2>
+                         <table width=100%>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">What do you expect the output to be?
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+DROP TABLE party_account;  
 
-(64K max limitation)
-										</pre>
-                        			</td width=60%>
-                        			<td>
-                        				<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-CREATE TABLE collections_example (
-    id int PRIMARY KEY,
-    set_example set&lt;text>,
-    list_example list&lt;text>,
-    map_example map&lt;int, text>
-);
-										</code></pre>
-                        			</td>
-                        		</tr>
-                        	</table>
-                            <p>These data types are intended to support the type of 1-to-many relationships that can be modeled in a relational DB e.g. a user has many email addresses</p><br>
-                            <p>Some performance considerations around collections</p>
-                         </div>
-                         <ul>
-                            <li>Often more efficient to denormalise further rather than use collections if intending to store lots of data.</li>
-                            <li>Favour sets over list – lists not very performant</li>
-                         </ul>
-                    </section>
-                    <section>
-                         <h2><span class="ING">Performance<br>considerations</span></h2>
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY (id)  
+);								
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris'); 
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('55555', 'NL00INGB5555555555','Payment', 'Gary');
+
+SELECT * 
+  FROM party_account 
+ WHERE id in ('11111','55555');
+									</code></pre>
+                                 </td>
+                             </tr>
+							 <tr>
+							  <td>
+                              	<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB2222222222 | Chris | Loan
+55555 | NL00INGB5555555555 |  Gary | Payment
+                              	</code></pre>
+                             </tr>
+                            </td>
+                         </table>
+                     </section>
+                     <section>
+                         <h2><span class="ING">Composite Partition Key</span></h2>
                          <br>
-                         <p>The best queries are in a single partition.</p>
-                         <small>i.e. WHERE partition key = <something></small>
-                         <p>Queries that span multiple partitions are <span style="color:red">s-l-o-w</span></p>
-                         <small>i.e. WHERE partition key IN ( <something> , <something> , ... );</small>
-                         <p>Queries that span multiple cluster columns are <span style="color:green">fast</span></p>
-                        <small>i.e. WHERE partition key = <something> and clustering key = <something></small>
-                    </section>
+                         <table width=100%>
+                             <tr>
+                                 <td width=100% style="vertical-align:top"><p>Note the extra brackets in the primary key!</p>
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( ( id , account ) )
+);
+									</code></pre>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris'); 
+									</code></pre>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+SELECT * 
+  FROM party_account 
+ WHERE id = '11111' 
+   AND account IN ('NL00INGB1111111111','NL00INGB2222222222');
+
+
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB1111111111 | Chris | Payment
+11111 | NL00INGB2222222222 | Chris | Loan
+							</code></pre>
+                                 </td>
+                             </tr>
+                         </table>
+                     </section>
+                     <section>
+                         <h2><span class="ING">Composite Partition Key - Question</span></h2>
+                         <table width=100%>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( ( id , account ) )
+);
+									</code></pre>
+                                 </td>
+                             </tr>
+							 <tr>
+							  <td>Will the following query work?
+                              	<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+
+SELECT * 
+  FROM party_account 
+ WHERE id = '11111' 
+					          	</code></pre>
+                             </tr>
+                            </td>
+                         </table>
+                     </section>
+                     <section>
+                         <h2><span class="ING">Clustering Columns</span></h2>
+                         <br>
+                         <table width=100%>
+                             <tr>
+                                 <td width=100% style="vertical-align:top"><p></p>
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);
+									</code></pre>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris'); 
+									</code></pre>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+SELECT * 
+  FROM party_account 
+ WHERE id = '11111' ;
+
+
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB1111111111 | Chris | Payment
+11111 | NL00INGB2222222222 | Chris | Loan
+							</code></pre>
+                                 </td>
+                             </tr>
+                         </table>
+                     </section>
                      <section>
                          <h2><span class="ING">(Clustering) Order By</span></h2>
                          <br>
@@ -653,30 +683,347 @@ CREATE TABLE collections_example (
                                  <td width=45% style="vertical-align:top">
 									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
 SELECT * 
-  FROM sporty_league
- WHERE team_name = 'Mighty Mutts'
- ORDER BY player_name DESC;
+  FROM party_account 
+ WHERE id = '11111'
+ ORDER BY account DESC;
 									</code></pre>
 									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-CREATE TABLE sporty_league (
-   team_name   varchar,
-   player_name varchar,
-   jersey      int,
-   PRIMARY KEY
-        (team_name, player_name)
-) WITH CLUSTERING ORDER BY
-        (player_name DESC);
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+) WITH CLUSTERING ORDER BY (account DESC);
 									</code></pre>
                                  </td>
                                  <td width=55% style="vertical-align:top">
                                      <p>Partition keys are not ordered!</p>
                                      <p>You can only order by a clustering column</p>
                                      <p>Data will ordered ASCending by default</p>
-                                     <p>You can also use the ORDER BY keyword, but only on the clustering column(s), which don't have CLUSTERING ORDER BY defined!</p>
                                  </td>
                              </tr>
                          </table>
                      </section>
+                     <section>
+                         <h2><span class="ING">Clustering Columns - Question</span></h2>
+                         <table width=100%>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);
+									</code></pre>
+                                 </td>
+                             </tr>
+							 <tr>
+							  <td>Will the following query work?
+                              	<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+
+SELECT * 
+  FROM party_account 
+ WHERE id = '11111' 
+   AND account IN ('NL00INGB1111111111','NL00INGB2222222222');
+					          	</code></pre>
+                             </tr>
+                            </td>
+                         </table>
+                     </section>
+                     <section>
+                         <h2><span class="ING">Static Columns</span></h2>
+                         <p>Introduced in Cassandra 2.0</p>
+                         <br>
+                         <table width=100%>
+                             <tr>
+                                 <td width=100% style="vertical-align:top"><p></p>
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar STATIC, 
+    PRIMARY KEY ( id , account )
+);
+									</code></pre>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+
+INSERT INTO party_account (id, account, type ) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan'); 
+									</code></pre>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+SELECT * 
+  FROM party_account 
+ WHERE id = '11111' ;
+
+
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB1111111111 | Chris | Payment
+11111 | NL00INGB2222222222 | Chris |    Loan
+
+							</code></pre>
+                                 </td>
+                             </tr>
+                         </table>
+                     </section>
+                     <section>
+                         <h2><span class="ING">Updates versus Inserts</span></h2>
+                         <table width=100%>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111','NL00INGB2222222222','Payment','Chris'); 
+
+
+UPDATE party_account 
+   SET type = 'Payment',
+       name = 'Chris'
+ WHERE id = '11111' 
+   AND account = 'NL00INGB2222222222';
+									</code></pre>
+                                 </td>
+                             </tr>
+                            </td>
+                              <tr>
+                                 <td width=100% style="vertical-align:top">
+                                 <br>Inserts and Updates are almost always the same
+                                 <br>Updates will insert when row does not exist!
+                                 <br>Unique constraint error do not exist in Cassandra!
+                                </td>
+                             </tr>
+                         </table>
+                     </section>
+					 <section>
+                        <h2><span class="ING">Data Types</span></h2>
+                        <img width=50% src="./images/data_types.png" style="background-color:white;"></img>
+                    </section>
+                     <section>
+                         <h2><span class="ING">Collections</span></h2>
+                         <br>
+                         <table width=100%>
+                             <tr>
+                                 <td width=100% style="vertical-align:top"><p></p>
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+CREATE TABLE collections_example (
+    id            int PRIMARY KEY,
+    set_example   set&lt;text>,
+    list_example  list&lt;text>,
+    map_example   map&lt;int, text>,
+);
+									</code></pre>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+INSERT INTO collections_example (id, set_example, list_example, map_example)
+     VALUES (1, {'set A', 'setB'}, ['list A', 'list B'], { 1  : 'map A', 2  : 'map B'});
+
+
+UPDATE collections_example
+  SET set_example = set_example + {'set C'} 
+WHERE id = 1;
+									</code></pre>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+SELECT * 
+  FROM collections_example 
+ WHERE id = 1 ;
+
+
+id | list_example         | map_example              | set_example
+---+----------------------+--------------------------+----------------------------
+ 1 | ['list A', 'list B'] | {1: 'map A', 2: 'map B'} | {'set A', 'set C', 'setB'}
+							</code></pre>
+                                 </td>
+                             </tr>
+                         </table>
+                     </section>
+                     <section>
+                         <h2><span class="ING">Batches</span></h2>
+                         <br>
+
+                         <table width=100%>
+                             <tr>
+                                 <td width=100% style="vertical-align:top"><p></p>
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+BEGIN BATCH
+
+  INSERT INTO party_account (id, account, type, name) 
+       VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+  INSERT INTO party_account (id, account, type, name) 
+       VALUES ('11111','NL00INGB2222222222','Payment','Chris'); 
+
+APPLY BATCH;
+									</code></pre>
+                                 </td>
+                             </tr>
+							  <tr>
+                                 <td width=100% style="vertical-align:top">
+                                 <br>Use batches for atomicity not performance!
+                                 <br>Use asynchronous queries for performance!
+                                </td>
+                             </tr>
+                         </table>
+                     </section>            
+                     <section>
+                         <h2><span class="ING">Time to Live (TTL)</span></h2>
+                         <table width=100%>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);
+									</code></pre>
+                                 </td>
+                             </tr>
+							 <tr>
+							  <td>
+                              	<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris') 
+      USING TTL 3600; // Expires data in one hour
+					          	</code></pre>
+                             </tr>
+                            </td>
+                         </table>
+                     </section>
+                     <section>
+                         <h2><span class="ING">Time to Live (TTL) - Question</span></h2>
+                         <table width=100%>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);
+									</code></pre>
+                                 </td>
+                             </tr>
+							 <tr>
+							  <td>What happens when I do the following?
+                              	<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris'); 
+
+INSERT INTO party_account (id, account, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Chris') 
+      USING TTL 10; 
+					          	</code></pre>
+                             </tr>
+                            </td>
+                                                         <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB2222222222 |  null |    Loan
+							</code></pre>
+                                 </td>
+                             </tr>
+                         </table>
+                     </section>
+                    <section>
+                        <h2><span class="ING">Counters</span></h2>
+						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+CREATE TABLE party_counter (
+   id           varchar,
+   num_accounts counter,
+   PRIMARY KEY (id)
+);
+						</code></pre>
+						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+UPDATE party_counter 
+   SET num_accounts = num_accounts + 1
+ WHERE id = '11111' 
+ 						</code></pre>
+ 						<li>Counter tables can only consist of primary key and counters</li>
+ 						<li>Warning - not idem-potent</li>
+                    </section>
+                     <section>
+                         <h2><span class="ING">Lightweight Transactions</span></h2>
+                         <p>Introduced in Cassandra 2.0</p>
+                         <table width=100%>
+                             <tr>
+                                 <td width=100% style="vertical-align:top"><p></p>
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+									</code></pre>
+                                 </td>
+                                 <td width=0%>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+UPDATE party_account 
+   SET name = 'Gary'
+ WHERE id = '11111' 
+   AND account = 'NL00INGB1111111111'
+    IF name = 'Chris'; 
+
+ [applied]
+-----------
+      True
+									</code></pre>
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <td width=100% style="vertical-align:top">
+									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
+UPDATE party_account 
+   SET name = 'Gary'
+ WHERE id = '11111' 
+   AND account = 'NL00INGB1111111111'
+    IF name = 'Chris'; 
+
+ [applied] | name
+-----------+------
+     False | Gary
+
+									</code></pre>
+                                 </td>
+                             </tr>
+                         </table>
+                     </section>
+
                      <section>
                          <h2><span class="ING">De-normalize</span></h2>
                          <br>
@@ -688,85 +1035,72 @@ CREATE TABLE sporty_league (
                              <tr>
                                  <td width=45% style="vertical-align:top">
 									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-CREATE TABLE users (
-	id uuid PRIMARY KEY,
-	username text,
-	email text,
-	street_address text,
-	town text,
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
 );
 
-CREATE INDEX user_street ON 
-    users (street_address);
-CREATE INDEX user_town ON 
-    users (town);
+CREATE INDEX party_account_name ON 
+    party_account (name);
 
-SELECT * 
-  FROM users 
- WHERE town = 'Stockholm' 
-   AND street_address = 'Sankt Eriksgatan'
+CREATE INDEX party_account_type ON 
+    party_account (type);
+
+SELECT *
+  FROM party_account 
+ WHERE name='Gary'
+   AND type ='Loan'
  ALLOW FILTERING;
 									</code></pre>
                                  </td>
                                  <td width=45% style="vertical-align:top">
 									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-CREATE TABLE users (
-	id uuid PRIMARY KEY,
-	username text,
-	email text,
-	street_address text,
-	town text,
+
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
 );
 
 
-
-
-CREATE TABLE user_street (
-	town text,
-	street text,
-	user_id uuid,
-	PRIMARY KEY (
-           (town, street),user_id)
-); 
+CREATE TABLE party_account_by_name_type (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( (name , type), id )
+);
 									</code></pre>
                                  </td>
                              </tr>
                          </table>
-                     </section>
-
-
-
-                     <section>
-                         <h2><span class="ING">Time to Live (TTL)</span></h2>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-
-INSERT INTO users (id, first, last)
-VALUES ('abc123', 'abe', 'lincoln')
- USING TTL 3600; // Expires data in one hour
-						</code></pre>
-                     </section>
-                     <section>
+                     </section> 
+                                         <section>
                          <h2><span class="ING">Time Series</span></h2>
                          <br>
                          <table width=100%>
                              <tr>
-                                 <td width=50% style="vertical-align:top">
+                                 <td width=40% style="vertical-align:top">
 									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
 CREATE TABLE sensor_data (
-  sensor_id int,
-  date varchar,
-  time timeuuid,
-  value int,
-  PRIMARY KEY( (sensor_id, date), time ) )
+ sensor_id  int,
+ date       varchar,
+ time       timeuuid,
+ value      int,
+ PRIMARY KEY((sensor_id, date), time)
+) 
 WITH CLUSTERING ORDER BY (time DESC);
 									</code></pre>
                                  </td>
-                                 <td width=50% style="vertical-align:top">
+                                 <td width=60% style="vertical-align:top">
 									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-INSERT INTO sensor_data
-       (sensor_id, date, time, value)
-VALUES (1, '20130908',
-       1883-11e3-8ffd-0800200c9a66,432)
+INSERT INTO sensor_data (sensor_id, date, time, value)
+VALUES (1, '20130908', 1883-11e3-8ffd-0800200c9a66,432)
  USING TTL 604800;
 									</code></pre>
                                  </td>
@@ -793,32 +1127,52 @@ time                        | value | ttl(value)
                                  </td>
                              </tr>
                          </table>
-                     </section>
-                     <section>
-                         <h2><span class="ING">Lightweight Transactions</span></h2>
-                         <p>Introduced in Cassandra 2.0</p>
-                         <p>Example:</p>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-INSERT INTO customer_account (customerID, customer_email)
-VALUES ('LauraS', 'lauras@gmail.com')
-    IF NOT EXISTS;
+                     </section> 
+                    <section>
+                         <h2><span class="ING">Performance<br>considerations</span></h2>
+                         <br>
+                         <p>The best queries are in a single partition.</p>
+                         <small>i.e. WHERE partition key = <something></small>
+                         <p>Queries that span multiple partitions are <span style="color:red">s-l-o-w</span></p>
+                         <small>i.e. WHERE partition key IN ( <something> , <something> , ... );</small>
+                         <p>Queries that span multiple cluster columns are <span style="color:green">fast</span></p>
+                        <small>i.e. WHERE partition key = <something> and clustering key = <something></small>
+						<p>"Table scan" - <span style="color:green">slow</span>! (Limited to 10,000 rows by default)</p>
+                        <small>Use LIMIT keyword to choose fewer or more rows</small>
+                        <p>Collections - Often more efficient to denormalise further especially for larger data sets</p>
+                        <small>Also favour sets over list</small>
+						<p>Use lightweight transactions only where necessary</p>
+						<small>Great for 1% of your application</small>
+                    </section>
 
-UPDATE customer_account 
-   SET customer_email='laurass@gmail.com'
-    IF customer_email='lauras@gmail.com';
-						</code></pre>
-                         <p>Great for 1% of your application – but not recommended to be used too much!</p>
-                     </section>
 
                      <section>
                          <h2><span class="ING">Tracing</span></h2>
                          <br>
-                         <p>You can turn on tracing on or off for queries with the TRACING ON | OFF command</p>
-                         <p>This can help you understand what Cassandra is doing and identify any performance problems</p>
-                         <img width=100% src="./images/tracing.png" style="background-color:white;"></img>
-                         <p><a href="http://www.datastax.com/dev/blog/tracing-in-cassandra-1-2">http://www.datastax.com/dev/blog/tracing-in-cassandra-1-2</a></p>
+<pre><code class="sql" data-trim contenteditable style="font-size: 15px;">
+cqlsh:primer> tracing on;
+select * from party_account where id ='11111'  ;
+...
+activity                                                       | timestamp    | source    | source_elapsed
+---------------------------------------------------------------+--------------+-----------+----------------
+                                            execute_cql3_query | 05:30:05,777 | 127.0.0.1 |              0
+        Parsing select * from party_account where id ='11111'; | 05:30:05,777 | 127.0.0.1 |            199
+                                           Preparing statement | 05:30:05,777 | 127.0.0.1 |            518
+                                 Sending message to /127.0.0.2 | 05:30:05,780 | 127.0.0.1 |           3113
+...                       
+             Executing single-partition query on party_account | 05:30:05,799 | 127.0.0.2 |          17915
+                              Enqueuing response to /127.0.0.1 | 05:30:05,799 | 127.0.0.3 |          16772
+                                  Acquiring sstable references | 05:30:05,799 | 127.0.0.2 |          17940
+                                   Merging memtable tombstones | 05:30:05,799 | 127.0.0.2 |          17982
+Skipped 0/0 non-slice-. sstables, included 0 due to tombstones | 05:30:05,799 | 127.0.0.2 |          18038
+                    Merging data from memtables and 0 sstables | 05:30:05,799 | 127.0.0.2 |          18052
+                            Read 3 live and 0 tombstoned cells | 05:30:05,799 | 127.0.0.2 |          18132
+...
+                              Message received from /127.0.0.3 | 05:30:05,822 | 127.0.0.1 |          45282
+                           Processing response from /127.0.0.3 | 05:30:05,822 | 127.0.0.1 |          45338
+                                              Request complete | 05:30:05,822 | 127.0.0.1 |          45694
+							</code></pre>
                      </section>
-
 				</section>
 
                 <section>
