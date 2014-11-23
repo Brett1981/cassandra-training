@@ -102,7 +102,7 @@
 				text-align: left;
 				font-size: 0.55em;
 				font-family: monospace;
-				line-height: 1.2em;
+				line-height: 1.5em;
 				word-wrap: break-word;
 				background: rgba(0, 0, 0, 0);
 				box-shadow: 0px 0px 6px rgba(0, 0, 0, 0);
@@ -985,6 +985,64 @@ client.batch_mutate(records, consistencyLevel);
                         	<h1>Data Modelling</h1>
                     	</blockquote>
                     </section>
+					 <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Objectives</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table height="100%" width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+				                    				<table width="100%">
+						                            	<tr>
+						                            		<td width="15%"></td>
+						                            		<td width="85%"></td>
+						                            		<td width="5%"></td>
+						                            	</tr>
+						                            	<tr>
+						                            		<td></td>
+						                            		<td>
+										                        <h2>Learn basic modelling techniques</h2><br>
+										                        <h2>Learn how to use Cassandra DDL<br>(Data Definition Language)</h2><br>
+										                        <h2>Learn how to use Cassandra DML<br>(Data Manipulation Language)</h2><br>
+						                            		</td>
+						                            		<td></td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Keyspace</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+										<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+CREATE KEYSPACE "primer" 
+
+  WITH REPLICATION = {'class'         : 'NetworkTopologyStrategy', 
+                      'datacenter1'   : 3
+                     };
+
+
+USE primer;
+				   						</code></pre>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
                     <section data-background="./images/ZenRocks.jpg">
                         <blockquote>
 	                    	<table width="97%" height="95%">
@@ -1033,7 +1091,292 @@ client.batch_mutate(records, consistencyLevel);
                         <blockquote>
 	                    	<table width="97%" height="95%">
 	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Creating a table</span></h1></td>
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Simple Table</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY (id)  
+);
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+SELECT * 
+  FROM party_account 
+ WHERE id ='11111';
+
+
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB1111111111 | Chris | Payment
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Simple Table - Question</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+				                        <table width=100%>
+				                        	<tr>
+						                        <td width="5%"></td>
+						                        <td width="90%">
+				                                	<p>What do you expect the output to be?</p>
+						                        </td>
+						                        <td width="5%"></td>
+						                    </tr>
+				                            <tr>
+				                                <td colspan="3" width=100% style="vertical-align:top">
+													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">DROP TABLE party_account;  
+
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY (id)  
+);								
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris'); 
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('55555', 'NL00INGB5555555555','Payment', 'Gary');
+
+SELECT * 
+  FROM party_account 
+ WHERE id in ('11111','55555');
+													</code></pre>
+				                                </td>
+				                            </tr>
+											<tr>
+											  	<td colspan="3">
+				                            	  	<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB2222222222 | Chris | Loan
+55555 | NL00INGB5555555555 |  Gary | Payment													</code></pre>
+				                    	        </td>
+				                            </tr>
+				                        </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Composite Partition Key</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            			<h3>Note the extra brackets in the primary key!</h3>
+							                        <table width=100%>
+							                            <tr>
+							                                <td width=40% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( ( id , account ) )
+);
+																</code></pre>
+							                                </td>
+							                                <td width=60% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris'); 
+
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td colspan="2" width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+SELECT * 
+  FROM party_account 
+ WHERE id = '11111' 
+   AND account IN ('NL00INGB1111111111','NL00INGB2222222222');
+
+
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB1111111111 | Chris | Payment
+11111 | NL00INGB2222222222 | Chris | Loan
+														</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Composite Partition Key - Question</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td colspan="3"width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( ( id , account ) )
+);
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                        	<tr>
+									                        <td width="5%"></td>
+									                        <td width="90%">
+							                                	<p>Will the following query work?</p>
+									                        </td>
+									                        <td width="5%"></td>
+									                    </tr>
+														<tr>
+														  	<td colspan="3">
+							                              		<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+
+SELECT * 
+  FROM party_account 
+ WHERE id = '11111' 
+												          		</code></pre>
+							                     	        </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+					<section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Clustering Columns</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td width=40% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);
+																</code></pre>
+							                                </td>
+							                                <td width=60% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris'); 
+
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td colspan="2" width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+SELECT * 
+  FROM party_account 
+ WHERE id = '11111' ;
+
+
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB1111111111 | Chris | Payment
+11111 | NL00INGB2222222222 | Chris | Loan
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+				    </section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">(Clustering) Order By</span></h1></td>
 	                    		</tr>
 	                    		<tr height="95%">
 	                    			<td style="text-align:center;vertical-align:middle">
@@ -1042,23 +1385,313 @@ client.batch_mutate(records, consistencyLevel);
 			                            		<td height="90%" style="text-align:center;vertical-align:middle">
 							                        <table>
 							                            <tr>
-							                                <td width=35% style="vertical-align:top">
+							                                <td width=45% style="vertical-align:top">
 																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
-CREATE TABLE cities (
-    city_name   varchar,
-    elevation   int,
-    population  int,
-    latitude    float,
-    longitude   float,
-    PRIMARY KEY (city_name)
+SELECT * 
+  FROM party_account 
+ WHERE id = '11111'
+ ORDER BY account DESC;
+																</code></pre>
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+) WITH CLUSTERING ORDER BY (account DESC);
+																</code></pre>
+							                                </td>
+							                                <td width=55% style="vertical-align:middle">
+							                                    <h3>Partition keys are not ordered!</h3><br>
+							                                    <h3>You can only order by a clustering column</h3><br>
+							                                    <h3>Data will be ordered ASCending by default</h3>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Clustering Columns - Question</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td colspan="3" width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);
+																</code></pre>
+								                            </td>
+								                        </tr>
+							                        	<tr>
+									                        <td width="5%"></td>
+									                        <td width="90%">
+							                                	<p>Will the following query work?</p>
+									                        </td>
+									                        <td width="5%"></td>
+									                    </tr>
+														<tr>
+															<td colspan="3">
+								                            	<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+SELECT * 
+  FROM party_account 
+ WHERE id = '11111' 
+   AND account IN ('NL00INGB1111111111','NL00INGB2222222222');
+												          		</code></pre>
+							                            	</td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Static Columns</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">							                        
+							                        <h3>Introduced in Cassandra 2.0</h3>
+							                        <table width=100%>
+							                            <tr>
+							                                <td width=40% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar STATIC, 
+    PRIMARY KEY ( id , account )
 );
 																</code></pre>
 							                                </td>
-							                                <td width=65% style="vertical-align:top">
-							                                    <h3>We can visualize it this way:</h3>
-							                                    <img width=100% src="./images/simple_table.png" style="background-color:white;"></img>
-							                                    <h3>In this example:<br>partition key = primary key</h3>
+							                                <td width=60% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+
+INSERT INTO party_account (id, account, type ) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan'); 
+
+																</code></pre>
 							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td colspan="2" width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+SELECT * 
+  FROM party_account 
+ WHERE id = '11111' ;
+
+
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB1111111111 | Chris | Payment
+11111 | NL00INGB2222222222 | Chris |    Loan
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Updates versus Inserts</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td colspan="3" width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111','NL00INGB2222222222','Payment','Chris'); 
+
+
+UPDATE party_account 
+   SET type = 'Payment',
+       name = 'Chris'
+ WHERE id = '11111' 
+   AND account = 'NL00INGB2222222222';
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+															<td width="5%"></td>
+									                        <td width="90%"><br>
+							                                	<h3>Inserts and Updates are almost always the same</h3><br>
+							                               		<h3>Updates will insert when row does not exist!</h3><br>
+							                               		<h3>Unique constraint error do not exist in Cassandra!</h3><br>
+									                        </td>
+									                        <td width="5%"></td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Data Types</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+                        							<img height=90% src="./images/data_types.png" style="background-color:white;"></img>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Collections</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td width=40% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+
+
+CREATE TABLE collections_example (
+    id            int PRIMARY KEY,
+    set_example   set&lt;text>,
+    list_example  list&lt;text>,
+    map_example   map&lt;int, text>,
+);
+
+
+																</code></pre>
+							                                </td>
+							                                <td width=60% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+INSERT INTO collections_example (id, set_example, 
+                                 list_example, map_example)
+     VALUES (1, {'set A', 'setB'}, 
+                ['list A', 'list B'], 
+                { 1  : 'map A', 2  : 'map B'});
+
+
+UPDATE collections_example
+  SET set_example = set_example + {'set C'} 
+WHERE id = 1;
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td colspan="2" width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+SELECT * 
+  FROM collections_example 
+ WHERE id = 1 ;
+
+
+id | list_example         | map_example              | set_example
+---+----------------------+--------------------------+----------------------------
+ 1 | ['list A', 'list B'] | {1: 'map A', 2: 'map B'} | {'set A', 'set C', 'setB'}
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Batches</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td colspan="3" width=100% style="vertical-align:top"><p></p>
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+BEGIN BATCH
+
+  INSERT INTO party_account (id, account, type, name) 
+       VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+  INSERT INTO party_account (id, account, type, name) 
+       VALUES ('11111','NL00INGB2222222222','Payment','Chris'); 
+
+APPLY BATCH;
+																</code></pre>
+							                                </td>
+							                            </tr>
+														<tr>
+							                                <td width="5%"></td>
+									                        <td width="90%"><br>
+							                            	    <h3>Use batches for atomicity not performance!</h3><br>
+							                                	<h3>Use asynchronous queries for performance!</h3><br>
+							                                </td>
+							                                <td width="5%"></td>
 							                            </tr>
 							                        </table>
 			                            		</td>
@@ -1087,297 +1720,6 @@ CREATE TABLE cities (
 	                    		</tr>
 	                    	</table>
                     	</blockquote>
-                         <h2><span class="ING">Composite partition key</span></h2>
-                         <br>
-                         <table>
-                             <tr>
-                                 <td width=40% style="vertical-align:top">
-									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-CREATE TABLE cities (
-  city_name   varchar,
-  state varchar,
-  elevation float,
-  latitude float,
-  longitude float
-  population float,
-  PRIMARY KEY 
-     ( (city_name,state) )
-);
-									</code></pre>
-                                 </td>
-                                 <td width=60% style="vertical-align:top">
-                                     <img width=100% src="./images/composite_partition_key.png" style="background-color:white;"></img>
-                                     <p>Each city gets it own partition!</p>
-                                 </td>
-                             </tr>
-                         </table>
-                    </section>
-					<section data-background="./images/ZenRocks.jpg">
-                        <blockquote>
-	                    	<table width="97%" height="95%">
-	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
-	                    		</tr>
-	                    		<tr height="95%">
-	                    			<td style="text-align:center;vertical-align:middle">
-	                    				<table width="100%">
-			                            	<tr>
-			                            		<td height="90%" style="text-align:center;vertical-align:middle">
-			                            		</td>
-			                            	</tr>
-			                            </table>
-	                    			</td>
-	                    		</tr>
-	                    	</table>
-                    	</blockquote>
-						<h2><span class="ING">Clustering columns</span></h2>
-						<br>
-						<table>
-							<tr>
-								<td width=45% style="vertical-align:top">
-									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-CREATE TABLE sporty_league (
-   team_name   varchar,
-   player_name varchar,
-   jersey      int,
-   PRIMARY KEY (team_name,
-                player_name)
-);
-									</code></pre>
-								</td>
-								<td width=55% style="vertical-align:top">
-									<img width=100% src="./images/composite_table.png" style="background-color:white;"></img>
-								</td>
-							</tr>
-						</table>
-				    </section>
-                    <section data-background="./images/ZenRocks.jpg">
-                        <blockquote>
-	                    	<table width="97%" height="95%">
-	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
-	                    		</tr>
-	                    		<tr height="95%">
-	                    			<td style="text-align:center;vertical-align:middle">
-	                    				<table width="100%">
-			                            	<tr>
-			                            		<td height="90%" style="text-align:center;vertical-align:middle">
-			                            		</td>
-			                            	</tr>
-			                            </table>
-	                    			</td>
-	                    		</tr>
-	                    	</table>
-                    	</blockquote>
-                         <h2><span class="ING">Simple Select</span></h2>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-
-SELECT * 
-  FROM sporty_league;
-						</code></pre>
-                         <table width=100%>
-                             <tr>
-                                 <td width=50% style="vertical-align:middle">
-                                     <img width=100% src="./images/simple_select.png" style="background-color:white;"></img>
-                                 </td>
-                                 <td width=50% style="vertical-align:middle">
-                                     <img width=100% src="./images/composite_table.png" style="background-color:white;"></img>
-                                 </td>
-                             </tr>
-                         </table>
-                         <br><br>
-                         <p>"Table scan" - slow! (Limited to 10,000 rows by default)</p>
-                         <p>Use LIMIT keyword to choose fewer or more rows</p>
-                    </section>
-                    <section data-background="./images/ZenRocks.jpg">
-                        <blockquote>
-	                    	<table width="97%" height="95%">
-	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
-	                    		</tr>
-	                    		<tr height="95%">
-	                    			<td style="text-align:center;vertical-align:middle">
-	                    				<table width="100%">
-			                            	<tr>
-			                            		<td height="90%" style="text-align:center;vertical-align:middle">
-			                            		</td>
-			                            	</tr>
-			                            </table>
-	                    			</td>
-	                    		</tr>
-	                    	</table>
-                    	</blockquote>
-                        <h2><span class="ING">Simple Select on Partition Key and Cluster Columns</span></h2>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-SELECT * 
-  FROM sporty_league 
- WHERE team_name = 'Mighty Mutts';						
-						</code></pre>
-                        <img width=60% src="./images/simple_select_cc1.png" style="background-color:white;"></img>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-SELECT * 
-  FROM sporty_league 
- WHERE team_name = 'Mighty Mutts'
-   AND player_name = 'Lucky';
-						</code></pre>
-                        <img width=60% src="./images/simple_select_cc2.png" style="background-color:white;"></img>
-                    </section>
-                    <section data-background="./images/ZenRocks.jpg">
-                        <blockquote>
-	                    	<table width="97%" height="95%">
-	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
-	                    		</tr>
-	                    		<tr height="95%">
-	                    			<td style="text-align:center;vertical-align:middle">
-	                    				<table width="100%">
-			                            	<tr>
-			                            		<td height="90%" style="text-align:center;vertical-align:middle">
-			                            		</td>
-			                            	</tr>
-			                            </table>
-	                    			</td>
-	                    		</tr>
-	                    	</table>
-                    	</blockquote>
-                        <h2><span class="ING">Insert/Update</span></h2>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-INSERT INTO sporty_league (team_name, player_name, jersey)
-VALUES ('Mighty Mutts','Felix',90);
-						</code></pre>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-UPDATE sporty_league 
-   SET jersey = 100
- WHERE team_name = 'Mighty Mutts' 
-   AND player_name = 'Felix';
-						</code></pre>
-                    </section>
-                    <section data-background="./images/ZenRocks.jpg">
-                        <blockquote>
-	                    	<table width="97%" height="95%">
-	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
-	                    		</tr>
-	                    		<tr height="95%">
-	                    			<td style="text-align:center;vertical-align:middle">
-	                    				<table width="100%">
-			                            	<tr>
-			                            		<td height="90%" style="text-align:center;vertical-align:middle">
-			                            		</td>
-			                            	</tr>
-			                            </table>
-	                    			</td>
-	                    		</tr>
-	                    	</table>
-                    	</blockquote>
-                        <h2><span class="ING">Counters</span></h2>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-CREATE TABLE sporty_league (
-   team_name   varchar,
-   player_name varchar,
-   jersey      int,
-   scores      counter,
-   PRIMARY KEY (team_name, player_name, jersey)
-);
-						</code></pre>
-						<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-UPDATE sporty_league 
-   SET scores = scores + 1
- WHERE team_name = 'Mighty Mutts' 
-   AND player_name = 'Buddy'
-   AND jersey = '32';
-						</code></pre>
-                    </section>
-                    <section data-background="./images/ZenRocks.jpg">
-                        <blockquote>
-	                    	<table width="97%" height="95%">
-	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
-	                    		</tr>
-	                    		<tr height="95%">
-	                    			<td style="text-align:center;vertical-align:middle">
-	                    				<table width="100%">
-			                            	<tr>
-			                            		<td height="90%" style="text-align:center;vertical-align:middle">
-			                            		</td>
-			                            	</tr>
-			                            </table>
-	                    			</td>
-	                    		</tr>
-	                    	</table>
-                    	</blockquote>
-                        <h2><span class="ING">Data Types</span></h2>
-                        <img width=50% src="./images/data_types.png" style="background-color:white;"></img>
-                    </section>
-                    <section data-background="./images/ZenRocks.jpg">
-                        <blockquote>
-	                    	<table width="97%" height="95%">
-	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
-	                    		</tr>
-	                    		<tr height="95%">
-	                    			<td style="text-align:center;vertical-align:middle">
-	                    				<table width="100%">
-			                            	<tr>
-			                            		<td height="90%" style="text-align:center;vertical-align:middle">
-			                            		</td>
-			                            	</tr>
-			                            </table>
-	                    			</td>
-	                    		</tr>
-	                    	</table>
-                    	</blockquote>
-                        <h2><span class="ING">Collections</span></h2>
-                        <br>
-                        <div align="left"><p>CQL supports having columns that contain collections of data</p>
-                        	<table width=100%>
-                        		<tr>
-                        			<td width=40%>
-                        				<pre>
-The collection types include:
-Set, List and Map
-
-(64K max limitation)
-										</pre>
-                        			</td width=60%>
-                        			<td>
-                        				<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-CREATE TABLE collections_example (
-    id int PRIMARY KEY,
-    set_example set&lt;text>,
-    list_example list&lt;text>,
-    map_example map&lt;int, text>
-);
-										</code></pre>
-                        			</td>
-                        		</tr>
-                        	</table>
-                            <p>These data types are intended to support the type of 1-to-many relationships that can be modeled in a relational DB e.g. a user has many email addresses</p><br>
-                            <p>Some performance considerations around collections</p>
-                         </div>
-                         <ul>
-                            <li>Often more efficient to denormalise further rather than use collections if intending to store lots of data.</li>
-                            <li>Favour sets over list – lists not very performant</li>
-                         </ul>
-                    </section>
-                    <section data-background="./images/ZenRocks.jpg">
-                        <blockquote>
-	                    	<table width="97%" height="95%">
-	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
-	                    		</tr>
-	                    		<tr height="95%">
-	                    			<td style="text-align:center;vertical-align:middle">
-	                    				<table width="100%">
-			                            	<tr>
-			                            		<td height="90%" style="text-align:center;vertical-align:middle">
-			                            		</td>
-			                            	</tr>
-			                            </table>
-	                    			</td>
-	                    		</tr>
-	                    	</table>
-                    	</blockquote>
                          <h2><span class="ING">Performance<br>considerations</span></h2>
                          <br>
                          <p>The best queries are in a single partition.</p>
@@ -1387,55 +1729,6 @@ CREATE TABLE collections_example (
                          <p>Queries that span multiple cluster columns are <span style="color:green">fast</span></p>
                         <small>i.e. WHERE partition key = <something> and clustering key = <something></small>
                     </section>
-                    <section data-background="./images/ZenRocks.jpg">
-                        <blockquote>
-	                    	<table width="97%" height="95%">
-	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
-	                    		</tr>
-	                    		<tr height="95%">
-	                    			<td style="text-align:center;vertical-align:middle">
-	                    				<table width="100%">
-			                            	<tr>
-			                            		<td height="90%" style="text-align:center;vertical-align:middle">
-			                            		</td>
-			                            	</tr>
-			                            </table>
-	                    			</td>
-	                    		</tr>
-	                    	</table>
-                    	</blockquote>
-                         <h2><span class="ING">(Clustering) Order By</span></h2>
-                         <br>
-                         <table>
-                             <tr>
-                                 <td width=45% style="vertical-align:top">
-									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-SELECT * 
-  FROM sporty_league
- WHERE team_name = 'Mighty Mutts'
- ORDER BY player_name DESC;
-									</code></pre>
-									<pre><code class="sql" data-trim contenteditable style="font-size: 16px;">
-CREATE TABLE sporty_league (
-   team_name   varchar,
-   player_name varchar,
-   jersey      int,
-   PRIMARY KEY
-        (team_name, player_name)
-) WITH CLUSTERING ORDER BY
-        (player_name DESC);
-									</code></pre>
-                                 </td>
-                                 <td width=55% style="vertical-align:top">
-                                     <p>Partition keys are not ordered!</p>
-                                     <p>You can only order by a clustering column</p>
-                                     <p>Data will ordered ASCending by default</p>
-                                     <p>You can also use the ORDER BY keyword, but only on the clustering column(s), which don't have CLUSTERING ORDER BY defined!</p>
-                                 </td>
-                             </tr>
-                         </table>
-                     </section>
                      <section data-background="./images/ZenRocks.jpg">
                         <blockquote>
 	                    	<table width="97%" height="95%">
