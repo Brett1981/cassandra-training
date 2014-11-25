@@ -342,6 +342,14 @@ Maven:                      <dependency>
 						</table>
 					</section>
 					<section>
+						<h2><span class="ING">Cassandra Replication Strategy - Questions</span></h2>
+							<ul>
+								<li>What is the function of the partitioner?</li>
+								<li>Can a node hold a partition with a token outside its primary range?</li>
+								<li>In a 3 node cluster with RF=2, how much total data volume does each node own?</li>
+							</ul>
+					</section>
+					<section>
 						<h2><span class="ING">Network Topology Awareness</span></h2>
 						<img width=100% src="./images/network_topology_awareness.png" alt="Network Topology Awareness" style="background-color:white;"></img>
 					</section>
@@ -351,6 +359,14 @@ Maven:                      <dependency>
 						<p>Consistency is achieved with W + R > RF</p>
 						<p>Quorum = (Integer) RF / 2 + 1</p>
 						<img width=90% src="./images/quorum.png" style="background-color:white;"></img>
+					</section>
+					<section>
+						<h2><span class="ING">Network Topology - Questions</span></h2>
+							<ul>
+								<li>How many nodes can act as a co-ordinator?</li>
+								<li>What is role of the forwarder?</li>
+								<li>How could RF and CL be tuned to ensure strong consistency?</li>
+							</ul>
 					</section>
 					<section>
 						<h2><span class="ING">Write Path</span></h2>
@@ -372,6 +388,14 @@ Maven:                      <dependency>
 							•	Cassandra goes to the compression offset map to find the compressed block having the data.
 							•	Fetches the compressed data on disk and returns the result set.
 						</aside>
+					</section>
+					<section>
+						<h2><span class="ING">Write/Read Path - Questions</span></h2>
+							<ul>
+								<li>What is flushing?</li>
+								<li>How is the partition key cache populated?</li>
+								<li>Will compaction impact performance?</li>
+							</ul>
 					</section>
 				</section>			
                  <section>
