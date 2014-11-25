@@ -202,6 +202,47 @@
 
 				<section>
 					<section>
+						<h1><span class="ING">Cassandra Internals</span></h1>
+					</section>
+				 	<section>
+                         <h2><span class="ING">Objectives</span></h2>
+                         <br>
+                         <br>Introduction into Apache Cassandra and Datastax
+                         <br>Learn about the drivers  
+                         <br>Learn about partitioning, replication factor and consistency levels
+                         <br>Learn about the network topology
+                         <br>Learn about the write and read path
+                     </section>
+       				<section>
+                        <h2><span class="ING">DataStax and Cassandra</span></h2>
+                        <img width=25% src="./images/cassandra.png" alt="Cassandra" style="background-color:white;">
+                        <p>Founded in 2010 by Jonathan Ellis and Matt Pfeil</p>
+                        <p>80% Apache Cassandra code contribution</p>
+                        <p>Offer commercial support for DataStax Enterprise version of Cassandra</p>
+                        <p>DataStax Enterprise integrates Search and Analytics</p>
+                        <p>Head Quarter in San Francisco Bay area</p>
+                        <p>EMEA office opened in March 2013</p>
+                    </section>
+                    <section>
+                        <h2><span class="ING">Native Protocol / DataStax Drivers</span></h2>
+                        <br>
+                        <p>CQL3 Only</p>
+                        <p>Fully asynchronous protocol, using Netty</p>
+                        <p>Server notifications</p>
+                        <br>
+                        <p>Java, C#, Python, node.js and Ruby so far, more will be added</p>
+                        <p>Many policies, including TokenAwarePolicy, DowngradeConsistencyRetryPolicy, etc...</p>
+                        <p>Metrics (<a href="http://metrics.codahale.com/"><span class="ING">metrics.codahale.com</span></a>) included</p><br>
+                            <pre><code data-trim contenteditable style="font-size: 18px;">
+Maven:                      <dependency>
+                                <groupId>com.datastax.cassandra</groupId>
+                                <artifactId>cassandra-driver-core</artifactId>
+                                <version>2.0.8</version>
+                            </dependency>
+                            </code></pre>
+                    </section>
+
+					<section>
 						<h2><span class="ING">Apache Cassandra</span></h2>
 						<br>
 						<p>Created by Avinash Lakshman and Prashant Malik at Facebook</p>
@@ -239,43 +280,7 @@
 							</tr>
 						</table>
 					</section>
-				</section>
 
-                <section>
-                    <section>
-                        <h2><span class="ING">DataStax and Cassandra</span></h2>
-                        <img width=25% src="./images/cassandra.png" alt="Cassandra" style="background-color:white;">
-                        <p>Founded in 2010 by Jonathan Ellis and Matt Pfeil</p>
-                        <p>80% Apache Cassandra code contribution</p>
-                        <p>Offer commercial support for DataStax Enterprise version of Cassandra</p>
-                        <p>DataStax Enterprise integrates Search and Analytics</p>
-                        <p>Head Quarter in San Francisco Bay area</p>
-                        <p>EMEA office opened in March 2013</p>
-                    </section>
-                    <section>
-                        <h2><span class="ING">Native Protocol / DataStax Drivers</span></h2>
-                        <br>
-                        <p>CQL3 Only</p>
-                        <p>Fully asynchronous protocol, using Netty</p>
-                        <p>Server notifications</p>
-                        <br>
-                        <p>Java, C#, Python, node.js and Ruby so far, more will be added</p>
-                        <p>Many policies, including TokenAwarePolicy, DowngradeConsistencyRetryPolicy, etc...</p>
-                        <p>Metrics (<a href="http://metrics.codahale.com/"><span class="ING">metrics.codahale.com</span></a>) included</p><br>
-                            <pre><code data-trim contenteditable style="font-size: 18px;">
-Maven:                      <dependency>
-                                <groupId>com.datastax.cassandra</groupId>
-                                <artifactId>cassandra-driver-core</artifactId>
-                                <version>2.0.2</version>
-                            </dependency>
-                            </code></pre>
-                    </section>
-                </section>
-
-				<section>
-					<section>
-						<h1><span class="ING">Cassandra Internals</span></h1>
-					</section>
 					<section>
 						<h2><span class="ING">Tuneable Consistency</span></h2><br>
 						<h4>Configureable Consistency Level (CL)<br>per read and write action</h4>
@@ -397,6 +402,16 @@ Maven:                      <dependency>
 								<li>Will compaction impact performance?</li>
 							</ul>
 					</section>
+					 <section>
+                         <h2><span class="ING">Summary</span></h2>
+                         <br>
+                         <br>Cassandra is a masterless NoSQL storage system
+                         <br>Cassandra's consistency is tuneable per query
+                         <br>Replication factor is defined per keyspace
+                         <br>Partioning is used to determine which node contains the data
+                         <br>Write path is durable and fast
+                         <br>Read path is designed to limit i/o as much as possible
+                     </section>
 				</section>			
                  <section>
                      <section>
@@ -1192,6 +1207,18 @@ Skipped 0/0 non-slice-. sstables, included 0 due to tombstones | 05:30:05,799 | 
                                               Request complete | 05:30:05,822 | 127.0.0.1 |          45694
 							</code></pre>
                      </section>
+                     <section>
+                         <h2><span class="ING">Summary</span></h2>
+                         <br>
+                         <br>CQL3 is similiar to SQL 
+                         <br>Primary key is made up of partition key and clustering columns
+                         <br>Partition key is required to find your data
+                         <br>Column family provides modelling flexibility
+                         <br>Use batches for atomicity
+                         <br>De-normalize where necessary to satisfy queries
+                         <br>Solve your reads with your writes
+                         <br>TTL can be used to make data expire
+                     </section>
 				</section>
 
                 <section>
@@ -1270,64 +1297,7 @@ Skipped 0/0 non-slice-. sstables, included 0 due to tombstones | 05:30:05,799 | 
                     <br><em ><span class="ING">all challenges covered...</span></em>
                 </section>
 
-                <section>
-	                <section>
-	                    <h2><span class="ING">C*@ING</span></h2>
-	                    <table width=100% style="font-size: 22px">
-	                    	<tr style="border-bottom: 3px solid #ff6600;">
-	                    		<th style="font-size: 30px" width=30%><span class="ING">project<br></span></th>
-	                    		<th style="font-size: 30px" width=35%><span class="ING">use case<br></span></th>
-	                    		<th style="font-size: 30px" width=35%><span class="ING">status<br></span></th>
-	                    	</tr>
-							<tr>
-		                    	<td style="background-color: #625D5D;">Betelgeuze</td>
-		                    	<td style="background-color: #625D5D;">Cache of Customer Data (KRO)</td>
-		                    	<td style="background-color: #625D5D;">September 2014 in PRD</td>
-		                    </tr>
-		                    <tr>
-		                    	<td>OI: Financial Fit</td>
-		                    	<td>SOR for soft data</td>
-		                    	<td>September 2014 in PRD</td>
-		                    </tr>
-		                    <tr>
-		                    	<td style="background-color: #625D5D;">RTPE</td>
-		                    	<td style="background-color: #625D5D;">New payments engine for on-us payments</td>
-		                    	<td style="background-color: #625D5D;">February 2015 in PRD</td>
-		                    </tr>
-							<tr>
-		                    	<td>Faster Than Light</td>
-		                    	<td>Cache of Customer Data (MDM)</td>
-		                    	<td>PoC</td>
-		                    </tr>
-		                    <tr>
-		                    	<td style="background-color: #625D5D;">Ideal,<br>Sales Support,<br>NGINX,<br>...</td>
-		                    	<td style="background-color: #625D5D;">Session Management</td>
-		                    	<td style="background-color: #625D5D;">In DEV</td>
-		                    </tr>
-		                    <tr>
-		                    	<td>Ideal</td>
-		                    	<td>Order Management</td>
-		                    	<td>Product Backlog</td>
-		                    </tr>
-		                    <tr>
-		                    	<td style="background-color: #625D5D;">Credit Cards</td>
-		                    	<td style="background-color: #625D5D;">Cache external data</td>
-		                    	<td style="background-color: #625D5D;">Awaiting budget</td>
-		                    </tr>
-		                    <tr>
-		                    	<td>Availability Dashboard</td>
-		                    	<td>Time series</td>
-		                    	<td>In DEV</td>
-		                    </tr>
-		                    <tr>
-		                    	<td style="background-color: #625D5D;">Realtime Account Forecasting</td>
-		                    	<td style="background-color: #625D5D;">Cache of SAM data</td>
-		                    	<td style="background-color: #625D5D;">PoC</td>
-		                    </tr>
-		                </table>
-	                </section>
-	            </section>
-
+        
                 <section>
 	                <section>
 	                    <h2><span class="ING">3 Questions - Bonus</span></h2>
