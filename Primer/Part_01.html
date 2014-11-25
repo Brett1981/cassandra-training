@@ -862,13 +862,121 @@
 					</section>
 				</section>
 
-				<section>
-					<section data-background="./images/black-zen-stones.jpg">
+                <section>
+					<section data-background="./images/ZenRocks.jpg">
                     	<blockquote>
-                        	<h1>CQL3</h1>
+                        	<h1>Data Modelling</h1>
                     	</blockquote>
                     </section>
-					<section data-background="./images/black-zen-stones.jpg">
+					<section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Objectives</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table height="100%" width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+				                    				<table width="100%">
+						                            	<tr>
+						                            		<td width="15%"></td>
+						                            		<td width="85%"></td>
+						                            		<td width="5%"></td>
+						                            	</tr>
+						                            	<tr>
+						                            		<td></td>
+						                            		<td>
+										                        <h2>Learn basic modelling techniques</h2><br>
+										                        <h2>Learn how to use Cassandra DDL<br>(Data Definition Language)</h2><br>
+										                        <h2>Learn how to use Cassandra DML<br>(Data Manipulation Language)</h2><br>
+						                            		</td>
+						                            		<td></td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+					<section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Apache Thrift, Hector, Astyanax</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="100%" style="text-align:center;vertical-align:middle">
+												<table width=100%>
+													<tr>
+														<td width=60% style="vertical-align:middle">
+															<pre><code class="java" style="font-size: 24px; overflow-y: hidden !important; overflow-x: hidden !important">Column col = 
+    new Column(ByteBuffer.wrap("product".getBytes())));
+col.setValue(ByteBuffer.wrap("phone".getBytes());
+col.setTimestamp(System.currentTimeMillis());
+
+ColumnOrSuperColumn c = new ColumnOrSuperColumn();
+c.setColumn(col);
+
+Mutation m = new Mutation();
+m.setColumn_or_supercolumn(c);
+
+
+List&lt;Mutations> ms = new ArrayList&lt;Mutation>();
+ms.add(m);
+Map&lt;String, List&lt;Mutations>> cf = 
+    new HashMap&lt;String, List&lt;Mutations>>();
+cf.put("products", m);
+Map&lt;ByteBuffer, Map&lt;String, List&lt;Mutation>>> records = 
+    new HashMap&lt;ByteBuffer, Map&lt;String, List&lt;Mutation>>>();
+records.put(ByteBuffer.wrap("key".getBytes()), cf);
+client.batch_mutate(records, consistencyLevel);
+																</code></pre>
+															</td>
+															<td width=40% style="vertical-align:middle">
+																<img height=100% src="./images/stress.png" style="background-color:white;"></img>
+															</td>
+														</tr>
+													</table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>
+					<section data-background="./images/ZenRocks.jpg">
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">CQL3</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO products (product_id, product) 
+     VALUES (“id12321”, “phone”);
+													</code></pre>
+													<img width=50% src="./images/easy.png" style="background-color:white;"></img>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>
+					<section data-background="./images/ZenRocks.jpg">
                         <blockquote>
 	                    	<table width="97%" height="95%">
 	                    		<tr height="5%">
@@ -905,121 +1013,6 @@
 	                    	</table>
                     	</blockquote>
 					</section>
-					<section data-background="./images/black-zen-stones.jpg">
-                        <blockquote>
-	                    	<table width="97%" height="95%">
-	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Apache Thrift, Hector, Astyanax</span></h1></td>
-	                    		</tr>
-	                    		<tr height="95%">
-	                    			<td style="text-align:center;vertical-align:middle">
-	                    				<table width="100%">
-			                            	<tr>
-			                            		<td height="100%" style="text-align:center;vertical-align:middle">
-												<table width=100% height=100%>
-													<tr height=100%>
-														<td width=60% style="vertical-align:middle">
-															<pre><code class="java" style="font-size: 26px; overflow-y: hidden !important; overflow-x: hidden !important">Column col = 
-    new Column(ByteBuffer.wrap("product".getBytes())));
-col.setValue(ByteBuffer.wrap("phone".getBytes());
-col.setTimestamp(System.currentTimeMillis());
-
-ColumnOrSuperColumn c = new ColumnOrSuperColumn();
-c.setColumn(col);
-
-Mutation m = new Mutation();
-m.setColumn_or_supercolumn(c);
-
-List&lt;Mutations> ms = new ArrayList&lt;Mutation>();
-ms.add(m);
-Map&lt;String, List&lt;Mutations>> cf = 
-    new HashMap&lt;String, List&lt;Mutations>>();
-cf.put("products", m);
-Map&lt;ByteBuffer, Map&lt;String, List&lt;Mutation>>> records = 
-    new HashMap&lt;ByteBuffer, Map&lt;String, List&lt;Mutation>>>();
-records.put(ByteBuffer.wrap("key".getBytes()), cf);
-client.batch_mutate(records, consistencyLevel);
-																</code></pre>
-															</td>
-															<td width=40% style="vertical-align:middle">
-																<img height=100% src="./images/stress.png" style="background-color:white;"></img>
-															</td>
-														</tr>
-													</table>
-			                            		</td>
-			                            	</tr>
-			                            </table>
-	                    			</td>
-	                    		</tr>
-	                    	</table>
-                    	</blockquote>
-					</section>
-					<section data-background="./images/black-zen-stones.jpg">
-                        <blockquote>
-	                    	<table width="97%" height="95%">
-	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">CQL3</span></h1></td>
-	                    		</tr>
-	                    		<tr height="95%">
-	                    			<td style="text-align:center;vertical-align:middle">
-	                    				<table width="100%">
-			                            	<tr>
-			                            		<td height="90%" style="text-align:center;vertical-align:middle">
-													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO products (product_id, product) 
-     VALUES (“id12321”, “phone”);
-													</code></pre>
-													<img width=50% src="./images/easy.png" style="background-color:white;"></img>
-			                            		</td>
-			                            	</tr>
-			                            </table>
-	                    			</td>
-	                    		</tr>
-	                    	</table>
-                    	</blockquote>
-					</section>
-                 </section>
-
-                 <section>
-					<section data-background="./images/ZenRocks.jpg">
-                    	<blockquote>
-                        	<h1>Data Modelling</h1>
-                    	</blockquote>
-                    </section>
-					 <section data-background="./images/ZenRocks.jpg">
-                        <blockquote>
-	                    	<table width="97%" height="95%">
-	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Objectives</span></h1></td>
-	                    		</tr>
-	                    		<tr height="95%">
-	                    			<td style="text-align:center;vertical-align:middle">
-	                    				<table height="100%" width="100%">
-			                            	<tr>
-			                            		<td height="90%" style="text-align:center;vertical-align:middle">
-				                    				<table width="100%">
-						                            	<tr>
-						                            		<td width="15%"></td>
-						                            		<td width="85%"></td>
-						                            		<td width="5%"></td>
-						                            	</tr>
-						                            	<tr>
-						                            		<td></td>
-						                            		<td>
-										                        <h2>Learn basic modelling techniques</h2><br>
-										                        <h2>Learn how to use Cassandra DDL<br>(Data Definition Language)</h2><br>
-										                        <h2>Learn how to use Cassandra DML<br>(Data Manipulation Language)</h2><br>
-						                            		</td>
-						                            		<td></td>
-						                            	</tr>
-						                            </table>
-			                            		</td>
-			                            	</tr>
-			                            </table>
-	                    			</td>
-	                    		</tr>
-	                    	</table>
-                    	</blockquote>
-                    </section>
                     <section data-background="./images/ZenRocks.jpg">
                         <blockquote>
 	                    	<table width="97%" height="95%">
@@ -1706,13 +1699,37 @@ APPLY BATCH;
                         <blockquote>
 	                    	<table width="97%" height="95%">
 	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Time to Live (TTL)</span></h1></td>
 	                    		</tr>
 	                    		<tr height="95%">
 	                    			<td style="text-align:center;vertical-align:middle">
 	                    				<table width="100%">
 			                            	<tr>
 			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);
+																</code></pre>
+							                            	</td>
+							                        	</tr>
+														<tr>
+															<td>
+							                              		<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris') 
+      USING TTL 3600; // Expires data in one hour
+												          		</code></pre>
+							                            	</td>
+							                        	</tr>
+							                    	</table>
 			                            		</td>
 			                            	</tr>
 			                            </table>
@@ -1720,14 +1737,6 @@ APPLY BATCH;
 	                    		</tr>
 	                    	</table>
                     	</blockquote>
-                         <h2><span class="ING">Performance<br>considerations</span></h2>
-                         <br>
-                         <p>The best queries are in a single partition.</p>
-                         <small>i.e. WHERE partition key = <something></small>
-                         <p>Queries that span multiple partitions are <span style="color:red">s-l-o-w</span></p>
-                         <small>i.e. WHERE partition key IN ( <something> , <something> , ... );</small>
-                         <p>Queries that span multiple cluster columns are <span style="color:green">fast</span></p>
-                        <small>i.e. WHERE partition key = <something> and clustering key = <something></small>
                     </section>
                      <section data-background="./images/ZenRocks.jpg">
                         <blockquote>
