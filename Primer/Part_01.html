@@ -769,7 +769,8 @@
 														<tr>
 															<td width=60% style="vertical-align:middle">
 																<h3>Token Range 0 -> 2<small>127</small>-1 in Ring Formation</h3><br>
-																<h3>Consistent Hashing Algorithm</h3><br>
+																<h3>Consistent Hashing Algorithm</h3>
+																<large style="padding-left: 2.0em">Default: Murmur3 Partitioner</large><br><br>									 
 																<h3>Replica nodes in clockwise</h3><br>
 																<h3>Gossip protocol between nodes</h3>
 															</td>
@@ -800,7 +801,7 @@
 			                            		<td width=5%></td>
 			                            		<td width=95% height="90%" style="text-align:center;vertical-align:middle">
 													<ol><h2>
-														<li>What is the function of the partitioner?</li><br>
+														<li>What is the function of the (murmur3)partitioner?</li><br>
 														<li>Can a node hold a partition with a token outside its primary range?</li><br>
 														<li>In a 3 node cluster with RF=2, how much total data volume does each node own?</li>
 													</h2></ol>
@@ -988,12 +989,14 @@
 						                                	<td width="5%"></td>
 								                        	<td width="90%">
 								                        		<ul><h3>
-								                            	    <li>Cassandra is a masterless NoSQL storage system</li>
+								                            	    <li>Cassandra is a masterless NoSQL storage engine</li>
 							                                		<li style="padding-top:0.5em">Cassandra's consistency is tuneable per query</li>
 							                                		<li style="padding-top:0.5em">Replication factor is defined per keyspace</li>
-							                                		<li style="padding-top:0.5em">Partioning is used to determine which node contains the data</li>
-							                                		<li style="padding-top:0.5em">Write path is durable and fast</li>
+							                                		<li style="padding-top:0.5em">Partitioning is used to determine which node contains the data</li>
+							                                		<li style="padding-top:0.5em">Write path writes to both commitlog and Memtables</li>
+							                                		<li style="padding-top:0.5em">The commitlog is an append-only log, replayed to restore a downed node's Memtables</li>
 							                                		<li style="padding-top:0.5em">Read path is designed to limit i/o as much as possible</li>
+							                                		<li style="padding-top:0.5em">SStables are immutable</li>
 							                                	</h3></ul>
 						                                	</td>
 						                                	<td width="5%"></td>
@@ -2083,7 +2086,7 @@ CREATE TABLE party_account_by_name_type (
  date       varchar,
  time       timeuuid,
  value      int,
- PRIMARY KEY( ( sensor_id, date ), time)
+ PRIMARY KEY ( ( sensor_id, date ), time)
 ) 
 WITH CLUSTERING ORDER BY (time DESC);																</code></pre>
 							                                </td>
@@ -2252,14 +2255,15 @@ Skipped 0/0 non-slice-. sstables, included 0 due to tombstones | 05:30:05,799 | 
 						                                	<td width="5%"></td>
 								                        	<td width="90%">
 								                        		<ul><h3>
-								                            	    <li>CQL3 is similiar to SQL</li>
+								                            	    <li>CQL3 is similar to SQL</li>
 							                                		<li style="padding-top:0.5em">Primary key is made up of partition key and clustering columns</li>
-							                                		<li style="padding-top:0.5em">Partition key is required to find your data</li>
+							                                		<li style="padding-top:0.5em">Partition key is required to find your data fast</li>
 							                                		<li style="padding-top:0.5em">Column family provides modelling flexibility</li>
 							                                		<li style="padding-top:0.5em">Use batches for atomicity</li>
 							                                		<li style="padding-top:0.5em">De-normalize where necessary to satisfy queries</li>
 							                                		<li style="padding-top:0.5em">Solve your reads with your writes</li>
 							                                		<li style="padding-top:0.5em">TTL can be used to expire data</li>
+							                                		<li style="padding-top:0.5em">Static columns and Lightweight Transactions are useful 2.x features</li>
 							                                	</h3></ul>
 						                                	</td>
 						                                	<td width="5%"></td>
