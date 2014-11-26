@@ -988,10 +988,8 @@
 						                                	<td width="5%"></td>
 								                        	<td width="90%">
 								                        		<ul><h3>
-								                            	    <li>CQL3 is similiar to SQL</li>
-							                                		<li style="padding-top:0.5em">Cassandra is a masterless NoSQL storage system clustering columns</li>
+								                            	    <li>Cassandra is a masterless NoSQL storage system</li>
 							                                		<li style="padding-top:0.5em">Cassandra's consistency is tuneable per query</li>
-							                                		<li style="padding-top:0.5em">Column family provides modelling flexibility</li>
 							                                		<li style="padding-top:0.5em">Replication factor is defined per keyspace</li>
 							                                		<li style="padding-top:0.5em">Partioning is used to determine which node contains the data</li>
 							                                		<li style="padding-top:0.5em">Write path is durable and fast</li>
@@ -1089,7 +1087,7 @@ Map&lt;ByteBuffer, Map&lt;String, List&lt;Mutation>>> records =
 records.put(ByteBuffer.wrap("key".getBytes()), cf);
 client.batch_mutate(records, consistencyLevel);																</code></pre>
 															</td>
-															<td width=40% style="vertical-align:middle">
+															<td class="fragment" width=40% style="vertical-align:middle">
 																<img height=100% src="./images/stress.png" style="background-color:white;"></img>
 															</td>
 														</tr>
@@ -1202,14 +1200,14 @@ USE primer;				   						</code></pre>
 						                            	<tr>
 						                            		<td></td>
 						                            		<td>
-									                            <h3><span style="color:#ff1493">The Primary Key</span></h3>
+									                            <h3><span class="ING">The Primary Key</span></h3>
 									                            <ul><h3>
 									                                <li>The key that uniquely identifies a row</li>
-									                                <li>A primary key consists of:</li>
+									                                <li>A <span class="ING">primary key</span> consists of:</li>
 									                                <ul>
 									                                    <li>A (composite) <span style="color:#7cfc00">partition key</span></li>
 									                                    <li>One or more <span style="color:#E4F173">clustering columns</span><br>
-									                                         e.g. <span style="color:#ff1493">PRIMARY KEY</span> (<span style="color:#7cfc00">partition key</span>, <span style="color:#E4F173">cluster columns</span>, ...)</li>
+									                                         e.g. <span class="ING">PRIMARY KEY</span> (<span style="color:#7cfc00">partition key</span>, <span style="color:#E4F173">cluster columns</span>, ...)</li>
 									                                </ul>
 									                                <li>The <span style="color:#7cfc00">partition key</span> determines on which node the partition resides</li>
 									                                <li>Data is ordered in <span style="color:#E4F173">cluster column</span> order within the partition</li>
@@ -1310,12 +1308,12 @@ CREATE TABLE party_account (
 				                                <td width=60% style="vertical-align:top">
 													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO party_account (id, account, type, name) 
      VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+
 INSERT INTO party_account (id, account, type, name) 
      VALUES ('11111', 'NL00INGB2222222222','Loan','Chris'); 
+
 INSERT INTO party_account (id, account, type, name) 
      VALUES ('55555', 'NL00INGB5555555555','Payment', 'Gary');
-
-
 													</code></pre>
 				                                </td>
 				                                <td width=2%></td>
@@ -1740,8 +1738,8 @@ UPDATE party_account
 
 
 UPDATE collections_example
-  SET set_example = set_example + {'set C'} 
-WHERE id = 1;																</code></pre>
+   SET set_example = set_example + {'set C'} 
+ WHERE id = 1;																</code></pre>
 							                                </td>
 							                            </tr>
 							                            <tr>
@@ -1783,6 +1781,7 @@ id | list_example         | map_example              | set_example
 
   INSERT INTO party_account (id, account, type, name) 
        VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+
   INSERT INTO party_account (id, account, type, name) 
        VALUES ('11111','NL00INGB2222222222','Payment','Chris'); 
 
@@ -2078,20 +2077,20 @@ CREATE TABLE party_account_by_name_type (
 							                        <table width=100%>
 							                            <tr>
 							                            	<td width=3.5%></td>
-							                                <td width=36.5% style="vertical-align:top">
+							                                <td width=40.0% style="vertical-align:top">
 																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE sensor_data (
  sensor_id  int,
  date       varchar,
  time       timeuuid,
  value      int,
- PRIMARY KEY((sensor_id, date), time)
+ PRIMARY KEY( ( sensor_id, date ), time)
 ) 
 WITH CLUSTERING ORDER BY (time DESC);																</code></pre>
 							                                </td>
 							                                <td width=60% style="vertical-align:top">
 																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO sensor_data (sensor_id, date, time, value)
-     VALUES (1, '20130908', 11111883-11e3-8ffd-0800200c9a66,432)
-  USING TTL 604800;		
+     VALUES (1, '20130908', now(), 432)
+      USING TTL 604800;		
 
 
 
@@ -2105,15 +2104,16 @@ WITH CLUSTERING ORDER BY (time DESC);																</code></pre>
 																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT time, value, TTL (value) 
   FROM sensor_data
  WHERE sensor_id = 1 AND date = '20130908'
-   AND time > maxTimeuuid('2013-09-08 10:05+0000')
-   AND time < minTimeuuid('2013-09-08 15:00+0000');																</code></pre>
+   AND time > maxTimeuuid('2014-11-08 10:05+0000')
+   AND time < minTimeuuid('2014-11-08 15:00+0000');																</code></pre>
 							                                </td>
 							                            </tr>
 							                            <tr>
 							                                <td colspan="4" style="vertical-align:top; margin-left:auto; margin-right:auto">
-																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">--------------------------------+-------+------------
-11111883-11e3-8ffd-0800200c9a66 |   432 |     604257
-11111887-11e3-8ffd-0800200c9a66 |   433 |     604452																</code></pre>
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">time                                 | value | ttl(value)
+-------------------------------------+-------+------------
+db45f4c0-753c-11e4-94c9-2d63f07021c6 |   432 |     604257
+db45f4c0-753c-11e4-94c9-2d63f07021c7 |   433 |     604452																</code></pre>
 							                                </td>
 							                            </tr>
 							                        </table>
@@ -2638,7 +2638,7 @@ Skipped 0/0 non-slice-. sstables, included 0 due to tombstones | 05:30:05,799 | 
 			                            	<tr>
 			                            		<td height="90%" style="text-align:center;vertical-align:middle">
 							                        <h1>What <span class="ING">risks</span> do we have with<br><span class="ING">2 DC's</span> and using Write/Read CL of <span class="ING">LOCAL_QUORUM</span>?</h1><br>
-							                        <img height=55% src="./images/question1.jpg" alt="Question 1">
+							                        <img width=50% src="./images/question1.jpg" alt="Question 1">
 			                            		</td>
 			                            	</tr>
 			                            </table>
@@ -2659,7 +2659,7 @@ Skipped 0/0 non-slice-. sstables, included 0 due to tombstones | 05:30:05,799 | 
 			                            	<tr>
 			                            		<td height="90%" style="text-align:center;vertical-align:middle">
 							                        <h1><span class="ING">Split-brain</span></h1><br>
-							                        <img height=80% src="./images/split_brain.jpg" alt="Split brain"><br>
+							                        <img width=60% src="./images/split_brain.jpg" alt="Split brain"><br>
 							                        <h3>Who wins? <span class="ING">Neither</span> side knows the other side!</h3>
 			                            		</td>
 			                            	</tr>
