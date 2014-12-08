@@ -1,0 +1,1128 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>C* Primer: Cassandra and Modelling Basics</title>
+
+		<meta name="description" content="A presentation to give insight into the basics of C* and data modelling">
+		<meta name="author" content="Christopher Reedijk | Gary Stewart">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Include the appropriate print stylesheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		<style type="text/css">
+	        .ING {
+	        	color: #ff6600;
+	        	font-weight: bold;
+	        }
+	        .DARK_ORANGE {
+	        	color: #FF0000;
+	        }
+	        .ING_DARK_BLUE {
+	        	color: #000066;
+	        }
+	        .ING_LIGHT_BLUE {
+	        	color: #B4C3E1;
+	        }
+	        .ING_GREY {
+	        	color: #969696;
+	        }
+	        .ING_DARK_GREY {
+	        	color: #5F5F5F;
+	        }
+	        .BLACK {
+	        	color: #000000;
+	        }
+	        .WHITE {
+	        	color: #FFFFFF;
+	        }
+	        .NOBORDER_IMG {
+	        	border: 0;
+	        	border-color: black;
+	        }
+	        /*.revael header{
+				position:absolute;
+				top: -50%;
+				left: -50%;
+			}*/
+			.footer_left{
+				position:fixed;
+				bottom: -60px;
+				left: -2%;
+			}
+			.footer_right{
+				position:fixed;
+				bottom: -60px;
+				right: -1%;
+			}
+			.footer_center{
+				position:fixed;
+				bottom: -60px;
+				left: 44%;
+				right: 44%;
+			}
+			.reveal pre code {
+				display: block;
+				padding: 5px;
+				overflow: auto;
+				max-height: 800px;
+				word-wrap: normal;
+				background: rgba(63, 63, 63, 0.7);
+				color: #DCDCDC;
+			}
+			.reveal pre {
+				display: block;
+				position: relative;
+				width: 90%;
+				margin: 15px auto;
+				text-align: left;
+				font-size: 0.55em;
+				font-family: monospace;
+				line-height: 1.5em;
+				word-wrap: break-word;
+				background: rgba(0, 0, 0, 0);
+				box-shadow: 0px 0px 6px rgba(0, 0, 0, 0);
+			}
+			.reveal blockquote {
+				display: -webkit-box;
+			    -webkit-box-orient: vertical;
+			    -webkit-box-pack: center;
+			    -webkit-box-align: center;
+			  
+			    display: -moz-box;
+			    -moz-box-orient: vertical;
+			    -moz-box-pack: center;
+			    -moz-box-align: center;
+			  
+			    display: box;
+			    box-orient: vertical;
+			    box-pack: center;
+			    box-align: center;
+
+				position: fixed;
+				top: -400px;
+				bottom: -425px;
+				width: 100%;
+				margin: 5px auto;
+				padding: 5px;
+				font-style: normal;
+				background: rgba(0, 0, 0, 0.85);
+				box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+				z-index:-1;
+			}
+			.reveal section img {
+				margin: 15px 0px;
+				background: rgba(255, 255, 255, 0.12);
+				border: 0px solid #eeeeee;
+				box-shadow: 0 0 0px rgba(0, 0, 0, 0.15);
+			}
+			.reveal table {
+				margin: auto;
+				border-collapse: collapse;
+				border-spacing: 0; 
+			}
+			.reveal table th {
+				font-weight: bold; 
+			}
+			.reveal table th,
+			.reveal table td {
+				text-align: left;
+				padding: 0.2em 0.5em 0.2em 0.5em;
+				border-bottom: none; 
+			}
+			.reveal table tr:last-child td {
+				border-bottom: none; 
+			}
+			.reveal .slide-background.present {
+				opacity: 1;
+				visibility: visible;
+			}
+			.reveal {
+				font-family: rockwell, "Open Sans", sans-serif;
+				/*font-family: "Open Sans", sans-serif;*/
+				font-size: 30px;
+				font-weight: normal;
+				letter-spacing: -0.02em;
+				color: #eeeeee;
+			}
+			.reveal.rtl .slides,
+			.reveal.rtl .slides h1,
+			.reveal.rtl .slides h2,
+			.reveal.rtl .slides h3,
+			.reveal.rtl .slides h4,
+			.reveal.rtl .slides h5,
+			.reveal.rtl .slides h6 {
+				direction: rtl;
+				font-family: rockwell, "Open Sans", sans-serif;
+			}
+			.reveal h1,
+			.reveal h2,
+			.reveal h3,
+			.reveal h4,
+			.reveal h5,
+			.reveal h6 {
+				margin: 0 0 20px 0;
+				color: #eeeeee;
+				font-family: rockwell, "Open Sans", sans-serif;
+				/*font-family: "Montserrat", Impact, sans-serif;*/
+				line-height: 1em;
+				letter-spacing: 0.01em;
+				text-transform: none;
+				text-shadow: none;
+				word-wrap: break-word; 
+			}
+			.reveal em {
+				font-style: italic;
+				font-family: rockwell, "Open Sans", sans-serif;
+			}
+    </style>
+    <link rel="shortcut icon" href="./images/ing_nl_favicon.ico">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<medium class="footer_left">#CassandraPrimer</medium>
+				<medium class="footer_right"><a href="http://twitter.com/@ingnl" target="_blank"><span class="WHITE">@ingnl</span></a></medium>
+				<section data-background="./images/ing_bg_stretch.png">				
+					<section>
+	                    <blockquote style="vertical-align: bottom">
+	                    	<br>
+							<h1><scan class="WHITE">C* Primer - Part 1 of 2</scan></h1>
+	                        <br>
+							<h2><scan class="ING">3 Challenges and Cassandra Internals</scan></h2>
+	                        <br>
+							<pre>
+								<code data-trim style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important">cqlsh> SELECT * FROM presenters WHERE eventname='CassandraPrimer' AND company='ING';
+
+   eventname       | company | name                | title        | area | twitter
+  -----------------+---------+---------------------+--------------+------+-----------
+   CassandraPrimer | ING     | Christopher Reedijk | Dev Engineer | NL   | @creedijk
+   CassandraPrimer | ING     | Gary Stewart        | Dev Engineer | NL   | @Gaz_GandA
+
+(2 rows)
+								</code>
+							</pre>
+							<!-- <img width=25% src="./images/ing_nl.jpg" alt="ING"> -->
+							<br><medium>ING Netherlands (<a href="http://twitter.com/@ingnl"><span class="ING">@ingnl</span></a>)</medium>
+							<br>
+						</blockquote>
+					</section>				
+					<section>
+	                    <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr>
+	                    			<td height="10%" style="text-align:center;vertical-align:top"><em>a little bit about us</em></td>
+	                    		</tr>
+	                    		<tr>
+	                    			<td height="90%" style="text-align:center;color:#ffffff;vertical-align:middle">
+	                    				<table>
+											<tr>
+												<td width=50% style="text-align:center"><img width="150" height="200" src="./images/gary_social.jpg" alt="Gary"></td>
+												<td width=50% style="text-align:center"><img width="150" height="200" src="./images/chris_social.jpg" alt="Chris"></td>
+											</tr>
+											<tr>
+												<td width=50% style="text-align:center"><br>Gary Stewart</td>
+												<td width=50% style="text-align:center"><br>Christopher Reedijk</td>
+											</tr>
+											<tr>
+												<td width=50% style="text-align:center">
+													<br>
+													<ul>
+														<li>Dev Engineer</li>
+														<li>Love/hate relationship with C*</li>
+														<li>14 years of experience in IT</li>
+														<li>@ING since: 01-01-2012</li>
+													</ul>
+												</td>
+												<td width=50% style="text-align:center">
+													<br>
+													<ul>
+														<li>Dev Engineer</li>
+														<li>Back-end guy</li>
+														<li>10 years of experience in IT</li>
+														<li>@ING since: 01-01-2011</li>
+													</ul>
+												</td>
+											</tr>
+										</table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+						</blockquote>
+					</section>
+				</section>
+
+                <section data-background="./images/zen_hans.jpg">
+                    <section>
+                    	<blockquote>
+                        	<h1>3 Challenges</h1>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>challenge 1</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<h1>Improve <span class="ING">availability</span><br>without trading <span class="ING">consistency</span></h1>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%" >
+	                    			<td style="text-align:center;vertical-align:middle"><em>availability & consistency</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Consequences of not being <span class="ING">available</span></h1>
+							                        <img src="./images/challenge1_ING_outage.jpg" alt="ING outage">
+							                        <img src="./images/challenge1_ING_outage_1.jpg" alt="ING outage">
+							                        <br><img src="./images/challenge1_ING_outage_2.jpg" alt="ING outage">
+							                        <br><br><small>source: <a href="http://www.nu.nl" target="_blank"><span class="ING">nu.nl</span></a></small>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>availability & consistency</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Consequences of not being <span class="ING">consistent</span></h1>
+                        							<img src="./images/InsufficientFunds.jpg" alt="Insuffiecient funds">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>challenge 2</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Aim to be <span class="ING">easier</span> scalable<br>Changes are happening at an <span class="ING">increasing</span> pace</h1>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>easier scalable</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Stop focusing on the<br><span class="ING">expected</span> load</h1>
+							                        <img width=30% src="./images/web-yester.png" alt="Web yesterday">
+							                        <br><medium>yesterday</medium>
+							                        <br><br><small>source: <a href="http://bradfrostweb.com/blog/web/responsive-web-design-missing-the-point/" target="_blank"><span class="ING">bradfrostweb.com</span></a></small>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>easier scalable</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Start focusing on the<br><span class="ING">unexpected</span> load</h1>
+							                        <table class="stretch">
+							                        	<tr>
+							                        		<td width=15%>&nbsp</td>
+								                            <td width=35% style="text-align: center;"><img width=100% src="./images/web-now.png" alt="Web now"></td>
+								                            <td width=35% style="text-align: center;"><img width=100% src="./images/web-tomorrow.png" alt="Web tomorrow"></td>
+								                            <td width=15%>&nbsp</td>
+								                        </tr>
+								                        <tr>
+								                        	<td width=15%>&nbsp</td>
+								                            <td height=10% width=35% style="text-align: center;"><medium>today</medium></td>
+								                            <td height=10% width=35% style="text-align: center;"><medium>tomorrow</medium></td>
+								                            <td width=15%>&nbsp</td>
+								                        </tr>
+								                        <tr>
+								                            <td colspan=4 style="text-align: center;"><small>source: <a href="http://bradfrostweb.com/blog/web/responsive-web-design-missing-the-point/" target="_blank"><span class="ING">bradfrostweb.com</span></a></small></td>
+								                        </tr>
+								                    </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>challenge 3</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+			                            			<h1>Adopt <span class="ING">new</span> ways of thinking<br>Become the top <span class="ING">engineering</span> company</h1>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+	                    </blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>new way of thinking</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+													<h1>ING's <span class="ING">culture</span> is changing fast.<br>Waterfall to Scrum to DevOps in less than <span class="ING">2 years</span></h1>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>new way of thinking</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td width="10%"></td>
+			                            		<td width="80%"></td>
+			                            		<td width="10%"></td>
+			                            	</tr>
+			                            	<tr>
+			                            		<td></td>
+			                            		<td>
+			                            			<h2>Aim to approach problems as <span class="ING">green field</span></h2><br>
+						                            <h2><span class="ING">"Un-learn"</span> principles that don't scale</h2><br>
+						                            <h2><span>Use <span class="ING">cache</span> correctly!</h2><br>
+						                            <h2>Reduce <span class="ING">locking</span> (transaction)</h2><br>
+			                            		</td>
+			                            		<td></td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                </section>
+
+				<section data-background="./images/zen_whitestone_2.jpg">
+					<section>
+                    	<blockquote>
+                        	<h1>Cassandra Internals</h1>
+                    	</blockquote>
+                    </section>
+				 	<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Objectives</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table height="100%" width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+				                    				<table width="100%">
+						                            	<tr>
+						                            		<td width="2%"></td>
+						                            		<td width="96%"></td>
+						                            		<td width="2%"></td>
+						                            	</tr>
+						                            	<tr>
+						                            		<td></td>
+						                            		<td>
+										                        <h2>Introduction into Apache Cassandra and Datastax</h2><br>
+										                        <h2>Learn about the drivers</h2><br>
+										                        <h2>Learn about partitioning, replication factor and consistency levels</h2><br>
+										                        <h2>Learn about the network topology</h2><br>
+										                        <h2>Learn about the write and read path</h2>
+						                            		</td>
+						                            		<td></td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+	                <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">DataStax and Cassandra</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+				                    				<table width="100%" height="100%">
+						                            	<tr>
+						                            		<td width="70%" style="text-align:left; vertical-align:middle">
+									                            <h3>Founded in 2010 by Jonathan Ellis and Matt Pfeil</h3>
+											                    <h3>80% Apache Cassandra code contribution</h3>
+											                    <h3>Offer commercial support for DataStax Enterprise version of Cassandra</h3>
+											                    <h3>DataStax Enterprise integrates Search and Analytics</h3>
+											                    <h3>Head Quarter in San Francisco Bay area</h3>
+											                    <h3>EMEA office opened in March 2013</h3>
+						                            		</td>
+						                            		<td width="30%" style="text-align:center; vertical-align:middle;background-color:white">
+						                            			<img width=100% src="./images/datastax_logo.jpg" alt="Cassandra" style="background-color:white;">
+						                            			<img width=100% src="./images/cassandra.png" alt="Cassandra" style="background-color:white;">
+															</td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+	                </section>
+	                <section>
+                        <blockquote>
+	                    	<table width="100%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Native Protocol / DataStax Drivers</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td style="text-align:center;vertical-align:middle">
+				                    				<table width="100%">
+						                            	<tr>
+						                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                    				<table width="100%" height="100%">
+									                            	<tr>
+									                            		<td width="54%" style="text-align:left; vertical-align:middle">
+														                    <h3>CQL3 Only</h3>
+														                    <h3>Fully asynchronous protocol, using Netty</h3>
+														                    <h3>Server notifications</h3>
+														                    <br>
+														                    <h3>Java, C#, Python, node.js and Ruby, ...</h3>
+														                    <h3>Many policies, including:</h3>
+														                    <p style="padding-left:0.5em">TokenAwarePolicy, DowngradeConsistencyRetryPolicy, etc...</p><br>
+														                    <h3>Metrics (<a href="http://metrics.codahale.com/"><span class="ING">codahale</span></a>) included</h3>
+									                            		</td>
+									                            		<td width="46%" style="text-align:center; vertical-align:middle">
+	                        												<pre><code class="xml" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+<dependency>
+    <groupId>com.datastax.cassandra</groupId>
+    <artifactId>cassandra-driver-core</artifactId>
+    <version>2.0.8</version>
+</dependency>
+	                        												</code></pre>
+																		</td>
+									                            	</tr>
+									                            </table>
+						                            		</td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+	                </section>
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Apache Cassandra</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<p>Created by Avinash Lakshman and Prashant Malik at Facebook</p>
+													<br>
+													<table width=100%>
+														<tr>
+															<th style="text-align:center;vertical-align:top" class="ING" width=50%><h3><span class="ING">Cassandra is</span></h3></th>
+															<th style="text-align:center;vertical-align:top" class="ING" width=50%><h3><span class="ING">Cassandra is not</span></h3></th>
+														</tr>
+														<tr>
+															<td width=50% style="text-align:center;vertical-align:top">
+																<ul><h3>
+																	<li>A distributed database</li>
+																	<li>Highly scalable</li>
+																	<li>Fault tolerant</li>
+																	<li>Consistency is tunable</li>
+																	<li>High throughput</li>
+																	<li>Network topology aware</li>
+																	<li>Multi-DC Active-Active</li>
+																	<li>Written in Java</li>
+																	<li>A column family</li>
+																	<li>CQL3</li>
+																</h3></ul>
+															</td>
+															<td width=50% style="text-align:center;vertical-align:top">
+																<ul><h3>
+																	<li>ACID compliant database</li>
+																	<li>A relational database</li>
+																	<li>ANSI SQL compliant</li>
+																	<li>A document database</li>
+																</h3></ul>
+															</td>
+														</tr>
+													</table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>
+					<!--
+  					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Cassandra excels in</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            			<table>
+			                            				<tr>
+						                                	<td width="5%"></td>
+								                        	<td width="90%">
+								                        		<ul><h3>
+								                            	    <li>No single point of failure</li>
+							                                		<li style="padding-top:0.5em">Real-time writes with live operational data analysis</li>
+							                                		<li style="padding-top:0.5em">Flexible, easily altered data models</li>
+							                                		<li style="padding-top:0.5em">Near-linear horizontal scaling across commodity servers</li>
+							                                		<li style="padding-top:0.5em">Reliable replication across distributed data centers</li>
+							                                	</h3></ul>
+						                                	</td>
+						                                	<td width="5%"></td>
+						                                </tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    -->
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Logical Grouping</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<table>
+														<tr>
+															<td width=50% style="vertical-align:middle">
+																<h3><span class="ING">Keyspace:</span> group of tables</h3><br>
+																<h3><span class="ING">Table:</span> group of data</h3><br>
+																<h3><span class="ING">Replication Factor:</span><br>Number of copies of data</h3>
+															</td>
+															<td width=50% style="vertical-align:middle">
+																<img width=90% src="./images/logical_grouping.png" alt="Logical Grouping" style="background-color:white;"></img>
+															</td>
+														</tr>
+													</table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Cassandra Replication Strategy</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<table>
+														<tr>
+															<td width=60% style="vertical-align:middle">
+																<h3>Token Range 0 -> 2<small>127</small>-1 in Ring Formation</h3><br>
+																<h3>Consistent Hashing Algorithm</h3>
+																<large style="padding-left: 2.0em">Default: Murmur3 Partitioner</large><br><br>									 
+																<h3>Replica nodes in clockwise</h3><br>
+																<h3>Gossip protocol between nodes</h3>
+															</td>
+															<td width=40% style="vertical-align:middle">
+																<img width=100% src="./images/cassandra_replication_strategy.png" alt="Cassandra Replication Strategy" style="background-color:white;"></img>
+																<small>Replication Factor (RF) = 3</small>
+															</td>
+														</tr>
+													</table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>
+					<!--
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Cassandra Replication Strategy - Questions</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td width=5%></td>
+			                            		<td width=95% height="90%" style="text-align:center;vertical-align:middle">
+													<ol><h2>
+														<li>What is the function of the (murmur3)partitioner?</li><br>
+														<li>Can a node hold a partition with a token outside its primary range?</li><br>
+														<li>In a 3 node cluster with RF=2, how much total data volume does each node own?</li>
+													</h2></ol>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>
+					-->
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Network Topology Awareness</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<img width=50% src="./images/network_topology_awareness.png" alt="Network Topology Awareness" style="background-color:white;"></img>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Tuneable Consistency</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<h3>Configureable Consistency Level (CL)<br>per read and write action</h3><br>
+													<table width=100%>
+														<tr>
+															<td width=50% style="text-align:center;vertical-align:top">
+																<h3><span class="ING"><u>Writes</u></h3></span></h3>
+																<ul><h3>
+																	<li>Any</li>
+																	<li>One</li>
+																	<li>Two</li>
+																	<li>Three</li>
+																	<li>Local_Quorum</li>
+																	<li>Quorum</li>
+																	<li>Each_Quorum</li>
+																	<li>All</li>
+																</h3></ul>
+															</td>
+															<td width=50% style="text-align:center;vertical-align:top">
+																<h3><span class="ING"><u>Reads</u></span></h3>
+																<ul><h3>
+																	<br><li>One</li>
+																	<li>Two</li>
+																	<li>Three</li>
+																	<li>Local_Quorum</li>
+																	<li>Quorum</li>
+																	<li>Each_Quorum</li>
+																	<li>All</li>
+																</h3></ul>
+															</td>
+														</tr>
+													</table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Strong Consistency</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<img width=75% src="./images/quorum.png" style="background-color:white;"></img>
+
+				                    				<table width="100%">
+						                            	<tr>
+						                            		<td width="15%"></td>
+						                            		<td width="80%"></td>
+						                            		<td width="5%"></td>
+						                            	</tr>
+						                            	<tr>
+						                            		<td></td>
+						                            		<td>
+																<h3>CAP – Consistency, Availability, Partition Tolerance</h3>
+																<h3>Consistency is achieved with W + R > RF</h3>
+																<h3>Quorum = (Integer) RF / 2 + 1</h3>
+						                            		</td>
+						                            		<td></td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>
+					<!--
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Questions</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td width=5%></td>
+			                            		<td width=95% height="90%" style="text-align:center;vertical-align:middle">
+													<ol><h2>
+														<li>How many nodes can act as a co-ordinator?</li><br>
+														<li>What is role of the forwarder?</li><br>
+														<li>How could RF and CL be tuned to ensure strong consistency?</li>
+													</h2></ol>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>-->
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Write Path</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<img width=80% src="./images/write_path.png" alt="Write Path" style="background-color:white;"></img>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Read Path</span></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<img width=60% src="./images/read_path.png" alt="Read Path" style="background-color:white;"></img>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+						<aside class="notes">
+							Cassandra performs random reads from SSD in parallel with extremely low latency, unlike most databases. Rotational disks are not recommended. Cassandra reads, as well as writes, data by partition key, eliminating complex queries required by a relational database.
+							First, Cassandra checks the Bloom filter. Each SSTable has a Bloom filter associated with it that checks the probability of having any data for the requested partition key in the SSTable before doing any disk I/O.
+							If the probability is good, Cassandra checks the partition key cache and takes one of these courses of action:
+							•	If an index entry is found in the cache:
+							•	Cassandra goes to the compression offset map to find the compressed block having the data.
+							•	Fetches the compressed data on disk and returns the result set.
+							•	If an index entry is not found in the cache:
+							•	Cassandra searches the partition summary to determine the approximate location on disk of the index entry.
+							•	Next, to fetch the index entry, Cassandra hits the disk for the first time, performing a single seek and a sequential read of columns (a range read) in the SSTable if the columns are contiguous.
+							•	Cassandra goes to the compression offset map to find the compressed block having the data.
+							•	Fetches the compressed data on disk and returns the result set.
+						</aside>
+					</section>
+					<!--
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Write/Read path - Questions</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td width=5%></td>
+			                            		<td width=95% height="90%" style="text-align:center;vertical-align:middle">
+													<ol><h2>
+														<li>What is flushing?</li><br>
+														<li>How is the partition key cache populated?</li><br>
+														<li>Will compaction impact performance?</li>
+													</h2></ol>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>-->
+                     <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Summary</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            			<table>
+			                            				<tr>
+						                                	<td width="5%"></td>
+								                        	<td width="90%">
+								                        		<ul><h3>
+								                            	    <li>Cassandra is a masterless NoSQL storage engine</li>
+							                                		<li style="padding-top:0.5em">Cassandra's consistency is tuneable per query</li>
+							                                		<li style="padding-top:0.5em">Replication factor is defined per keyspace</li>
+							                                		<li style="padding-top:0.5em">Partitioning is used to determine which node contains the data</li>
+							                                		<li style="padding-top:0.5em">Write path writes to both commitlog and Memtables</li>
+							                                		<li style="padding-top:0.5em">The commitlog is an append-only log, replayed to restore a downed node's Memtables</li>
+							                                		<li style="padding-top:0.5em">Read path is designed to limit i/o as much as possible</li>
+							                                		<li style="padding-top:0.5em">SStables are immutable</li>
+							                                	</h3></ul>
+						                                	</td>
+						                                	<td width="5%"></td>
+						                                </tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                     </section>
+				</section>
+
+                <section data-background="./images/ing_bg_stretch.png">
+                    <blockquote>
+                    	<table width="97%" height="95%">
+                    		<tr>
+                    			<td height="100%" style="text-align:center;vertical-align:middle;background-color:white;color: #ff6600">
+                    				<h3><span class="ING_DARK_GREY">Thank you</h3></span><br>
+		                            <h3><span class="ING_GREY"><i>...see Part 2 of 2: Modelling Basics and 3 Facts</i></span></h3>
+		                            <br>
+		                            <h3><span class="ING_DARK_GREY">Contact</span></h3>
+		                            <br>
+		                            <table width="100%">
+		                            	<tr>
+		                            		<td width="50%" style="text-align:center">
+		                            			<a href="mailto:christopher.reedijk@ing.nl"><h2><span class="ING">christopher.reedijk@ing.nl</span></h2></a>
+		                            			<a href="http://twitter.com/@creedijk" target="_blank"><h2><span class="ING">@creedijk</span></h2></a>
+		                            		</td>
+		                            		<td width="50%" style="text-align:center">
+		                            			<a href="mailto:gary.stewart@ing.nl"><h2><span class="ING">gary.stewart@ing.nl</span></h2></a>
+		                            			<a href="http://twitter.com/@Gaz_Ganda" target="_blank"><h2><span class="ING">@Gaz_GandA</span></h2></a>
+		                            		</td>
+		                            	</tr>
+		                            </table>
+		                            <img src="./images/ing-logo.gif" alt="ING">
+		                            <br><br>
+									<table width="75%">
+										<tr>
+											<td width="50%" style="text-align:center"><span class="ING_DARK_GREY">this presentation is created using: <a href="https://github.com/hakimel/reveal.js/" target="_blank"></span><br><span class="ING">reveal.js</span></a></td>
+										</tr>
+									</table>
+                    			</td>
+                    		</tr>
+                    	</table>
+                    </blockquote>
+				</section>
+				
+			</div>					
+		</div>
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				mouseWheel: true,
+
+				width: 1800,
+    			height: 900,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+	</body>
+</html>

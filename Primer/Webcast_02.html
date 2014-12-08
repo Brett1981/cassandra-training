@@ -1,0 +1,1970 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>C* Primer: Cassandra and Modelling Basics</title>
+
+		<meta name="description" content="A presentation to give insight into the basics of C* and data modelling">
+		<meta name="author" content="Christopher Reedijk | Gary Stewart">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Include the appropriate print stylesheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		<style type="text/css">
+	        .ING {
+	        	color: #ff6600;
+	        	font-weight: bold;
+	        }
+	        .DARK_ORANGE {
+	        	color: #FF0000;
+	        }
+	        .ING_DARK_BLUE {
+	        	color: #000066;
+	        }
+	        .ING_LIGHT_BLUE {
+	        	color: #B4C3E1;
+	        }
+	        .ING_GREY {
+	        	color: #969696;
+	        }
+	        .ING_DARK_GREY {
+	        	color: #5F5F5F;
+	        }
+	        .BLACK {
+	        	color: #000000;
+	        }
+	        .WHITE {
+	        	color: #FFFFFF;
+	        }
+	        .NOBORDER_IMG {
+	        	border: 0;
+	        	border-color: black;
+	        }
+	        /*.revael header{
+				position:absolute;
+				top: -50%;
+				left: -50%;
+			}*/
+			.footer_left{
+				position:fixed;
+				bottom: -60px;
+				left: -2%;
+			}
+			.footer_right{
+				position:fixed;
+				bottom: -60px;
+				right: -1%;
+			}
+			.footer_center{
+				position:fixed;
+				bottom: -60px;
+				left: 44%;
+				right: 44%;
+			}
+			.reveal pre code {
+				display: block;
+				padding: 5px;
+				overflow: auto;
+				max-height: 800px;
+				word-wrap: normal;
+				background: rgba(63, 63, 63, 0.7);
+				color: #DCDCDC;
+			}
+			.reveal pre {
+				display: block;
+				position: relative;
+				width: 90%;
+				margin: 15px auto;
+				text-align: left;
+				font-size: 0.55em;
+				font-family: monospace;
+				line-height: 1.5em;
+				word-wrap: break-word;
+				background: rgba(0, 0, 0, 0);
+				box-shadow: 0px 0px 6px rgba(0, 0, 0, 0);
+			}
+			.reveal blockquote {
+				display: -webkit-box;
+			    -webkit-box-orient: vertical;
+			    -webkit-box-pack: center;
+			    -webkit-box-align: center;
+			  
+			    display: -moz-box;
+			    -moz-box-orient: vertical;
+			    -moz-box-pack: center;
+			    -moz-box-align: center;
+			  
+			    display: box;
+			    box-orient: vertical;
+			    box-pack: center;
+			    box-align: center;
+
+				position: fixed;
+				top: -400px;
+				bottom: -425px;
+				width: 100%;
+				margin: 5px auto;
+				padding: 5px;
+				font-style: normal;
+				background: rgba(0, 0, 0, 0.85);
+				box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+				z-index:-1;
+			}
+			.reveal section img {
+				margin: 15px 0px;
+				background: rgba(255, 255, 255, 0.12);
+				border: 0px solid #eeeeee;
+				box-shadow: 0 0 0px rgba(0, 0, 0, 0.15);
+			}
+			.reveal table {
+				margin: auto;
+				border-collapse: collapse;
+				border-spacing: 0; 
+			}
+			.reveal table th {
+				font-weight: bold; 
+			}
+			.reveal table th,
+			.reveal table td {
+				text-align: left;
+				padding: 0.2em 0.5em 0.2em 0.5em;
+				border-bottom: none; 
+			}
+			.reveal table tr:last-child td {
+				border-bottom: none; 
+			}
+			.reveal .slide-background.present {
+				opacity: 1;
+				visibility: visible;
+			}
+			.reveal {
+				font-family: rockwell, "Open Sans", sans-serif;
+				/*font-family: "Open Sans", sans-serif;*/
+				font-size: 30px;
+				font-weight: normal;
+				letter-spacing: -0.02em;
+				color: #eeeeee;
+			}
+			.reveal.rtl .slides,
+			.reveal.rtl .slides h1,
+			.reveal.rtl .slides h2,
+			.reveal.rtl .slides h3,
+			.reveal.rtl .slides h4,
+			.reveal.rtl .slides h5,
+			.reveal.rtl .slides h6 {
+				direction: rtl;
+				font-family: rockwell, "Open Sans", sans-serif;
+			}
+			.reveal h1,
+			.reveal h2,
+			.reveal h3,
+			.reveal h4,
+			.reveal h5,
+			.reveal h6 {
+				margin: 0 0 20px 0;
+				color: #eeeeee;
+				font-family: rockwell, "Open Sans", sans-serif;
+				/*font-family: "Montserrat", Impact, sans-serif;*/
+				line-height: 1em;
+				letter-spacing: 0.01em;
+				text-transform: none;
+				text-shadow: none;
+				word-wrap: break-word; 
+			}
+			.reveal em {
+				font-style: italic;
+				font-family: rockwell, "Open Sans", sans-serif;
+			}
+    </style>
+    <link rel="shortcut icon" href="./images/ing_nl_favicon.ico">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<medium class="footer_left">#CassandraPrimer</medium>
+				<medium class="footer_right"><a href="http://twitter.com/@ingnl" target="_blank"><span class="WHITE">@ingnl</span></a></medium>
+				<section data-background="./images/ing_bg_stretch.png">				
+					<section>
+	                    <blockquote style="vertical-align: bottom">
+	                    	<br>
+							<h1><scan class="WHITE">C* Primer - Part 2 of 2</scan></h1>
+	                        <br>
+							<h2><scan class="ING">Modelling Basics and 3 Facts</scan></h2>
+	                        <br>
+							<pre>
+								<code data-trim style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important">cqlsh> SELECT * FROM presenters WHERE eventname='CassandraPrimer' AND company='ING';
+
+   eventname       | company | name                | title        | area | twitter
+  -----------------+---------+---------------------+--------------+------+-----------
+   CassandraPrimer | ING     | Christopher Reedijk | Dev Engineer | NL   | @creedijk
+   CassandraPrimer | ING     | Gary Stewart        | Dev Engineer | NL   | @Gaz_GandA
+
+(2 rows)
+								</code>
+							</pre>
+							<!-- <img width=25% src="./images/ing_nl.jpg" alt="ING"> -->
+							<br><medium>ING Netherlands (<a href="http://twitter.com/@ingnl"><span class="ING">@ingnl</span></a>)</medium>
+							<br>
+						</blockquote>
+					</section>				
+					<section>
+	                    <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr>
+	                    			<td height="10%" style="text-align:center;vertical-align:top"><em>a little bit about us</em></td>
+	                    		</tr>
+	                    		<tr>
+	                    			<td height="90%" style="text-align:center;color:#ffffff;vertical-align:middle">
+	                    				<table>
+											<tr>
+												<td width=50% style="text-align:center"><img width="150" height="200" src="./images/gary_social.jpg" alt="Gary"></td>
+												<td width=50% style="text-align:center"><img width="150" height="200" src="./images/chris_social.jpg" alt="Chris"></td>
+											</tr>
+											<tr>
+												<td width=50% style="text-align:center"><br>Gary Stewart</td>
+												<td width=50% style="text-align:center"><br>Christopher Reedijk</td>
+											</tr>
+											<tr>
+												<td width=50% style="text-align:center">
+													<br>
+													<ul>
+														<li>Dev Engineer</li>
+														<li>Love/hate relationship with C*</li>
+														<li>14 years of experience in IT</li>
+														<li>@ING since: 01-01-2012</li>
+													</ul>
+												</td>
+												<td width=50% style="text-align:center">
+													<br>
+													<ul>
+														<li>Dev Engineer</li>
+														<li>Back-end guy</li>
+														<li>10 years of experience in IT</li>
+														<li>@ING since: 01-01-2011</li>
+													</ul>
+												</td>
+											</tr>
+										</table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+						</blockquote>
+					</section>
+				</section>
+
+                <section data-background="./images/ZenRocks.jpg">
+					<section>
+                    	<blockquote>
+                        	<h1>Data Modelling</h1>
+                    	</blockquote>
+                    </section>
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Objectives</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table height="100%" width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+				                    				<table width="100%">
+						                            	<tr>
+						                            		<td width="15%"></td>
+						                            		<td width="85%"></td>
+						                            		<td width="5%"></td>
+						                            	</tr>
+						                            	<tr>
+						                            		<td></td>
+						                            		<td>
+										                        <h2>Learn basic modelling techniques</h2><br>
+										                        <h2>Learn how to use Cassandra DDL<br>(Data Definition Language)</h2><br>
+										                        <h2>Learn how to use Cassandra DML<br>(Data Manipulation Language)</h2><br>
+						                            		</td>
+						                            		<td></td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Apache Thrift, Hector, Astyanax</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="100%" style="text-align:center;vertical-align:middle">
+												<table width=100%>
+													<tr>
+														<td width=60% style="vertical-align:middle">
+															<pre><code class="java" style="font-size: 26px; overflow-y: hidden !important; overflow-x: hidden !important">Column col = 
+    new Column(ByteBuffer.wrap("product".getBytes())));
+col.setValue(ByteBuffer.wrap("phone".getBytes());
+col.setTimestamp(System.currentTimeMillis());
+
+ColumnOrSuperColumn c = new ColumnOrSuperColumn();
+c.setColumn(col);
+
+Mutation m = new Mutation();
+m.setColumn_or_supercolumn(c);
+
+List&lt;Mutations> ms = new ArrayList&lt;Mutation>();
+ms.add(m);
+
+Map&lt;String, List&lt;Mutations>> cf = 
+    new HashMap&lt;String, List&lt;Mutations>>();
+cf.put("products", m);
+
+Map&lt;ByteBuffer, Map&lt;String, List&lt;Mutation>>> records = 
+    new HashMap&lt;ByteBuffer, Map&lt;String, List&lt;Mutation>>>();
+records.put(ByteBuffer.wrap("key".getBytes()), cf);
+client.batch_mutate(records, consistencyLevel);																</code></pre>
+															</td>
+															<td class="fragment" width=40% style="vertical-align:middle">
+																<img height=100% src="./images/stress.png" style="background-color:white;"></img>
+															</td>
+														</tr>
+													</table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">CQL3</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO products (product_id, product) 
+     VALUES (“id12321”, “phone”);													</code></pre>
+													<img width=50% src="./images/easy.png" style="background-color:white;"></img>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Why CQL3?</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+				                    				<table width="100%">
+						                            	<tr>
+						                            		<td width="15%"></td>
+						                            		<td width="80%"></td>
+						                            		<td width="5%"></td>
+						                            	</tr>
+						                            	<tr>
+						                            		<td></td>
+						                            		<td>
+																<h2>Usability</h2><br>
+																<h2>Readability</h2><br>
+																<h2>Familiarity</h2><br>
+																<h2>Excellent for modelling data</h2><br>
+																<h2>Programming language agnostic</h2>
+						                            		</td>
+						                            		<td></td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+					</section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Keyspace</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+										<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE KEYSPACE "primer" 
+
+  WITH REPLICATION = {'class'         : 'NetworkTopologyStrategy', 
+                      'datacenter1'   : 3
+                     };
+
+
+USE primer;				   						</code></pre>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Primary Key</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table height="100%" width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+				                    				<table width="100%">
+						                            	<tr>
+						                            		<td width="15%"></td>
+						                            		<td width="80%"></td>
+						                            		<td width="5%"></td>
+						                            	</tr>
+						                            	<tr>
+						                            		<td></td>
+						                            		<td>
+									                            <h3><span class="ING">The Primary Key</span></h3>
+									                            <ul><h3>
+									                                <li>The key that uniquely identifies a row</li>
+									                                <li>A <span class="ING">primary key</span> consists of:</li>
+									                                <ul>
+									                                    <li>A (composite) <span style="color:#7cfc00">partition key</span></li>
+									                                    <li>One or more <span style="color:#E4F173">clustering columns</span><br>
+									                                         e.g. <span class="ING">PRIMARY KEY</span> (<span style="color:#7cfc00">partition key</span>, <span style="color:#E4F173">cluster columns</span>, ...)</li>
+									                                </ul>
+									                                <li>The <span style="color:#7cfc00">partition key</span> determines on which node the partition resides</li>
+									                                <li>Data is ordered in <span style="color:#E4F173">cluster column</span> order within the partition</li>
+									                            </h3></ul>
+						                            		</td>
+						                            		<td></td>
+						                            	</tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Simple Table</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY (id)  
+);																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris');																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT * 
+  FROM party_account 
+ WHERE id ='11111';
+
+
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB1111111111 | Chris | Payment																</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <!--
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Simple Table - Question</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+				                        <table width=100%>
+				                        	<tr>
+						                        <td width=7%></td>
+						                        <td width=90%>
+				                                	<p>What do you expect the output to be?</p>
+						                        </td>
+						                        <td width=3%></td>
+						                    </tr>
+						                </table>
+						                <table width=100%>
+				                            <tr>
+				                            	<td width=5%></td>
+				                                <td width=30% style="vertical-align:top">
+													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">DROP TABLE party_account;  
+
+CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY (id)  
+);													</code></pre>
+				                                </td>
+				                                <td width=60% style="vertical-align:top">
+													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris'); 
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('55555', 'NL00INGB5555555555','Payment', 'Gary');
+													</code></pre>
+				                                </td>
+				                                <td width=2%></td>
+				                            </tr>
+						                </table>
+						                <table width=100%>
+											<tr>
+												<td width=1%></td>
+												<td width=99%>
+				                            	  	<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT * 
+  FROM party_account 
+ WHERE id in ('11111','55555');													</code></pre>
+				                    	        </td>
+				                            </tr>
+											<tr>
+												<td width=1%></td>
+											  	<td width=99% class="fragment">
+				                            	  	<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB2222222222 | Chris | Loan
+55555 | NL00INGB5555555555 |  Gary | Payment													</code></pre>
+				                    	        </td>
+				                            </tr>
+				                        </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    -->
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Composite Partition Key</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            			<h3>Note the extra brackets in the primary key!</h3>
+							                        <table width=100%>
+							                            <tr>
+							                                <td width=40% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( ( id , account ) )
+);																</code></pre>
+							                                </td>
+							                                <td width=60% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris');
+
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td colspan="2" width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT * 
+  FROM party_account 
+ WHERE id = '11111' 
+   AND account IN ('NL00INGB1111111111','NL00INGB2222222222');
+
+
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB1111111111 | Chris | Payment
+11111 | NL00INGB2222222222 | Chris | Loan														</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <!--
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Composite Partition Key - Question</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td colspan="3"width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( ( id , account ) )
+);																</code></pre>
+							                                </td>
+							                            </tr>
+							                        	<tr>
+									                        <td width="5%"></td>
+									                        <td width="90%">
+							                                	<p>Will the following query work?</p>
+									                        </td>
+									                        <td width="5%"></td>
+									                    </tr>
+														<tr>
+														  	<td colspan="3">
+							                              		<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT * 
+  FROM party_account 
+ WHERE id = '11111'												          		</code></pre>
+							                     	        </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    -->
+					<section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Clustering Columns</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td width=40% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);																</code></pre>
+							                                </td>
+							                                <td width=60% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris');
+
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td colspan="2" width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT * 
+  FROM party_account 
+ WHERE id = '11111' ;
+
+
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB1111111111 | Chris | Payment
+11111 | NL00INGB2222222222 | Chris | Loan																</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+				    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">(Clustering) Order By</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table>
+							                            <tr>
+							                                <td width=45% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT * 
+  FROM party_account 
+ WHERE id = '11111'
+ ORDER BY account DESC;																</code></pre><br>
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+) WITH CLUSTERING ORDER BY (account DESC);																</code></pre>
+							                                </td>
+							                                <td width=55% style="vertical-align:middle">
+							                                    <h3>Partition keys are not ordered!</h3><br>
+							                                    <h3>You can only order by a clustering column</h3><br>
+							                                    <h3>Data will be ordered ASCending by default</h3>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <!--
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Clustering Columns - Question</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td colspan="3" width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);																</code></pre>
+								                            </td>
+								                        </tr>
+							                        	<tr>
+									                        <td width="5%"></td>
+									                        <td width="90%">
+							                                	<p>Will the following query work?</p>
+									                        </td>
+									                        <td width="5%"></td>
+									                    </tr>
+														<tr>
+															<td colspan="3">
+								                            	<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT * 
+  FROM party_account 
+ WHERE id = '11111' 
+   AND account IN ('NL00INGB1111111111','NL00INGB2222222222');												          		</code></pre>
+							                            	</td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    -->
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Static Columns</span></h1><h3>Introduced in Cassandra 2.0</h3></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">			                        
+							                        <table width=100%>
+							                            <tr>
+							                                <td width=40% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar STATIC, 
+    PRIMARY KEY ( id , account )
+);																</code></pre>
+							                                </td>
+							                                <td width=60% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+
+INSERT INTO party_account (id, account, type ) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan'); 
+
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td colspan="2" width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT * 
+  FROM party_account 
+ WHERE id = '11111' ;
+
+
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB1111111111 | Chris | Payment
+11111 | NL00INGB2222222222 | Chris |    Loan																</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Updates versus Inserts</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td colspan="3" width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111','NL00INGB2222222222','Payment','Chris'); 
+
+
+UPDATE party_account 
+   SET type = 'Payment',
+       name = 'Chris'
+ WHERE id = '11111' 
+   AND account = 'NL00INGB2222222222';																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+															<td width="5%"></td>
+									                        <td width="90%"><br>
+							                                	<h3>Inserts and Updates are almost always the same</h3><br>
+							                               		<h3>Updates will insert when row does not exist!</h3><br>
+							                               		<h3>Unique constraint error do not exist in Cassandra!</h3><br>
+									                        </td>
+									                        <td width="5%"></td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Collections</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td width=40% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE collections_example (
+    id            int PRIMARY KEY,
+    set_example   set&lt;text>,
+    list_example  list&lt;text>,
+    map_example   map&lt;int, text>,
+);
+
+
+
+																</code></pre>
+							                                </td>
+							                                <td width=60% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO collections_example (id, set_example, 
+                                 list_example, map_example)
+     VALUES (1, {'set A', 'setB'}, 
+                ['list A', 'list B'], 
+                { 1  : 'map A', 2  : 'map B'});
+
+
+UPDATE collections_example
+   SET set_example = set_example + {'set C'} 
+ WHERE id = 1;																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td colspan="2" width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT * 
+  FROM collections_example 
+ WHERE id = 1 ;
+
+
+id | list_example         | map_example              | set_example
+---+----------------------+--------------------------+----------------------------
+ 1 | ['list A', 'list B'] | {1: 'map A', 2: 'map B'} | {'set A', 'set C', 'setB'}																</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Batches</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td colspan="3" width=100% style="vertical-align:top"><p></p>
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">BEGIN BATCH
+
+  INSERT INTO party_account (id, account, type, name) 
+       VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
+
+  INSERT INTO party_account (id, account, type, name) 
+       VALUES ('11111','NL00INGB2222222222','Payment','Chris'); 
+
+APPLY BATCH;																</code></pre>
+							                                </td>
+							                            </tr>
+														<tr>
+							                                <td width="5%"></td>
+									                        <td width="90%"><br>
+							                            	    <h3>Use batches for atomicity not performance!</h3><br>
+							                                	<h3>Use asynchronous queries for performance!</h3><br>
+							                                </td>
+							                                <td width="5%"></td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Time to Live (TTL)</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td width=100% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);																</code></pre>
+							                            	</td>
+							                        	</tr>
+														<tr>
+															<td>
+							                              		<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris') 
+      USING TTL 3600; // Expires data in one hour												          		</code></pre>
+							                            	</td>
+							                        	</tr>
+							                    	</table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <!--
+                     <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Time to Live (TTL) - Question</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                        	<tr>
+									                        <td colspan="2">
+							                                	<p>What do you expect the output to be after 10 seconds?</p>
+									                        </td>
+									                        <td width="5%"></td>
+									                    </tr>
+							                            <tr>
+							                                <td width="40%" style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);			
+
+
+
+													</code></pre>
+								                            </td>
+															<td width="60%" style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Loan','Chris'); 
+
+INSERT INTO party_account (id, account, name) 
+     VALUES ('11111', 'NL00INGB2222222222','Chris') 
+      USING TTL 10; 		
+
+SELECT * 
+  FROM party_account 
+ WHERE id = '11111' 
+																</code></pre>
+								                            </td>
+								                        </tr>
+                                                        <tr>
+							                                <td class="fragment" colspan="3" style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB2222222222 |  null |    Loan																</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                     </section>
+                     -->
+                     <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Counters</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td colspan="3" height="90%" style="text-align:center;vertical-align:middle">
+													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_counter (
+   id           varchar,
+   num_accounts counter,
+   PRIMARY KEY (id)
+);													</code></pre><br>
+													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">UPDATE party_counter 
+   SET num_accounts = num_accounts + 1
+ WHERE id = '11111' 							 						</code></pre>
+			                            		</td>
+			                            	</tr>
+											<tr>
+				                                <td width="5%"></td>
+						                        <td width="90%"><br>
+				                            	    <h3>Counter tables can only consist of primary key and counters</h3><br>
+				                                	<h3>Warning - not idem-potent</h3><br>
+				                                </td>
+				                                <td width="5%"></td>
+				                            </tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                     </section>
+                     <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Lightweight Transactions</span></h1><h3>Introduced in Cassandra 2.0</h3></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <td colspan="2" style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);
+
+INSERT INTO party_account (id, account, type, name) 
+     VALUES ('11111', 'NL00INGB1111111111','Payment','Chris');																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td width=50% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">UPDATE party_account 
+   SET name = 'Gary'
+ WHERE id = '11111' 
+   AND account = 'NL00INGB1111111111'
+    IF name = 'Chris'; 
+
+ [applied]
+-----------
+      True																</code></pre>
+							                                </td>
+							                                <td width=50% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">UPDATE party_account 
+   SET name = 'Gary'
+ WHERE id = '11111' 
+   AND account = 'NL00INGB1111111111'
+    IF name = 'Chris'; 
+
+ [applied] | name
+-----------+------
+     False | Gary												</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                     </section>
+                     <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">De-normalize</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                                <th style="padding-left:1.8em" class="ING">Don't do this</th>
+							                                <th style="padding-left:1.8em" class="ING">Do this instead</span></th>
+							                            </tr>
+							                            <tr>
+							                                <td width=45% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);
+
+CREATE INDEX party_account_name ON 
+    party_account (name);
+
+CREATE INDEX party_account_type ON 
+    party_account (type);
+
+SELECT *
+  FROM party_account 
+ WHERE name='Gary'
+   AND type ='Loan'
+ ALLOW FILTERING;																</code></pre>
+							                                </td>
+							                                <td width=45% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( id , account )
+);
+
+
+CREATE TABLE party_account_by_name_type (
+    id        varchar,
+    account   varchar,
+    type      varchar,
+    name      varchar, 
+    PRIMARY KEY ( (name , type), id )
+);
+
+
+																</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                     </section>
+                     <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Time Series</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <table width=100%>
+							                            <tr>
+							                            	<td width=3.5%></td>
+							                                <td width=40.0% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE sensor_data (
+ sensor_id  int,
+ date       varchar,
+ time       timeuuid,
+ value      int,
+ PRIMARY KEY ( ( sensor_id, date ), time)
+) 
+WITH CLUSTERING ORDER BY (time DESC);																</code></pre>
+							                                </td>
+							                                <td width=60% style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO sensor_data (sensor_id, date, time, value)
+     VALUES (1, '20130908', now(), 432)
+      USING TTL 604800;		
+
+
+
+
+ 														</code></pre>
+							                                </td>
+							                                <td width=2%></td>
+							                            </tr>
+							                            <tr>
+							                                <td colspan="4" style="vertical-align:top; margin-left:auto; margin-right:auto">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT time, value, TTL (value) 
+  FROM sensor_data
+ WHERE sensor_id = 1 AND date = '20130908'
+   AND time > maxTimeuuid('2014-11-08 10:05+0000')
+   AND time < minTimeuuid('2014-11-08 15:00+0000');																</code></pre>
+							                                </td>
+							                            </tr>
+							                            <tr>
+							                                <td colspan="4" style="vertical-align:top; margin-left:auto; margin-right:auto">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">time                                 | value | ttl(value)
+-------------------------------------+-------+------------
+db45f4c0-753c-11e4-94c9-2d63f07021c6 |   432 |     604257
+db45f4c0-753c-11e4-94c9-2d63f07021c7 |   433 |     604452																</code></pre>
+							                                </td>
+							                            </tr>
+							                        </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                     </section>
+                     <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Data Types</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+                        							<img height=90% src="./images/data_types.png" style="background-color:white;"></img>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                     <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Performance Considerations</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            			<table width=100%>
+			                            				<tr>
+			                            					<td width=60% style="text-align:left;vertical-align:top">
+			                            						<h3>The best queries are in a single partition</h3>
+			                            					</td>
+			                            					<td width=40% style="text-align:left;vertical-align:top">
+			                            						<large>i.e. WHERE partition key = &lt;something></large>
+			                            					</td>
+			                            				</tr>
+			                            				<tr>
+			                            					<td style="text-align:left;vertical-align:top">
+			                            						<h3>Queries that span multiple partitions<br>are <span style="color:red">s-l-o-w</span></h3>
+			                            					</td>
+			                            					<td style="text-align:left;vertical-align:top">
+			                            						<large>i.e. WHERE partition key IN ( &lt;something> , &lt;something> , ... );</large>
+			                            					</td>
+			                            				</tr>
+			                            				<tr>
+			                            					<td style="text-align:left;vertical-align:top">
+			                            						<h3>Queries that span multiple cluster columns are <span style="color:green">fast</span></h3>
+			                            					</td>
+			                            					<td style="text-align:left;vertical-align:top">
+			                            						<large>i.e. WHERE partition key = &lt;something> and clustering key = &lt;something></large>
+			                            					</td>
+			                            				</tr>
+			                            				<tr>
+			                            					<td style="text-align:left;vertical-align:top">
+			                            						<h3>"Table scan" - <span style="color:red">slow</span>!<br>(Limited to 10.000 rows by default)</h3>
+			                            					</td>
+			                            					<td style="text-align:left;vertical-align:top">
+			                            						<large>Use LIMIT keyword to choose fewer or more rows</large>
+			                            					</td>
+			                            				</tr>
+			                            				<tr>
+			                            					<td style="text-align:left;vertical-align:top">
+			                            						<h3>Collections - Often more efficient to denormalise further</h3>
+			                            					</td>
+			                            					<td style="text-align:left;vertical-align:top">
+			                            						<large>Especially for larger data sets and<br>also favour sets over list</large>
+			                            					</td>
+			                            				</tr>
+			                            				<tr>
+			                            					<td style="text-align:left;vertical-align:top">
+			                            						<h3>Use lightweight transactions only where necessary</h3>
+			                            					</td>
+			                            					<td style="text-align:left;vertical-align:top">
+			                            						<large>Great for 1% of your application</large>
+			                            					</td>
+			                            				</tr>
+			                            			</table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                     </section>
+                     <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Tracing</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">
+cqlsh:primer> tracing on;
+select * from party_account where id ='11111'  ;
+...
+activity                                                       | timestamp    | source    | source_elapsed
+---------------------------------------------------------------+--------------+-----------+----------------
+                                            execute_cql3_query | 05:30:05,777 | 127.0.0.1 |              0
+        Parsing select * from party_account where id ='11111'; | 05:30:05,777 | 127.0.0.1 |            199
+                                           Preparing statement | 05:30:05,777 | 127.0.0.1 |            518
+                                 Sending message to /127.0.0.2 | 05:30:05,780 | 127.0.0.1 |           3113
+...                       
+             Executing single-partition query on party_account | 05:30:05,799 | 127.0.0.2 |          17915
+                              Enqueuing response to /127.0.0.1 | 05:30:05,799 | 127.0.0.3 |          16772
+                                  Acquiring sstable references | 05:30:05,799 | 127.0.0.2 |          17940
+                                   Merging memtable tombstones | 05:30:05,799 | 127.0.0.2 |          17982
+Skipped 0/0 non-slice-. sstables, included 0 due to tombstones | 05:30:05,799 | 127.0.0.2 |          18038
+                    Merging data from memtables and 0 sstables | 05:30:05,799 | 127.0.0.2 |          18052
+                            Read 3 live and 0 tombstoned cells | 05:30:05,799 | 127.0.0.2 |          18132
+...
+                              Message received from /127.0.0.3 | 05:30:05,822 | 127.0.0.1 |          45282
+                           Processing response from /127.0.0.3 | 05:30:05,822 | 127.0.0.1 |          45338
+                                              Request complete | 05:30:05,822 | 127.0.0.1 |          45694
+													</code></pre>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                     </section>
+                     <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Summary</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            			<table>
+			                            				<tr>
+						                                	<td width="5%"></td>
+								                        	<td width="90%">
+								                        		<ul><h3>
+								                            	    <li>CQL3 is similar to SQL</li>
+							                                		<li style="padding-top:0.5em">Primary key is made up of partition key and clustering columns</li>
+							                                		<li style="padding-top:0.5em">Partition key is required to find your data fast</li>
+							                                		<li style="padding-top:0.5em">Column family provides modelling flexibility</li>
+							                                		<li style="padding-top:0.5em">Use batches for atomicity</li>
+							                                		<li style="padding-top:0.5em">De-normalize where necessary to satisfy queries</li>
+							                                		<li style="padding-top:0.5em">Solve your reads with your writes</li>
+							                                		<li style="padding-top:0.5em">TTL can be used to expire data</li>
+							                                		<li style="padding-top:0.5em">Static columns and Lightweight Transactions are useful 2.x features</li>
+							                                	</h3></ul>
+						                                	</td>
+						                                	<td width="5%"></td>
+						                                </tr>
+						                            </table>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                     </section>
+				</section>
+
+                <section data-background="./images/zen_hans.jpg">
+                    <blockquote>
+                    	<table width="97%" height="95%">
+                    		<tr height="5%">
+                    			<td style="text-align:center;vertical-align:middle"><em><span class="ING">all challenges appear again...</span></em></td>
+                    		</tr>
+                    		<tr height="95%">
+                    			<td style="text-align:center;vertical-align:middle">
+                    				<table width="100%">
+		                            	<tr>
+		                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                    <h2>Improve <span class="ING">availability</span></h2><br>
+							                    <h2>Aim to be <span class="ING">scalable</span></h2><br>
+							                    <h2>Adopt <span class="ING">new</span> ways of thinking</h2>
+		                            		</td>
+		                            	</tr>
+		                            </table>
+                    			</td>
+                    		</tr>
+                    	</table>
+                	</blockquote>
+                </section>
+
+                <section data-background="./images/black-zen-stones.jpg">
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em></em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+                        							<h1><span class="ING">3 Facts</span></h1>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>fact 1</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            			<h1><span class="ING">Availability</span> is easier</h1>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>availability is easier, because</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <h1><span class="ING">Masterless</span> architecture</h1><br>
+							                        <h3><span class="ING">No outages</span> in contrast to master-slave architecture</h3>
+							                        <h3>This does make C* <span class="ING">chatty</span></h3>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>availability is easier, because</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <h1><span class="ING">Replication</span> of data</h1><br>
+							                        <h3>Replication factor is <span class="ING">configurable</span> per keyspace</h3>
+							                        <h3>Increasing nodes <span class="ING">does not</span> mean higher availability<br>Increasing the replication factor <span class="ING">does</span></h3>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>fact 2</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            			<h1><span class="ING">Performance</span> is easier</h1>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>performance is easier, and</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <h1>Solve your <span class="ING">reads</span><br>with your <span class="ING">writes</span></h1><br>
+							                        <h3><span class="ING">De-normalization</span> is acceptable for solving reads</h3>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>performance is easier, but</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <h1>Know your <span class="ING">partitions</span></h1><br>
+							                        <h3><span class="ING">Large</span> partitions will hurt!</h3>
+							                        <img height=90% src="./images/partitioning_table.jpg" alt="Partitioning">
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>performance is easier, because</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <h1><span class="ING">Linear</span> scalable</h1>
+							                        <h3>Adding nodes will increase your throughput through <span class="ING">sharding</span></h3>
+							                        <img height=75% src="./images/linear_scalable.jpg" alt="Linear scalability">
+							                        <br><small>source: <a href="http://www.datastax.com/wp-content/uploads/2013/02/WP-Benchmarking-Top-NoSQL-Databases.pdf" target="_blank"><span class="ING">Datastax</span></a></small>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>fact 3</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <h1><span class="ING">Consistency</span> is harder</h1>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>consistency is harder, and</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <h1>Application <span class="ING">developer</span> has much more responsibility</h1><br>
+							                        <h3>Focus on the <span class="ING">data model</span> and the <span class="ING">flow</span> of data is key</h3>
+							                        <h3><span class="ING">noSQL</span> versus <span class="ING">SQL</span></h3>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>consistency is harder, because</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <h1>CAP theorem</h1><br>
+							                        <h3><span class="ING">Consistency</span> (all nodes see the same data at the same time)</h3><br>
+							                        <h3><span class="ING">Availability</span> (a guarantee that every request receives a response about whether it was successful or failed)</h3><br>
+							                        <h3><span class="ING">Partition tolerance</span> (the system continues to operate despite arbitrary message loss or failure of part of the system)</h3>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                    <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em>consistency is harder, because</em></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+							                        <h1>Transactions and queuing are <span class="ING">anti-patterns</span></h1><br>
+							                        <h3>C* v2.0 <span class="ING">reduces</span> the complexity by using lightweight transactions (paxos)</h3>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+                    </section>
+                </section>
+                <!--
+                <section data-background="./images/zen_hans.jpg">
+	                <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em><span class="ING">all facts appear...</span></em></td>
+	                    		</tr>
+	                    		<tr height="90%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+								                    <h2><span class="ING">Availability</span> is easier<span> | <span class="ING">challenge 1: </span> availability & consistency</span></h2><br>
+								                    <h2><span class="ING">Performance</span> is easier<span > | <span class="ING">challenge 2</span> easier scalable</span></h2><br>
+								                    <h2 ><span class="ING">Consistency</span> is harder<span> | <span class="ING">challenge *</span> availability & consistency, easier scalable, new way of thinking</span></h2>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><em ><span class="ING">all challenges covered...</span></em></td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+	                </section>
+	                -->
+	                <!--
+	                <section>
+                        <blockquote>
+	                    	<table width="97%" height="95%">
+	                    		<tr height="5%">
+	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">C*@ING</span></h1></td>
+	                    		</tr>
+	                    		<tr height="95%">
+	                    			<td style="text-align:center;vertical-align:middle">
+	                    				<table width="100%">
+			                            	<tr>
+			                            		<td height="90%" style="text-align:center;vertical-align:middle">
+			                            			<h2><a href="https://confluence.europe.intranet/pages/viewpage.action?pageId=54527199">Confluence</a><h2>
+			                            		</td>
+			                            	</tr>
+			                            </table>
+	                    			</td>
+	                    		</tr>
+	                    	</table>
+                    	</blockquote>
+		            </section>
+		            -->
+		        </section>
+
+                <section data-background="./images/ing_bg_stretch.png">
+                    <blockquote>
+                    	<table width="97%" height="95%">
+                    		<tr>
+                    			<td height="100%" style="text-align:center;vertical-align:middle;background-color:white;color: #ff6600">
+                    				<h3><span class="ING_DARK_GREY">Thank you</h3></span><br>
+		                            <h3><span class="ING_GREY"><i>...graceful bow</i></span></h3>
+		                            <br>
+		                            <h3><span class="ING_DARK_GREY">Contact</span></h3>
+		                            <br>
+		                            <table width="100%">
+		                            	<tr>
+		                            		<td width="50%" style="text-align:center">
+		                            			<a href="mailto:christopher.reedijk@ing.nl"><h2><span class="ING">christopher.reedijk@ing.nl</span></h2></a>
+		                            			<a href="http://twitter.com/@creedijk" target="_blank"><h2><span class="ING">@creedijk</span></h2></a>
+		                            		</td>
+		                            		<td width="50%" style="text-align:center">
+		                            			<a href="mailto:gary.stewart@ing.nl"><h2><span class="ING">gary.stewart@ing.nl</span></h2></a>
+		                            			<a href="http://twitter.com/@Gaz_Ganda" target="_blank"><h2><span class="ING">@Gaz_GandA</span></h2></a>
+		                            		</td>
+		                            	</tr>
+		                            </table>
+		                            <img src="./images/ing-logo.gif" alt="ING">
+		                            <br><br>
+									<table width="75%">
+										<tr>
+											<td width="50%" style="text-align:center"><span class="ING_DARK_GREY">this presentation is created using: <a href="https://github.com/hakimel/reveal.js/" target="_blank"></span><br><span class="ING">reveal.js</span></a></td>
+										</tr>
+									</table>
+                    			</td>
+                    		</tr>
+                    	</table>
+                    </blockquote>
+				</section>
+				
+			</div>					
+		</div>
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				mouseWheel: true,
+
+				width: 1800,
+    			height: 900,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+	</body>
+</html>
