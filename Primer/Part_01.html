@@ -1360,18 +1360,31 @@ INSERT INTO party_account (id, account, type, name)
 						                </table>
 						                <table width=100%>
 											<tr>
-												<td width=1%></td>
-												<td width=99%>
+												
+												<td width=50%>
 				                            	  	<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT * 
   FROM party_account 
  WHERE id in ('11111','55555');													</code></pre>
 				                    	        </td>
+				                    	        <td width=50%></td>
 				                            </tr>
 											<tr>
-												<td width=1%></td>
-											  	<td width=99% class="fragment">
-				                            	  	<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">id    | account            | name  | type
+												
+											  	<td width=50% >
+				                            	  	<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">Option - A
+
+id    | account            | name  | type
 ------+--------------------+-------+---------
+11111 | NL00INGB2222222222 | Chris | Loan
+55555 | NL00INGB5555555555 |  Gary | Payment		
+											</code></pre>
+				                    	        </td>
+				                    	        <td width=50% >
+				                            	  	<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">Option - B 
+
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB1111111111 | Chris | Payment
 11111 | NL00INGB2222222222 | Chris | Loan
 55555 | NL00INGB5555555555 |  Gary | Payment													</code></pre>
 				                    	        </td>
@@ -1882,8 +1895,8 @@ APPLY BATCH;																</code></pre>
 									                        <td width="5%"></td>
 									                    </tr>
 							                            <tr>
-							                                <td width="40%" style="vertical-align:top">
-																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
+							                                <td width="50%" style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 24px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE party_account (
     id        varchar,
     account   varchar,
     type      varchar,
@@ -1895,8 +1908,8 @@ APPLY BATCH;																</code></pre>
 
 													</code></pre>
 								                            </td>
-															<td width="60%" style="vertical-align:top">
-																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO party_account (id, account, type, name) 
+															<td width="50%" style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 23px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO party_account (id, account, type, name) 
      VALUES ('11111', 'NL00INGB2222222222','Loan','Chris'); 
 
 INSERT INTO party_account (id, account, name) 
@@ -1910,10 +1923,19 @@ SELECT *
 								                            </td>
 								                        </tr>
                                                         <tr>
-							                                <td class="fragment" colspan="3" style="vertical-align:top">
-																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">id    | account            | name  | type
+															<td  width="50%" style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">Option - A
+
+id    | account            | name  | type
 ------+--------------------+-------+---------
 11111 | NL00INGB2222222222 |  null |    Loan																</code></pre>
+							                                </td>
+							                                <td  width="50%" style="vertical-align:top">
+																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">Option - B
+																
+id    | account            | name  | type
+------+--------------------+-------+---------
+11111 | NL00INGB2222222222 | Chris |    Loan																</code></pre>
 							                                </td>
 							                            </tr>
 							                        </table>

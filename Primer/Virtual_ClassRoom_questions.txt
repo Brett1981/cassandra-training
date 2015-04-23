@@ -1,0 +1,106 @@
+SLIDE: Cassandra Replication Strategy - Questions
+-----------------------------------------------------------------------------------------
+1. What is the function of the (murmur3)partitioner?
+a.	Consistent Hashing Algorithm to spread data as evenly possible over the cluster.
+b.	Protocol to communicate statuses between nodes.
+c.	Strategy for grouping tables over the cluster.
+Answer: a
+
+2. Can a node hold a partition with a token outside its primary range?
+a.	Yes
+b.	No
+Answer:  A 
+
+3. In a 3 node cluster with RF=2, how much total data volume does each node own?
+a.	33%
+b.	50%
+c.	66%
+Answer: C
+-----------------------------------------------------------------------------------------
+
+
+SLIDE: Questions
+-----------------------------------------------------------------------------------------	
+1. How many nodes can act as a co-ordinator?
+a.	One per Data Center
+b.	One per replication factor
+c.	All of the nodes
+Answer: C
+
+2. What is role of the forwarder?
+a.	It handles all the requests from the client application.
+b.	It ensures that strong consistency is met.
+c.	It is the co-ordinator of the remote data centre.
+Answer: C
+
+3. How could Replication Factor and Consistency Level be tuned to ensure strong consistency?
+a.	Read Consistency Level + Write Consistency Level > Replication Factor 
+b.	Read Consistency Level + Write Consistency Level < Replication Factor 
+c.	Read Consistency Level + Write Consistency Level = Replication Factor 
+Answer: A
+-----------------------------------------------------------------------------------------
+
+
+SLIDE: Write/Read path - Questions
+-----------------------------------------------------------------------------------------
+1. What is flushing?
+a.	The process of reducing the fragmentation of the sstables.
+b.	The process of cleaning up the commitlogs.
+c.	The process when the memtables is cleared and persisted to disk.
+Answer: C
+
+2. How is the partition key cache populated?
+a.	On the read path
+b.	On the write path
+Answer: A
+
+3. Will compaction impact performance?
+a.	Yes, it is possible
+b.	No
+Answer: A 
+-----------------------------------------------------------------------------------------
+
+
+SECTION: DATA MODELLING
+
+
+SLIDE: Simple Table - Question
+-----------------------------------------------------------------------------------------
+1. What do you expect the output to be?
+a.	A
+b.	B
+c.	Niether of the two
+Answer: A
+
+-----------------------------------------------------------------------------------------
+
+
+SLIDE: Composite Partition Key - Question
+-----------------------------------------------------------------------------------------
+1. Will the following query work?
+a.	Yes
+b.	No
+Answer: B
+-----------------------------------------------------------------------------------------
+
+
+SLIDE: Clustering Columns - Question
+-----------------------------------------------------------------------------------------
+1. Will the following query work?
+a.	Yes
+b.	No
+Answer: A
+-----------------------------------------------------------------------------------------
+
+
+
+SLIDE: Time to Live (TTL) - Question
+-----------------------------------------------------------------------------------------
+1. What do you expect the output to be after 10 seconds?
+a.	A
+b.	B
+c.	Niether of the two
+Answer: A
+-----------------------------------------------------------------------------------------
+
+
