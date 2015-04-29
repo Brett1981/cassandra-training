@@ -3,7 +3,7 @@
  * http://lab.hakim.se/reveal-js
  * MIT licensed
  *
- * Copyright (C) 2014 Hakim El Hattab, http://hakim.se
+ * Copyright (C) 2015 Hakim El Hattab, http://hakim.se
  */
 (function( root, factory ) {
 	if( typeof define === 'function' && define.amd ) {
@@ -43,7 +43,7 @@
 
 			// Bounds for smallest/largest possible scale to apply to content
 			minScale: 0.2,
-			maxScale: 1.0,
+			maxScale: 1.5,
 
 			// Display controls in the bottom right corner
 			controls: true,
@@ -121,17 +121,14 @@
 			// Focuses body when page changes visiblity to ensure keyboard shortcuts work
 			focusBodyOnPageVisibilityChange: true,
 
-			// Theme (see /css/theme)
-			theme: null,
-
 			// Transition style
-			transition: 'default', // none/fade/slide/convex/concave/zoom
+			transition: 'slide', // none/fade/slide/convex/concave/zoom
 
 			// Transition speed
 			transitionSpeed: 'default', // default/fast/slow
 
 			// Transition style for full page slide backgrounds
-			backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+			backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
 
 			// Parallax background image
 			parallaxBackgroundImage: '', // CSS syntax, e.g. "a.jpg"
@@ -445,9 +442,6 @@
 
 		// Slide number
 		dom.slideNumber = createSingletonNode( dom.wrapper, 'div', 'slide-number', '' );
-
-		// State background element [DEPRECATED]
-		createSingletonNode( dom.wrapper, 'div', 'state-background', null );
 
 		// Overlay graphic which is displayed during the paused mode
 		createSingletonNode( dom.wrapper, 'div', 'pause-overlay', null );
@@ -868,18 +862,6 @@
 				element.classList.add( 'visible' );
 				element.classList.remove( 'current-fragment' );
 			} );
-		}
-
-		// Load the theme in the config, if it's not already loaded
-		if( config.theme && dom.theme ) {
-			var themeURL = dom.theme.getAttribute( 'href' );
-			var themeFinder = /[^\/]*?(?=\.css)/;
-			var themeName = themeURL.match(themeFinder)[0];
-
-			if(  config.theme !== themeName ) {
-				themeURL = themeURL.replace(themeFinder, config.theme);
-				dom.theme.setAttribute( 'href', themeURL );
-			}
 		}
 
 		sync();
@@ -2341,7 +2323,7 @@
 		// Update progress if enabled
 		if( config.progress && dom.progressbar ) {
 
-			dom.progressbar.style.width = getProgress() * window.innerWidth + 'px';
+			dom.progressbar.style.width = getProgress() * dom.wrapper.offsetWidth + 'px';
 
 		}
 
@@ -2489,7 +2471,10 @@
 
 			// Start video playback
 			var currentVideo = currentBackground.querySelector( 'video' );
-			if( currentVideo ) currentVideo.play();
+			if( currentVideo ) {
+				currentVideo.currentTime = 0;
+				currentVideo.play();
+			}
 
 			// Don't transition between identical backgrounds. This
 			// prevents unwanted flicker.
@@ -2811,7 +2796,7 @@
 		var horizontalSlides = toArray( dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ) );
 
 		// The number of past and total slides
-		var totalCount = dom.wrapper.querySelectorAll( SLIDES_SELECTOR + ':not(.stack)' ).length;
+		var totalCount = getTotalSlides();
 		var pastCount = 0;
 
 		// Step through all slides and count the past ones
@@ -3231,7 +3216,7 @@
 						element.classList.remove( 'current-fragment' );
 
 						// Announce the fragments one by one to the Screen Reader
-						dom.statusDiv.innerHTML = element.textContent;
+						dom.statusDiv.textContent = element.textContent;
 
 						if( i === index ) {
 							element.classList.add( 'current-fragment' );
