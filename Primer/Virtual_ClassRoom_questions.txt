@@ -21,7 +21,7 @@ Answer: C
 
 SLIDE: Questions
 -----------------------------------------------------------------------------------------	
-1. How many nodes can act as a co-ordinator?
+1. How many nodes can act as a coordinator?
 a.	One per Data Center
 b.	One per replication factor
 c.	All of the nodes
@@ -46,7 +46,7 @@ SLIDE: Write/Read path - Questions
 1. What is flushing?
 a.	The process of reducing the fragmentation of the sstables.
 b.	The process of cleaning up the commitlogs.
-c.	The process when the memtables is cleared and persisted to disk.
+c.	The process when the memtables are cleared and persisted to disk.
 Answer: C
 
 2. How is the partition key cache populated?
@@ -69,7 +69,7 @@ SLIDE: Simple Table - Question
 1. What do you expect the output to be?
 a.	A
 b.	B
-c.	Niether of the two
+c.	Neither of the two
 Answer: A
 
 -----------------------------------------------------------------------------------------
@@ -99,8 +99,10 @@ SLIDE: Time to Live (TTL) - Question
 1. What do you expect the output to be after 10 seconds?
 a.	A
 b.	B
-c.	Niether of the two
+c.	Neither of the two
 Answer: A
 -----------------------------------------------------------------------------------------
 
+
+MAYBE ADD THE BONUS QUESTIONS TOO!!!
 
