@@ -97,7 +97,7 @@
 			.reveal pre {
 				display: block;
 				position: relative;
-				width: 90%;
+				width: 100%;
 				margin: 15px auto;
 				text-align: left;
 				font-size: 0.55em;
@@ -219,8 +219,12 @@
 	                        <br>
 							<h2><scan class="ING">Cassandra and Modelling Basics</scan></h2>
 	                        <br>
-							<pre>
-								<code data-trim style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important">cqlsh> SELECT * FROM presenters WHERE eventname='CassandraPrimer' AND company='ING';
+	                        <table width=100%>
+	                        	<tr>
+	                        		<td width=5%></td>
+	                        		<td width=90%>
+										<pre>
+											<code data-trim style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important">cqlsh> SELECT * FROM presenters WHERE eventname='CassandraPrimer' AND company='ING';
 
    eventname       | company | name                | title        | area | twitter
   -----------------+---------+---------------------+--------------+------+-----------
@@ -228,8 +232,12 @@
    CassandraPrimer | ING     | Gary Stewart        | Dev Engineer | NL   | @Gaz_GandA
 
 (2 rows)
-								</code>
-							</pre>
+											</code>
+										</pre>
+	                        		</td>
+	                        		<td width=5%></td>
+	                        	</tr>
+	                        </table>
 							<!-- <img width=25% src="./images/ing_nl.jpg" alt="ING"> -->
 							<br><medium>ING Netherlands (<a href="http://twitter.com/@ingnl"><span class="ING">@ingnl</span></a>)</medium>
 							<br>
@@ -1102,7 +1110,7 @@
 			                            		<td height="100%" style="text-align:center;vertical-align:middle">
 												<table width=100%>
 													<tr>
-														<td width=60% style="vertical-align:middle">
+														<td width=50% style="vertical-align:middle">
 															<pre><code class="java" style="font-size: 26px; overflow-y: hidden !important; overflow-x: hidden !important">Column col = 
     new Column(ByteBuffer.wrap("product".getBytes())));
 col.setValue(ByteBuffer.wrap("phone".getBytes());
@@ -1126,7 +1134,8 @@ Map&lt;ByteBuffer, Map&lt;String, List&lt;Mutation>>> records =
 records.put(ByteBuffer.wrap("key".getBytes()), cf);
 client.batch_mutate(records, consistencyLevel);																</code></pre>
 															</td>
-															<td class="fragment" width=40% style="vertical-align:middle">
+															<td width=10%></td>
+															<td class="fragment" width=50% style="vertical-align:middle">
 																<img height=100% src="./images/stress.png" style="background-color:white;"></img>
 															</td>
 														</tr>
@@ -1149,11 +1158,13 @@ client.batch_mutate(records, consistencyLevel);																</code></pre>
 	                    			<td style="text-align:center;vertical-align:middle">
 	                    				<table width="100%">
 			                            	<tr>
-			                            		<td height="90%" style="text-align:center;vertical-align:middle">
-													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO products (product_id, product) 
+			                            		<td width=5%></td>
+			                            		<td width=90% style="text-align:center;vertical-align:middle">
+													<pre><code class="sql" style="font-size: 32px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO products (product_id, product) 
      VALUES (“id12321”, “phone”);													</code></pre>
 													<img width=50% src="./images/easy.png" style="background-color:white;"></img>
 			                            		</td>
+			                            		<td width=5%></td>
 			                            	</tr>
 			                            </table>
 	                    			</td>
@@ -1202,11 +1213,12 @@ client.batch_mutate(records, consistencyLevel);																</code></pre>
                         <blockquote>
 	                    	<table width="97%" height="95%">
 	                    		<tr height="5%">
-	                    			<td style="text-align:center;vertical-align:middle"><h1><span class="ING">Keyspace</span></h1></td>
+	                    			<td colspan=3 style="text-align:center;vertical-align:middle"><h1><span class="ING">Keyspace</span></h1></td>
 	                    		</tr>
 	                    		<tr height="95%">
-	                    			<td style="text-align:center;vertical-align:middle">
-										<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE KEYSPACE "primer" 
+	                    			<td width=5%></td>
+	                    			<td width=90% style="text-align:center;vertical-align:middle">
+										<pre><code class="sql" style="font-size: 32px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE KEYSPACE "primer" 
 
   WITH REPLICATION = {'class'         : 'NetworkTopologyStrategy', 
                       'datacenter1'   : 3
@@ -1215,6 +1227,7 @@ client.batch_mutate(records, consistencyLevel);																</code></pre>
 
 USE primer;				   						</code></pre>
 	                    			</td>
+	                    			<td width=5%></td>
 	                    		</tr>
 	                    	</table>
                     	</blockquote>
@@ -1323,18 +1336,18 @@ id    | account            | name  | type
 	                    			<td style="text-align:center;vertical-align:middle">
 				                        <table width=100%>
 				                        	<tr>
-						                        <td width=7%></td>
+						                        <td width=5%></td>
 						                        <td width=90%>
 				                                	<p>What do you expect the output to be?</p>
 						                        </td>
-						                        <td width=3%></td>
+						                        <td width=5%></td>
 						                    </tr>
 						                </table>
 						                <table width=100%>
 				                            <tr>
 				                            	<td width=5%></td>
-				                                <td width=30% style="vertical-align:top">
-													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">DROP TABLE party_account;  
+				                                <td width=30%>
+													<pre width=100%><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">DROP TABLE party_account;  
 
 CREATE TABLE party_account (
     id        varchar,
@@ -1342,10 +1355,10 @@ CREATE TABLE party_account (
     type      varchar,
     name      varchar, 
     PRIMARY KEY (id)  
-);													</code></pre>
+);</code></pre>
 				                                </td>
-				                                <td width=60% style="vertical-align:top">
-													<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO party_account (id, account, type, name) 
+				                                <td width=60%>
+													<pre width=100%><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">INSERT INTO party_account (id, account, type, name) 
      VALUES ('11111', 'NL00INGB1111111111','Payment','Chris'); 
 
 INSERT INTO party_account (id, account, type, name) 
@@ -1353,41 +1366,45 @@ INSERT INTO party_account (id, account, type, name)
 
 INSERT INTO party_account (id, account, type, name) 
      VALUES ('55555', 'NL00INGB5555555555','Payment', 'Gary');
-													</code></pre>
+ </code></pre>
 				                                </td>
-				                                <td width=2%></td>
+				                                <td width=5%></td>
 				                            </tr>
-						                </table>
+				                            </table>
+						                <table width=100%>
+				                            <tr>
+				                            	<td width=5%></td>
+												<td width=90%>
+					                              	<pre width=100%><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT * 
+  FROM party_account 
+ WHERE id in ('11111','55555');</code></pre>
+				                    	        </td>
+				                    	        <td width=5%></td>
+				                            </tr>
+				                            </table>
 						                <table width=100%>
 											<tr>
-												
-												<td width=50%>
-				                            	  	<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">SELECT * 
-  FROM party_account 
- WHERE id in ('11111','55555');													</code></pre>
-				                    	        </td>
-				                    	        <td width=50%></td>
-				                            </tr>
-											<tr>
-												
-											  	<td width=50% >
-				                            	  	<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">Option - A
+												<td width=5%></td>
+											  	<td width=45% style="vertical-align:top; text-align:left">
+				                            	  	<pre width=100%><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">Option - A
 
 id    | account            | name  | type
 ------+--------------------+-------+---------
 11111 | NL00INGB2222222222 | Chris | Loan
-55555 | NL00INGB5555555555 |  Gary | Payment		
-											</code></pre>
+55555 | NL00INGB5555555555 |  Gary | Payment
+
+</code></pre>
 				                    	        </td>
-				                    	        <td width=50% >
-				                            	  	<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">Option - B 
+				                    	        <td width=45% style="vertical-align:top; text-align:right">
+				                            	  	<pre width=100%><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">Option - B 
 
 id    | account            | name  | type
 ------+--------------------+-------+---------
 11111 | NL00INGB1111111111 | Chris | Payment
 11111 | NL00INGB2222222222 | Chris | Loan
-55555 | NL00INGB5555555555 |  Gary | Payment													</code></pre>
+55555 | NL00INGB5555555555 |  Gary | Payment</code></pre>
 				                    	        </td>
+				                    	        <td width=5%></td>
 				                            </tr>
 				                        </table>
 	                    			</td>
@@ -2123,8 +2140,7 @@ CREATE TABLE party_account_by_name_type (
 			                            		<td height="90%" style="text-align:center;vertical-align:middle">
 							                        <table width=100%>
 							                            <tr>
-							                            	<td width=3.5%></td>
-							                                <td width=40.0% style="vertical-align:top">
+							                                <td width=40% style="vertical-align:top">
 																<pre><code class="sql" style="font-size: 26px; margin-top: 10px; margin-bottom: 10px; overflow-y: hidden !important; overflow-x: hidden !important">CREATE TABLE sensor_data (
  sensor_id  int,
  date       varchar,
@@ -2144,7 +2160,6 @@ WITH CLUSTERING ORDER BY (time DESC);																</code></pre>
 
  														</code></pre>
 							                                </td>
-							                                <td width=2%></td>
 							                            </tr>
 							                            <tr>
 							                                <td colspan="4" style="vertical-align:top; margin-left:auto; margin-right:auto">
@@ -2590,10 +2605,10 @@ Skipped 0/0 non-slice-. sstables, included 0 due to tombstones | 05:30:05,799 | 
 	                    				<table width="100%">
 			                            	<tr>
 			                            		<td height="90%" style="text-align:center;vertical-align:middle">
-							                        <h1>CAP theorem</h1><br>
-							                        <h3><span class="ING">Consistency</span> (all nodes see the same data at the same time)</h3><br>
-							                        <h3><span class="ING">Availability</span> (a guarantee that every request receives a response about whether it was successful or failed)</h3><br>
-							                        <h3><span class="ING">Partition tolerance</span> (the system continues to operate despite arbitrary message loss or failure of part of the system)</h3>
+							                        <h1>CAP Theorem</h1><br>
+							                        <h3><span class="ING">Consistency</span> (do you get identical results, regardless which node is queried?)</h3><br>
+							                        <h3><span class="ING">Availability</span> (can the cluster respond to very high write and read volumes?)</h3><br>
+							                        <h3><span class="ING">Partition tolerance</span> (is the cluster still available when part of it goes dark?)</h3>
 			                            		</td>
 			                            	</tr>
 			                            </table>
