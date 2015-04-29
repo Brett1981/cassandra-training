@@ -30,7 +30,7 @@ Answer: C
 2. What is role of the forwarder?
 a.	It handles all the requests from the client application.
 b.	It ensures that strong consistency is met.
-c.	It is the co-ordinator of the remote data centre.
+c.	It is the coordinator of the remote data centre.
 Answer: C
 
 3. How could Replication Factor and Consistency Level be tuned to ensure strong consistency?
@@ -103,6 +103,25 @@ c.	Neither of the two
 Answer: A
 -----------------------------------------------------------------------------------------
 
+BONUS QUESTIONS:
 
-MAYBE ADD THE BONUS QUESTIONS TOO!!!
+1. What risk do we have with 2 DC's and using Write/Read CL of LOCAL_QUORUM?
+a.	No risk
+b.	Split-Brain
+c.	Decreased availability due to read queries failing
+d.	Decreased availability due to write queries failing
+Answer: B
 
+
+2. Does QUORUM read and QUORUM write guarantee consistency?
+a.	Yes
+b.	No
+Answer: B
+
+
+3. Will C* solve all your IT issues?
+a.	Off course
+b.	It depends
+c.	No
+d.	For me it will
+Answer: C
